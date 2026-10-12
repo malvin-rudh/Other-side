@@ -1,0 +1,151 @@
+/* Page furniture for the primary screens: Brief, Stocks and Portfolio.
+   Every selector is page-scoped, so none of this restyles a card, a chip or any
+   other screen. Headings, spacing, separators and card padding follow the
+   approved design reference; the palette stays the authorized one, so the
+   headline ticker uses the approved orange-text token rather than a new colour.
+   Nothing here overrides .card, .card-pad or .card-inset. */
+
+.page-stack {
+  display: grid;
+  gap: 36px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* A plain hero, not a boxed panel: the heading sits on the canvas and a hairline
+   separates it from the sections below. */
+.page-hero {
+  padding: 4px 0 26px;
+  border-bottom: 1px solid #dce3ed;
+}
+
+.page-hero-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.page-hero h1 {
+  max-width: 820px;
+  font-size: clamp(28px, 2.7vw, 39px);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.038em;
+}
+
+/* An evidence button inside the headline must not shrink the sentence it sits in. */
+.page-hero h1 button {
+  font-size: inherit;
+}
+
+.page-headline-ticker {
+  display: block;
+  color: #b4530a;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.page-date {
+  margin-top: 14px;
+  color: #5a6b84;
+  font-size: 13px;
+}
+
+/* The briefing-history disclosure sits at the end of the toolbar and drops its
+   panel below itself instead of taking part in the heading flow. */
+.page-history {
+  margin-left: auto;
+  position: relative;
+}
+
+.page-history > div {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 260px;
+  z-index: 20;
+  border: 1px solid #e3e8f0;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px #0b122015;
+}
+
+.page-section {
+  display: grid;
+  gap: 16px;
+}
+
+.page-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-section-heading h2 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.page-select {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+/* The Brief's summary list: the card keeps its shape but the rows breathe, and
+   the sentence takes a fixed share so tickers line up down the list. */
+.page-summary-card {
+  padding: 8px 24px 24px;
+}
+
+.page-summary-card > ul {
+  margin-bottom: 18px;
+}
+
+.page-summary-card > ul li {
+  padding: 18px 0;
+}
+
+.page-summary-card > ul li > span:first-child {
+  font-size: 17px;
+}
+
+.page-summary-card > ul li > span:last-child {
+  flex-basis: 60%;
+}
+
+@media (max-width: 640px) {
+  .page-stack {
+    gap: 30px;
+  }
+
+  .page-hero-toolbar {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .page-hero h1 {
+    font-size: 28px;
+  }
+
+  .page-section-heading h2 {
+    font-size: 23px;
+  }
+
+  .page-select {
+    width: 125px;
+  }
+
+  .page-summary-card {
+    padding: 4px 16px 18px;
+  }
+
+  .page-summary-card > ul li > span:last-child {
+    flex-basis: 100%;
+  }
+}

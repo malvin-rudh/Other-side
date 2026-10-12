@@ -1,0 +1,424 @@
+/* Research method screen only. Every selector here is research-scoped, so none
+   of it can restyle another screen. Headings, spacing, colours, card shapes and
+   the section order follow the approved design reference; the page furniture
+   (page, hero, section) carries the same declarations under research- names. */
+
+.research-page {
+  display: grid;
+  gap: 36px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.research-hero {
+  padding: 4px 0 26px;
+  border-bottom: 1px solid #dce3ed;
+}
+
+.research-hero-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.research-hero h1 {
+  max-width: 820px;
+  font-size: clamp(28px, 2.7vw, 39px);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.038em;
+}
+
+.research-date {
+  margin-top: 14px;
+  color: #5a6b84;
+  font-size: 13px;
+}
+
+.research-section {
+  display: grid;
+  gap: 16px;
+}
+
+.research-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.research-section-heading h2 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.research-intro {
+  max-width: 76ch;
+  color: #5a6b84;
+  font-size: 15px;
+  line-height: 1.8;
+  margin-top: 16px;
+}
+
+/* The small framework visual: three layers read left to right, joined by an
+   arrow, so the order of the reasoning is visible without being a score. */
+.research-framework {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 26px;
+  border: 1px solid #e3e8f0;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.research-framework > div {
+  position: relative;
+  padding: 0 16px;
+}
+
+.research-framework > div:not(:last-child)::after {
+  content: '\2192';
+  position: absolute;
+  right: -18px;
+  top: 15px;
+  color: #a0aec0;
+}
+
+.research-layer-node {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #b4530a;
+  border: 1px solid #f5822040;
+  background: #f5822010;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.research-framework h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 7px;
+  letter-spacing: -0.015em;
+}
+
+.research-framework p {
+  font-size: 13px;
+  color: #5a6b84;
+  line-height: 1.65;
+}
+
+.research-layer-content {
+  padding: 8px 2px;
+  color: #405573;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.research-layer-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.research-layer-heading h3 {
+  font-size: 21px;
+  font-weight: 600;
+  color: #0b1220;
+  letter-spacing: -0.02em;
+}
+
+.research-layer-heading .chip {
+  white-space: normal;
+  line-height: 1.45;
+}
+
+.research-layer-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e3e8f0;
+}
+
+.research-layer-columns h4 {
+  font-size: 13px;
+  color: #0b1220;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.research-layer-columns ul {
+  list-style: disc;
+  padding-left: 18px;
+}
+
+.research-layer-columns li {
+  padding: 4px 0;
+}
+
+.research-scope {
+  padding: 18px 22px;
+  border-left: 3px solid #f58220;
+  border-radius: 0 10px 10px 0;
+  background: #eef2f7;
+}
+
+.research-scope h3 {
+  font-weight: 600;
+  font-size: 15px;
+  color: #0b1220;
+  margin-bottom: 6px;
+}
+
+.research-scope p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #405573;
+}
+
+.research-journey {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.research-journey li {
+  padding: 16px;
+  border-top: 2px solid #f58220;
+  background: white;
+  border-radius: 0 0 10px 10px;
+}
+
+.research-journey h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.research-journey p {
+  color: #5a6b84;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.research-example-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.research-example-toolbar label {
+  display: grid;
+  gap: 5px;
+  color: #5a6b84;
+  font-size: 12px;
+}
+
+.research-rule-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.research-rule-cards article {
+  padding: 18px;
+  border: 1px solid #e3e8f0;
+  background: #f5f7fa;
+  border-radius: 10px;
+}
+
+.research-rule-cards article > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.research-rule-cards h3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.research-result {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.research-rule-cards p {
+  margin-top: 13px;
+  color: #405573;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.research-day-cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.research-day-cells button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  padding: 8px;
+  border: 1px solid #e3e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 54px;
+}
+
+.research-day-cells button[aria-pressed='true'] {
+  border-color: #f58220;
+  background: #f5822010;
+}
+
+.research-day-cells span {
+  font-size: 10px;
+  color: #5a6b84;
+}
+
+.research-rules summary {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.research-rules > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.research-rules h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.research-rules p {
+  font-size: 13px;
+  color: #5a6b84;
+  line-height: 1.8;
+}
+
+.research-source {
+  border-top: 1px solid #dce3ed;
+  padding-top: 24px;
+}
+
+.research-source h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.research-source p {
+  font-size: 12px;
+  color: #5a6b84;
+  line-height: 1.8;
+  max-width: 80ch;
+  margin-top: 10px;
+}
+
+.research-source > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 760px) {
+  .research-framework {
+    gap: 14px;
+    padding: 20px 12px;
+  }
+
+  .research-framework > div {
+    padding: 0 8px;
+  }
+
+  .research-framework h3 {
+    font-size: 15px;
+  }
+
+  .research-layer-columns,
+  .research-rule-cards,
+  .research-rules > div {
+    grid-template-columns: 1fr;
+  }
+
+  .research-journey {
+    grid-template-columns: 1fr;
+  }
+
+  .research-journey li {
+    border-top: 0;
+    border-left: 2px solid #f58220;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .research-page {
+    gap: 30px;
+  }
+
+  .research-hero-toolbar {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .research-hero h1 {
+    font-size: 28px;
+  }
+
+  .research-section-heading h2 {
+    font-size: 23px;
+  }
+
+  .research-framework {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 22px;
+  }
+
+  .research-framework > div {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    column-gap: 14px;
+    padding: 0;
+  }
+
+  .research-layer-node {
+    grid-row: span 2;
+    margin: 0;
+  }
+
+  .research-framework > div:not(:last-child)::after {
+    display: none;
+  }
+
+  .research-framework h3 {
+    font-size: 17px;
+  }
+}

@@ -1,0 +1,1255 @@
+{
+  "version": "brokers-team-mapping-v1",
+  "brokers": [
+    {
+      "code": "AG",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "AI",
+      "name": "UOB Kay Hian Sekuritas",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "AK",
+      "name": "UBS Sekuritas Indonesia",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Moderate",
+        "reason": {
+          "en": "Team mapping labels this broker as institution-facing; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为面向机构的券商；来源引用仍待补齐。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "AO",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "AT",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "AZ",
+      "name": "Sucor Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "BB",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "BK",
+      "name": "J.P. Morgan Sekuritas Indonesia",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Moderate",
+        "reason": {
+          "en": "Team mapping labels this broker as institution-facing; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为面向机构的券商；来源引用仍待补齐。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "BQ",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CC",
+      "name": "Mandiri Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CP",
+      "name": "KB Valbury Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "DH",
+      "name": "Sinarmas Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "DP",
+      "name": "DBS Vickers Sekuritas Indonesia",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "DR",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "DX",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "EL",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "EP",
+      "name": "MNC Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "ES",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "FZ",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "GA",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "GR",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HP",
+      "name": "Henan Putihrai Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "IF",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "IN",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "IU",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KI",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KK",
+      "name": "Phillip Sekuritas Indonesia",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "LG",
+      "name": "Trimegah Sekuritas Indonesia",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "MG",
+      "name": "Semesta Indovest Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "MU",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "NI",
+      "name": "BNI Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "OD",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "PC",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "PD",
+      "name": "Indo Premier Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "PG",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "PI",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "RF",
+      "name": "Buana Capital Sekuritas",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "SH",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "SQ",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "SS",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "TP",
+      "name": "OCBC Sekuritas Indonesia",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "TS",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "XA",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "XC",
+      "name": "Ajaib Sekuritas Asia",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Moderate",
+        "reason": {
+          "en": "Team mapping labels this broker as app-facing; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai app-facing; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为面向App的券商；来源引用仍待补齐。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "XL",
+      "name": "Stockbit Sekuritas Digital",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Moderate",
+        "reason": {
+          "en": "Team mapping labels this broker as app-facing; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai app-facing; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为面向App的券商；来源引用仍待补齐。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "YB",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "YJ",
+      "name": null,
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Not enough data",
+        "reason": "Broker identity is unresolved in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "YP",
+      "name": "Mirae Asset Sekuritas Indonesia",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "YU",
+      "name": "CGS International Sekuritas Indonesia",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Team mapping gives only a broad broker profile; client mix is not established.",
+          "id": "Pemetaan tim hanya memberi profil broker secara umum; campuran nasabah tidak ditetapkan.",
+          "zh": "团队映射仅给出宽泛的券商画像；客户构成并未确认。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "ZP",
+      "name": "Maybank Sekuritas Indonesia",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Broker code and name are present in the seed file.",
+        "basis": "data/raw/brokers_seed.json"
+      },
+      "profileEvidence": {
+        "strength": "Moderate",
+        "reason": {
+          "en": "Team mapping labels this broker as institution-facing; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为面向机构的券商；来源引用仍待补齐。"
+        },
+        "basis": "team mapping supplied for this prototype",
+        "sourceReference": "pending"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+ "ticker": "SINI",
+ "note": "available_at = publication date; verify each before demo",
+ "events": [
+  {
+   "id": "E-SINI-0525-RIGHTS-PLAN",
+   "date": "2026-05-25",
+   "layer": "story",
+   "title": "Rights issue planned to fund acquisition of PT Kemilau Mulia Sakti (Rp1.73T)",
+   "source": "Bisnis.com",
+   "url": "https://market.bisnis.com/read/20260525/192/1976186/singaraja-putra-sini-rancang-rights-issue-untuk-akuisisi-tambang-ptro-rp173-triliun"
+  },
+  {
+   "id": "E-SINI-0707-SUSPENSION-LIFTED",
+   "date": "2026-07-07",
+   "layer": "health",
+   "title": "IDX lifts suspension after pro-forma equity turns positive",
+   "source": "Bisnis.com",
+   "url": "https://market.bisnis.com/read/20260707/7/1986113/ekuitas-berbalik-positif-bei-cabut-suspensi-saham-singaraja-putra-sini"
+  },
+  {
+   "id": "E-SINI-0722-RIGHTS-DONE",
+   "date": "2026-07-22",
+   "layer": "story",
+   "title": "Rp3.6T rights issue completed at Rp5,000 per share",
+   "source": "IDN Financials",
+   "url": "https://www.idnfinancials.com/news/65992/prajogo-boy-thohirs-firms-to-be-sini-rights-issues-standby-buyers"
+  },
+  {
+   "id": "E-SINI-0820-H1",
+   "date": "2026-08-20",
+   "layer": "health",
+   "title": "H1 2026 results: profit Rp683B, of which Rp662.7B is a one-off bargain-purchase gain; operations about -Rp28B before tax",
+   "source": "RCTI+",
+   "url": "https://www.rctiplus.com/news/detail/ekonomi/5455833/singaraja-putra-sini-catat-laba-jumbo-usai-akuisisi-kemilau-mulia-sakti"
+  },
+  {
+   "id": "E-SINI-0821-EQUITY",
+   "date": "2026-08-21",
+   "layer": "health",
+   "title": "31 Jul report: equity about +Rp3.52T (was -Rp687B); expected to leave special monitoring board",
+   "source": "IDX Channel",
+   "url": "https://www.idxchannel.com/market-news/ekuitas-singaraja-putra-sini-positif-imbas-rights-issue-bakal-keluar-dari-papan-fca"
+  },
+  {
+   "id": "E-SINI-0831-BOARD-EXIT",
+   "date": "2026-08-31",
+   "layer": "story",
+   "title": "Leaves the special monitoring board",
+   "source": "IDX Channel",
+   "url": "https://www.idxchannel.com/market-news/saham-hapsoro-prajogo-singaraja-putra-sini-sentuh-level-ath"
+  },
+  {
+   "id": "E-SINI-0903-ATH",
+   "date": "2026-09-03",
+   "layer": "story",
+   "title": "First all-time high, Rp14,275 intraday; market value about Rp16.3T at Rp13,625",
+   "source": "IDX Channel",
+   "url": "https://www.idxchannel.com/market-news/saham-hapsoro-prajogo-singaraja-putra-sini-sentuh-level-ath"
+  }
+ ]
+}

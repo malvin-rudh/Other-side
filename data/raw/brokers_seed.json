@@ -1,0 +1,502 @@
+[
+ {
+  "code": "AG",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "AI",
+  "name": "UOB Kay Hian Sekuritas",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "AK",
+  "name": "UBS Sekuritas Indonesia",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Moderate",
+  "reason": "Team classification; institution-focused / foreign-affiliated house",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "AO",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "AT",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "AZ",
+  "name": "Sucor Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "BB",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "BK",
+  "name": "J.P. Morgan Sekuritas Indonesia",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Moderate",
+  "reason": "Team classification; institution-focused / foreign-affiliated house",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "BQ",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "CC",
+  "name": "Mandiri Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "CP",
+  "name": "KB Valbury Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "DH",
+  "name": "Sinarmas Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "DP",
+  "name": "DBS Vickers Sekuritas Indonesia",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "DR",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "DX",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "EL",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "EP",
+  "name": "MNC Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "ES",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "FZ",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "GA",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "GR",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "HP",
+  "name": "Henan Putihrai Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "IF",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "IN",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "IU",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "KI",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "KK",
+  "name": "Phillip Sekuritas Indonesia",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "LG",
+  "name": "Trimegah Sekuritas Indonesia",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "MG",
+  "name": "Semesta Indovest Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "MU",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "NI",
+  "name": "BNI Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "OD",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "PC",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "PD",
+  "name": "Indo Premier Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "PG",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "PI",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "RF",
+  "name": "Buana Capital Sekuritas",
+  "group": "other_mixed",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "SH",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "SQ",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "SS",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "TP",
+  "name": "OCBC Sekuritas Indonesia",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "TS",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "XA",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "XC",
+  "name": "Ajaib Sekuritas Asia",
+  "group": "app_retail",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Moderate",
+  "reason": "Team classification; app-first retail platform",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "XL",
+  "name": "Stockbit Sekuritas Digital",
+  "group": "app_retail",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Moderate",
+  "reason": "Team classification; app-first retail platform",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "YB",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "YJ",
+  "name": "TO VERIFY",
+  "group": "other_mixed",
+  "identity_evidence": "Not enough data",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "YP",
+  "name": "Mirae Asset Sekuritas Indonesia",
+  "group": "app_retail",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "YU",
+  "name": "CGS International Sekuritas Indonesia",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Weak",
+  "reason": "Team classification; client mix not established",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ },
+ {
+  "code": "ZP",
+  "name": "Maybank Sekuritas Indonesia",
+  "group": "institution_facing",
+  "identity_evidence": "Strong",
+  "profile_evidence": "Moderate",
+  "reason": "Team classification; institution-focused / foreign-affiliated house",
+  "note": "Profile describes the broker, not the identity of its clients.",
+  "verify": "Check name against the IDX exchange-member list before the demo"
+ }
+]

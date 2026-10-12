@@ -1,0 +1,420 @@
+{
+  "ticker": "SMPB",
+  "dataVersion": "sample-fixture-smpb-2026-08-14_2026-09-23-v1",
+  "defaultWindow": {
+    "start": "2026-08-14",
+    "end": "2026-09-23"
+  },
+  "sessions": [
+    {
+      "date": "2026-08-14",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-15",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-16",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-17",
+      "ticker": "SMPB",
+      "status": "holiday",
+      "reason": "market holiday",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-18",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-19",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-20",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-21",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-22",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-23",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-24",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-25",
+      "ticker": "SMPB",
+      "status": "holiday",
+      "reason": "market holiday",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-26",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-27",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-28",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-29",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-30",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-31",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-01",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-03",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-04",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-05",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-06",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-07",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-08",
+      "ticker": "SMPB",
+      "status": "missing",
+      "reason": "not captured",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-09",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-10",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-12",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-13",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-14",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-16",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-18",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-19",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-20",
+      "ticker": "SMPB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-21",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-22",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-23",
+      "ticker": "SMPB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    }
+  ]
+}

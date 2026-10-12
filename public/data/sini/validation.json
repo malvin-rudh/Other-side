@@ -1,0 +1,770 @@
+{
+  "ticker": "SINI",
+  "dataVersion": "sini-broker-summary-2026-08-14_2026-09-23-v1",
+  "verified": true,
+  "issues": [],
+  "counts": {
+    "raw": {
+      "total": 512,
+      "bySide": {
+        "buy": 256,
+        "sell": 256
+      }
+    },
+    "duplicateRankRows": 18,
+    "conflictingBrokerDays": 6,
+    "quarantined": {
+      "total": 44,
+      "bySide": {
+        "buy": 22,
+        "sell": 22
+      }
+    },
+    "rejected": {
+      "total": 0
+    },
+    "accepted": {
+      "total": 468,
+      "bySide": {
+        "buy": 234,
+        "sell": 234
+      },
+      "capturedSessions": 26
+    }
+  },
+  "duplicateRanks": [
+    {
+      "key": "2026-08-13|buy|1",
+      "first": {
+        "sourceLine": 2,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "1",
+        "broker": "AO"
+      },
+      "duplicate": {
+        "sourceLine": 15,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "1",
+        "broker": "CP"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|2",
+      "first": {
+        "sourceLine": 3,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "2",
+        "broker": "MU"
+      },
+      "duplicate": {
+        "sourceLine": 16,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "2",
+        "broker": "CC"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|3",
+      "first": {
+        "sourceLine": 4,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "3",
+        "broker": "PD"
+      },
+      "duplicate": {
+        "sourceLine": 17,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "3",
+        "broker": "MG"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|4",
+      "first": {
+        "sourceLine": 5,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "4",
+        "broker": "CC"
+      },
+      "duplicate": {
+        "sourceLine": 18,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "4",
+        "broker": "MU"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|5",
+      "first": {
+        "sourceLine": 6,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "5",
+        "broker": "XC"
+      },
+      "duplicate": {
+        "sourceLine": 19,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "5",
+        "broker": "YP"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|6",
+      "first": {
+        "sourceLine": 7,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "6",
+        "broker": "IF"
+      },
+      "duplicate": {
+        "sourceLine": 20,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "6",
+        "broker": "GR"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|7",
+      "first": {
+        "sourceLine": 8,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "7",
+        "broker": "XL"
+      },
+      "duplicate": {
+        "sourceLine": 21,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "7",
+        "broker": "HP"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|8",
+      "first": {
+        "sourceLine": 9,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "8",
+        "broker": "AI"
+      },
+      "duplicate": {
+        "sourceLine": 22,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "8",
+        "broker": "DH"
+      }
+    },
+    {
+      "key": "2026-08-13|buy|9",
+      "first": {
+        "sourceLine": 10,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "9",
+        "broker": "OD"
+      },
+      "duplicate": {
+        "sourceLine": 23,
+        "date": "2026-08-13",
+        "side": "buy",
+        "rank": "9",
+        "broker": "FZ"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|1",
+      "first": {
+        "sourceLine": 258,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "1",
+        "broker": "AZ"
+      },
+      "duplicate": {
+        "sourceLine": 271,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "1",
+        "broker": "XL"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|2",
+      "first": {
+        "sourceLine": 259,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "2",
+        "broker": "YP"
+      },
+      "duplicate": {
+        "sourceLine": 272,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "2",
+        "broker": "AO"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|3",
+      "first": {
+        "sourceLine": 260,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "3",
+        "broker": "XA"
+      },
+      "duplicate": {
+        "sourceLine": 273,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "3",
+        "broker": "AZ"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|4",
+      "first": {
+        "sourceLine": 261,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "4",
+        "broker": "YB"
+      },
+      "duplicate": {
+        "sourceLine": 274,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "4",
+        "broker": "XA"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|5",
+      "first": {
+        "sourceLine": 262,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "5",
+        "broker": "YJ"
+      },
+      "duplicate": {
+        "sourceLine": 275,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "5",
+        "broker": "PD"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|6",
+      "first": {
+        "sourceLine": 263,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "6",
+        "broker": "KK"
+      },
+      "duplicate": {
+        "sourceLine": 276,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "6",
+        "broker": "YB"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|7",
+      "first": {
+        "sourceLine": 264,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "7",
+        "broker": "HP"
+      },
+      "duplicate": {
+        "sourceLine": 277,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "7",
+        "broker": "ZP"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|8",
+      "first": {
+        "sourceLine": 265,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "8",
+        "broker": "MG"
+      },
+      "duplicate": {
+        "sourceLine": 278,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "8",
+        "broker": "LG"
+      }
+    },
+    {
+      "key": "2026-08-13|sell|9",
+      "first": {
+        "sourceLine": 266,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "9",
+        "broker": "LG"
+      },
+      "duplicate": {
+        "sourceLine": 279,
+        "date": "2026-08-13",
+        "side": "sell",
+        "rank": "9",
+        "broker": "DR"
+      }
+    }
+  ],
+  "conflictingBrokerDays": [
+    {
+      "key": "2026-08-13|AO",
+      "rows": [
+        {
+          "sourceLine": 2,
+          "date": "2026-08-13",
+          "side": "buy",
+          "rank": "1",
+          "broker": "AO"
+        },
+        {
+          "sourceLine": 272,
+          "date": "2026-08-13",
+          "side": "sell",
+          "rank": "2",
+          "broker": "AO"
+        }
+      ]
+    },
+    {
+      "key": "2026-08-13|PD",
+      "rows": [
+        {
+          "sourceLine": 4,
+          "date": "2026-08-13",
+          "side": "buy",
+          "rank": "3",
+          "broker": "PD"
+        },
+        {
+          "sourceLine": 275,
+          "date": "2026-08-13",
+          "side": "sell",
+          "rank": "5",
+          "broker": "PD"
+        }
+      ]
+    },
+    {
+      "key": "2026-08-13|XL",
+      "rows": [
+        {
+          "sourceLine": 8,
+          "date": "2026-08-13",
+          "side": "buy",
+          "rank": "7",
+          "broker": "XL"
+        },
+        {
+          "sourceLine": 271,
+          "date": "2026-08-13",
+          "side": "sell",
+          "rank": "1",
+          "broker": "XL"
+        }
+      ]
+    },
+    {
+      "key": "2026-08-13|MG",
+      "rows": [
+        {
+          "sourceLine": 17,
+          "date": "2026-08-13",
+          "side": "buy",
+          "rank": "3",
+          "broker": "MG"
+        },
+        {
+          "sourceLine": 265,
+          "date": "2026-08-13",
+          "side": "sell",
+          "rank": "8",
+          "broker": "MG"
+        }
+      ]
+    },
+    {
+      "key": "2026-08-13|YP",
+      "rows": [
+        {
+          "sourceLine": 19,
+          "date": "2026-08-13",
+          "side": "buy",
+          "rank": "5",
+          "broker": "YP"
+        },
+        {
+          "sourceLine": 259,
+          "date": "2026-08-13",
+          "side": "sell",
+          "rank": "2",
+          "broker": "YP"
+        }
+      ]
+    },
+    {
+      "key": "2026-08-13|HP",
+      "rows": [
+        {
+          "sourceLine": 21,
+          "date": "2026-08-13",
+          "side": "buy",
+          "rank": "7",
+          "broker": "HP"
+        },
+        {
+          "sourceLine": 264,
+          "date": "2026-08-13",
+          "side": "sell",
+          "rank": "7",
+          "broker": "HP"
+        }
+      ]
+    }
+  ],
+  "quarantined": [
+    {
+      "sourceLine": 2,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "1",
+      "broker": "AO"
+    },
+    {
+      "sourceLine": 3,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "2",
+      "broker": "MU"
+    },
+    {
+      "sourceLine": 4,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "3",
+      "broker": "PD"
+    },
+    {
+      "sourceLine": 5,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "4",
+      "broker": "CC"
+    },
+    {
+      "sourceLine": 6,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "5",
+      "broker": "XC"
+    },
+    {
+      "sourceLine": 7,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "6",
+      "broker": "IF"
+    },
+    {
+      "sourceLine": 8,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "7",
+      "broker": "XL"
+    },
+    {
+      "sourceLine": 9,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "8",
+      "broker": "AI"
+    },
+    {
+      "sourceLine": 10,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "9",
+      "broker": "OD"
+    },
+    {
+      "sourceLine": 11,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "10",
+      "broker": "GR"
+    },
+    {
+      "sourceLine": 12,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "11",
+      "broker": "CP"
+    },
+    {
+      "sourceLine": 13,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "12",
+      "broker": "PC"
+    },
+    {
+      "sourceLine": 14,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "13",
+      "broker": "NI"
+    },
+    {
+      "sourceLine": 15,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "1",
+      "broker": "CP"
+    },
+    {
+      "sourceLine": 16,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "2",
+      "broker": "CC"
+    },
+    {
+      "sourceLine": 17,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "3",
+      "broker": "MG"
+    },
+    {
+      "sourceLine": 18,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "4",
+      "broker": "MU"
+    },
+    {
+      "sourceLine": 19,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "5",
+      "broker": "YP"
+    },
+    {
+      "sourceLine": 20,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "6",
+      "broker": "GR"
+    },
+    {
+      "sourceLine": 21,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "7",
+      "broker": "HP"
+    },
+    {
+      "sourceLine": 22,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "8",
+      "broker": "DH"
+    },
+    {
+      "sourceLine": 23,
+      "date": "2026-08-13",
+      "side": "buy",
+      "rank": "9",
+      "broker": "FZ"
+    },
+    {
+      "sourceLine": 258,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "1",
+      "broker": "AZ"
+    },
+    {
+      "sourceLine": 259,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "2",
+      "broker": "YP"
+    },
+    {
+      "sourceLine": 260,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "3",
+      "broker": "XA"
+    },
+    {
+      "sourceLine": 261,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "4",
+      "broker": "YB"
+    },
+    {
+      "sourceLine": 262,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "5",
+      "broker": "YJ"
+    },
+    {
+      "sourceLine": 263,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "6",
+      "broker": "KK"
+    },
+    {
+      "sourceLine": 264,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "7",
+      "broker": "HP"
+    },
+    {
+      "sourceLine": 265,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "8",
+      "broker": "MG"
+    },
+    {
+      "sourceLine": 266,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "9",
+      "broker": "LG"
+    },
+    {
+      "sourceLine": 267,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "10",
+      "broker": "BQ"
+    },
+    {
+      "sourceLine": 268,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "11",
+      "broker": "SQ"
+    },
+    {
+      "sourceLine": 269,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "12",
+      "broker": "ES"
+    },
+    {
+      "sourceLine": 270,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "13",
+      "broker": "EP"
+    },
+    {
+      "sourceLine": 271,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "1",
+      "broker": "XL"
+    },
+    {
+      "sourceLine": 272,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "2",
+      "broker": "AO"
+    },
+    {
+      "sourceLine": 273,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "3",
+      "broker": "AZ"
+    },
+    {
+      "sourceLine": 274,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "4",
+      "broker": "XA"
+    },
+    {
+      "sourceLine": 275,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "5",
+      "broker": "PD"
+    },
+    {
+      "sourceLine": 276,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "6",
+      "broker": "YB"
+    },
+    {
+      "sourceLine": 277,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "7",
+      "broker": "ZP"
+    },
+    {
+      "sourceLine": 278,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "8",
+      "broker": "LG"
+    },
+    {
+      "sourceLine": 279,
+      "date": "2026-08-13",
+      "side": "sell",
+      "rank": "9",
+      "broker": "DR"
+    }
+  ],
+  "rejected": []
+}

@@ -1,0 +1,227 @@
+{
+  "symbol": "SMPB",
+  "version": "sample-prices-smpb-2026_08_14_2026_09_23-v1",
+  "currency": "IDR",
+  "exchangeTimezone": "Asia/Jakarta",
+  "exchangeName": "Not listed (sample fixture)",
+  "source": "sample://fixture/smpb/prices",
+  "priceBasis": "sample-fixture-daily",
+  "bars": [
+    {
+      "date": "2026-08-14",
+      "open": 1992,
+      "high": 2012,
+      "low": 1988,
+      "close": 2000,
+      "volume": 900000
+    },
+    {
+      "date": "2026-08-18",
+      "open": 2012,
+      "high": 2032,
+      "low": 2008,
+      "close": 2020,
+      "volume": 960000
+    },
+    {
+      "date": "2026-08-19",
+      "open": 2048,
+      "high": 2068,
+      "low": 2044,
+      "close": 2056,
+      "volume": 1020000
+    },
+    {
+      "date": "2026-08-20",
+      "open": 2060,
+      "high": 2080,
+      "low": 2056,
+      "close": 2068,
+      "volume": 1080000
+    },
+    {
+      "date": "2026-08-21",
+      "open": 2048,
+      "high": 2068,
+      "low": 2044,
+      "close": 2056,
+      "volume": 1140000
+    },
+    {
+      "date": "2026-08-24",
+      "open": 2052,
+      "high": 2072,
+      "low": 2048,
+      "close": 2060,
+      "volume": 1200000
+    },
+    {
+      "date": "2026-08-26",
+      "open": 2072,
+      "high": 2092,
+      "low": 2068,
+      "close": 2080,
+      "volume": 1260000
+    },
+    {
+      "date": "2026-08-27",
+      "open": 2108,
+      "high": 2128,
+      "low": 2104,
+      "close": 2116,
+      "volume": 1320000
+    },
+    {
+      "date": "2026-08-28",
+      "open": 2120,
+      "high": 2140,
+      "low": 2116,
+      "close": 2128,
+      "volume": 1380000
+    },
+    {
+      "date": "2026-08-31",
+      "open": 2108,
+      "high": 2128,
+      "low": 2104,
+      "close": 2116,
+      "volume": 1440000
+    },
+    {
+      "date": "2026-09-01",
+      "open": 2112,
+      "high": 2132,
+      "low": 2108,
+      "close": 2120,
+      "volume": 1500000
+    },
+    {
+      "date": "2026-09-02",
+      "open": 2132,
+      "high": 2152,
+      "low": 2128,
+      "close": 2140,
+      "volume": 1560000
+    },
+    {
+      "date": "2026-09-03",
+      "open": 2168,
+      "high": 2188,
+      "low": 2164,
+      "close": 2176,
+      "volume": 1620000
+    },
+    {
+      "date": "2026-09-04",
+      "open": 2180,
+      "high": 2200,
+      "low": 2176,
+      "close": 2188,
+      "volume": 1680000
+    },
+    {
+      "date": "2026-09-07",
+      "open": 2168,
+      "high": 2188,
+      "low": 2164,
+      "close": 2176,
+      "volume": 1740000
+    },
+    {
+      "date": "2026-09-08",
+      "open": 2172,
+      "high": 2192,
+      "low": 2168,
+      "close": 2180,
+      "volume": 1800000
+    },
+    {
+      "date": "2026-09-09",
+      "open": 2192,
+      "high": 2212,
+      "low": 2188,
+      "close": 2200,
+      "volume": 1860000
+    },
+    {
+      "date": "2026-09-10",
+      "open": 2228,
+      "high": 2248,
+      "low": 2224,
+      "close": 2236,
+      "volume": 1920000
+    },
+    {
+      "date": "2026-09-11",
+      "open": 2240,
+      "high": 2260,
+      "low": 2236,
+      "close": 2248,
+      "volume": 1980000
+    },
+    {
+      "date": "2026-09-14",
+      "open": 2228,
+      "high": 2248,
+      "low": 2224,
+      "close": 2236,
+      "volume": 2040000
+    },
+    {
+      "date": "2026-09-15",
+      "open": 2232,
+      "high": 2252,
+      "low": 2228,
+      "close": 2240,
+      "volume": 2100000
+    },
+    {
+      "date": "2026-09-16",
+      "open": 2252,
+      "high": 2272,
+      "low": 2248,
+      "close": 2260,
+      "volume": 2160000
+    },
+    {
+      "date": "2026-09-17",
+      "open": 2288,
+      "high": 2308,
+      "low": 2284,
+      "close": 2296,
+      "volume": 2220000
+    },
+    {
+      "date": "2026-09-18",
+      "open": 2300,
+      "high": 2320,
+      "low": 2296,
+      "close": 2308,
+      "volume": 2280000
+    },
+    {
+      "date": "2026-09-21",
+      "open": 2288,
+      "high": 2308,
+      "low": 2284,
+      "close": 2296,
+      "volume": 2340000
+    },
+    {
+      "date": "2026-09-22",
+      "open": 2292,
+      "high": 2312,
+      "low": 2288,
+      "close": 2300,
+      "volume": 2400000
+    },
+    {
+      "date": "2026-09-23",
+      "open": 2312,
+      "high": 2332,
+      "low": 2308,
+      "close": 2320,
+      "volume": 2460000
+    }
+  ]
+}

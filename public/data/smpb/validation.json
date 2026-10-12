@@ -1,0 +1,39 @@
+{
+  "ticker": "SMPB",
+  "dataVersion": "sample-fixture-smpb-2026-08-14_2026-09-23-v1",
+  "verified": true,
+  "issues": [],
+  "counts": {
+    "raw": {
+      "total": 260,
+      "bySide": {
+        "buy": 130,
+        "sell": 130
+      }
+    },
+    "duplicateRankRows": 0,
+    "conflictingBrokerDays": 0,
+    "quarantined": {
+      "total": 0,
+      "bySide": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    "rejected": {
+      "total": 0
+    },
+    "accepted": {
+      "total": 260,
+      "bySide": {
+        "buy": 130,
+        "sell": 130
+      },
+      "capturedSessions": 26
+    }
+  },
+  "duplicateRanks": [],
+  "conflictingBrokerDays": [],
+  "quarantined": [],
+  "rejected": []
+}

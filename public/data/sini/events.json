@@ -1,0 +1,118 @@
+{
+  "ticker": "SINI",
+  "version": "sini-events-reviewed-v1",
+  "events": [
+    {
+      "id": "E-SINI-0525-RIGHTS-PLAN",
+      "layer": "story",
+      "publicationDate": "2026-05-25",
+      "availableAt": "2026-05-25T00:00:00+07:00",
+      "source": {
+        "name": "Bisnis.com",
+        "url": "https://market.bisnis.com/read/20260525/192/1976186/singaraja-putra-sini-rancang-rights-issue-untuk-akuisisi-tambang-ptro-rp173-triliun"
+      },
+      "text": {
+        "en": "Rights issue planned to fund acquisition of PT Kemilau Mulia Sakti (Rp1.73T).",
+        "id": "Rights issue direncanakan untuk mendanai akuisisi PT Kemilau Mulia Sakti (Rp1,73 triliun).",
+        "zh": "计划供股，为收购 PT Kemilau Mulia Sakti（约1.73万亿印尼盾）提供资金。"
+      },
+      "eventDate": "2026-05-25"
+    },
+    {
+      "id": "E-SINI-0707-SUSPENSION-LIFTED",
+      "layer": "health",
+      "publicationDate": "2026-07-07",
+      "availableAt": "2026-07-07T00:00:00+07:00",
+      "source": {
+        "name": "Bisnis.com",
+        "url": "https://market.bisnis.com/read/20260707/7/1986113/ekuitas-berbalik-positif-bei-cabut-suspensi-saham-singaraja-putra-sini"
+      },
+      "text": {
+        "en": "IDX lifted the suspension after pro-forma equity turned positive.",
+        "id": "BEI mencabut suspensi setelah ekuitas pro-forma menjadi positif.",
+        "zh": "备考权益转正后，印尼证券交易所撤销了对该股的停牌。"
+      },
+      "reportingDate": "2026-07-07"
+    },
+    {
+      "id": "E-SINI-0722-RIGHTS-DONE",
+      "layer": "story",
+      "publicationDate": "2026-07-22",
+      "availableAt": "2026-07-22T00:00:00+07:00",
+      "source": {
+        "name": "IDN Financials",
+        "url": "https://www.idnfinancials.com/news/65992/prajogo-boy-thohirs-firms-to-be-sini-rights-issues-standby-buyers"
+      },
+      "text": {
+        "en": "Rp3.6T rights issue completed at Rp5,000 per share.",
+        "id": "Rights issue Rp3,6 triliun selesai pada Rp5.000 per saham.",
+        "zh": "3.6万亿印尼盾供股完成，发行价为每股5,000印尼盾。"
+      },
+      "eventDate": "2026-07-22"
+    },
+    {
+      "id": "E-SINI-0820-H1",
+      "layer": "health",
+      "publicationDate": "2026-08-20",
+      "availableAt": "2026-08-20T00:00:00+07:00",
+      "source": {
+        "name": "RCTI+",
+        "url": "https://www.rctiplus.com/news/detail/ekonomi/5455833/singaraja-putra-sini-catat-laba-jumbo-usai-akuisisi-kemilau-mulia-sakti"
+      },
+      "text": {
+        "en": "H1 2026 results: profit Rp683B, including Rp662.7B one-off bargain-purchase gain; operations about -Rp28B before tax.",
+        "id": "Kinerja semester I 2026: laba Rp683 miliar, termasuk keuntungan bargain purchase sekali waktu Rp662,7 miliar; operasi sekitar -Rp28 miliar sebelum pajak.",
+        "zh": "2026年上半年业绩：利润6,830亿印尼盾，其中包含一次性议价收购收益6,627亿印尼盾；税前经营亏损约280亿印尼盾。"
+      },
+      "reportingDate": "2026-08-20"
+    },
+    {
+      "id": "E-SINI-0821-EQUITY",
+      "layer": "health",
+      "publicationDate": "2026-08-21",
+      "availableAt": "2026-08-21T00:00:00+07:00",
+      "source": {
+        "name": "IDX Channel",
+        "url": "https://www.idxchannel.com/market-news/ekuitas-singaraja-putra-sini-positif-imbas-rights-issue-bakal-keluar-dari-papan-fca"
+      },
+      "text": {
+        "en": "31 Jul report: equity about +Rp3.52T (was -Rp687B); expected to leave the special monitoring board.",
+        "id": "Laporan 31 Juli: ekuitas sekitar +Rp3,52 triliun (sebelumnya -Rp687 miliar); diperkirakan keluar dari papan pemantauan khusus.",
+        "zh": "7月31日报告：权益约+3.52万亿印尼盾（此前为-6,870亿印尼盾）；预计将脱离特别监控板。"
+      },
+      "reportingDate": "2026-08-21"
+    },
+    {
+      "id": "E-SINI-0831-BOARD-EXIT",
+      "layer": "story",
+      "publicationDate": "2026-08-31",
+      "availableAt": "2026-08-31T00:00:00+07:00",
+      "source": {
+        "name": "IDX Channel",
+        "url": "https://www.idxchannel.com/market-news/saham-hapsoro-prajogo-singaraja-putra-sini-sentuh-level-ath"
+      },
+      "text": {
+        "en": "SINI left the special monitoring board.",
+        "id": "SINI keluar dari papan pemantauan khusus.",
+        "zh": "SINI已脱离特别监控板。"
+      },
+      "eventDate": "2026-08-31"
+    },
+    {
+      "id": "E-SINI-0903-ATH",
+      "layer": "story",
+      "publicationDate": "2026-09-03",
+      "availableAt": "2026-09-03T00:00:00+07:00",
+      "source": {
+        "name": "IDX Channel",
+        "url": "https://www.idxchannel.com/market-news/saham-hapsoro-prajogo-singaraja-putra-sini-sentuh-level-ath"
+      },
+      "text": {
+        "en": "SINI reached its first all-time high, Rp14,275 intraday; market value was about Rp16.3T at Rp13,625.",
+        "id": "SINI mencapai all-time high pertama, Rp14.275 intraday; nilai pasar sekitar Rp16,3 triliun pada Rp13.625.",
+        "zh": "SINI首次创历史新高，盘中触及14,275印尼盾；按13,625印尼盾计市值约16.3万亿印尼盾。"
+      },
+      "eventDate": "2026-09-03"
+    }
+  ]
+}
