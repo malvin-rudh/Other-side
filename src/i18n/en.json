@@ -84,8 +84,8 @@
     "brokerFlowTitle": "Broker net flow",
     "brokerChartAria": "Cumulative observed net flow for {count} selected brokers across {sessions} plotted market sessions; line gaps are unknown observations",
     "evidenceAria": "Open evidence for {id}",
-    "groupApp": "App-facing brokers",
-    "groupInstitution": "Institution-facing brokers",
+    "groupApp": "Retail app brokers",
+    "groupInstitution": "Institutional brokers",
     "groupOther": "Other / mixed brokers",
     "groupUnknown": "Unclassified",
     "groupResidual": "Visible sample residual (all brokers)",
@@ -118,14 +118,19 @@
     "title": "Thesis check",
     "intro": "Pick a common claim about this stock to see what the visible data supports, what contradicts it, and what stays unknown.",
     "theses": {
-      "T-INST-LED": "Institutions are accumulating",
+      "T-INST-LED": "Were institutional brokers net buyers over this window?",
       "T-HP-SMART": "HP is smart money",
       "T-PRICE-PROOF": "The price rise proves the business improved"
     },
+    "streakLabel": "Latest five-session check",
+    "instLimitation": "Based on the visible top-nine-per-side broker sample. Group labels are team mapping and do not identify customers, their holdings or their intent.",
+    "detailToggle": "Show detailed support, contradiction and unknown",
+    "computedBadge": "Computed from visible broker data",
     "buckets": {
       "supports": "Supports",
       "contradicts": "Contradicts",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "evidence": "Additional observations"
     },
     "savedBadge": "Saved Qwen answer · replay",
     "empty": "Nothing in this bucket at this point.",
@@ -196,15 +201,15 @@
     "positiveSessions": "Five positive sessions: {dates}",
     "weakLinkLabel": "Weak link:",
     "vs": "vs",
-    "shortInstitution": "institution-facing",
-    "shortApp": "app-facing",
+    "shortInstitution": "institutional",
+    "shortApp": "retail app",
     "shortOther": "other / mixed",
     "shortUnknown": "unclassified",
     "showEvidence": "Show evidence",
     "buyToday": "Today's net-flow implied price reference:",
-    "buyWindow": "Institution-facing net-buy implied reference (window so far):",
-    "buyAbove": "Today's reference is above the window's institution-facing reference.",
-    "buyBelow": "Today's reference is below the window's institution-facing reference.",
+    "buyWindow": "Institutional net-buy implied reference (window so far):",
+    "buyAbove": "Today's reference is above the window's institutional reference.",
+    "buyBelow": "Today's reference is below the window's institutional reference.",
     "notCostBasis": "Both are net-flow implied price references: not official closes, VWAP, cost bases or executable quotes.",
     "limitsTitle": "Limits",
     "limitSell": "This does not identify the buyer of your order.",
@@ -354,7 +359,7 @@
     "limitsTitle": "Visible top nine and rounding limits",
     "limitsBody": "Only the visible top nine brokers per side per date are known; anything beyond those ranks is invisible, not zero. Net lots and values are integers checked with Number.isSafeInteger; ratios keep their numerator and denominator, and rounding happens only for display.",
     "groupsTitle": "Broker groups and evidence strength",
-    "groupsBody": "Brokers are labelled app-facing, institution-facing or other / mixed from reviewed public profiles; profiles do not establish customer identity. Every claim carries an evidence strength (Strong, Moderate, Weak, Not enough data) with a one-line reason for that specific statement.",
+    "groupsBody": "Brokers are labelled retail app, institutional or other / mixed from reviewed public profiles; profiles do not establish customer identity. Every claim carries an evidence strength (Strong, Moderate, Weak, Not enough data) with a one-line reason for that specific statement.",
     "codeTitle": "What code does, what Qwen does",
     "codeBody": "App code computes every number, date, group net and the list of approved claims directly from the rows. Qwen only picks approved claim IDs, orders them and chooses an allowed wording variant; it cannot introduce numbers, sources or new claims, and an answer that references anything outside the approved list is rejected before it renders.",
     "costTitle": "Cost scenario",
@@ -414,11 +419,11 @@
     },
     "step7": {
       "title": "Move TP to Unclassified",
-      "body": "With TP treated as unclassified, institution-facing totals drop and the Unclassified group absorbs the lots. Claim wording updates, raw rows do not change, and the what-if panel lists what survived."
+      "body": "With TP treated as unclassified, institutional totals drop and the Unclassified group absorbs the lots. Claim wording updates, raw rows do not change, and the what-if panel lists what survived."
     },
     "step8": {
       "title": "Simulate a buy",
-      "body": "The buy sheet compares today's net-flow implied price reference with the institution-facing reference for the window. Both are references, never executable prices."
+      "body": "The buy sheet compares today's net-flow implied price reference with the institutional reference for the window. Both are references, never executable prices."
     },
     "step9": {
       "title": "Method and the validator",
@@ -449,8 +454,8 @@
     "comparisonAria": "Net lot comparison on {date}",
     "item": {
       "C25": "Snapshot comparison",
-      "C12": "Institution-facing positive streak",
-      "C13": "Institution-facing largest net buyer",
+      "C12": "Institutional positive streak",
+      "C13": "Institutional largest net buyer",
       "C16": "CC direction change",
       "C17": "AZ direction change",
       "C03": "Session coverage"
@@ -461,8 +466,8 @@
     "intro": "Two questions the visible rows can answer at this snapshot. Reveal shows the checked claim, its reason, and the comparison when the fact carries one.",
     "reveal": "Reveal",
     "hide": "Hide",
-    "q12": "Positive observed institution-facing net for five sessions?",
-    "q13": "Largest observed institution-facing net for five sessions?"
+    "q12": "Positive observed institutional net for five sessions?",
+    "q13": "Largest observed institutional net for five sessions?"
   },
   "explore": {
     "title": "Explore Other Side",

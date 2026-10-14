@@ -12,6 +12,7 @@ import { buildPlannerPrompt } from '../src/ai/plannerPrompt';
 import { loadSavedPlan, serializeSavedPlan, type SavedPlanMeta } from '../src/ai/savedPlans';
 import { THESIS_QUESTION_ID } from '../src/ai/thesisView';
 import { validateModelResponse } from '../src/ai/validate';
+import { CLAIMS_VERSION } from '../src/ai/versions';
 import { createRequestId } from '../src/engine/context';
 import { buildFacts, type FactsContext } from '../src/engine/facts';
 import { sessionAvailableAt } from '../src/engine/predicates';
@@ -41,6 +42,9 @@ interface LoadedData {
   brokers: BrokerProfile[];
   events: SiniEvent[];
   versions: { data: string; taxonomy: string; claims: string };
+  // Events dataset version kept as source-data provenance; it is deliberately
+  // not the claim version, which is the code contract in src/ai/versions.ts.
+  eventsVersion: string;
 }
 
 async function loadEnv(file: string): Promise<Record<string, string>> {
@@ -105,8 +109,12 @@ async function loadDataFromDisk(ticker: string): Promise<LoadedData> {
     versions: {
       data: (sessionsDoc as SessionManifest).dataVersion,
       taxonomy: (brokersDoc as BrokersDocument).version,
-      claims: (eventsDoc as EventsDocument).version,
+      // The claim version must match the client, server and manifest so a
+      // generated plan is accepted by the app rather than rejected on a version
+      // mismatch. It is the code claim contract, not the events dataset version.
+      claims: CLAIMS_VERSION,
     },
+    eventsVersion: (eventsDoc as EventsDocument).version,
   };
 }
 
@@ -198,6 +206,7 @@ async function main(): Promise<void> {
   const data = await loadDataFromDisk(TICKER);
   const written: string[] = [];
   const blockers: string[] = [];
+  console.log(`claim contract ${data.versions.claims}; events source provenance ${data.eventsVersion}`);
 
   for (const sessionDate of DATES) {
     const context: FactsContext = {
@@ -230,6 +239,7 @@ async function main(): Promise<void> {
           latestRequestId: requestId,
           approved,
           cutoffAt: context.cutoffAt,
+          thesisId,
         });
         if (!validated.ok) throw new Error(`validator rejected the plan: ${validated.reason}`);
 

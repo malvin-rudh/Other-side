@@ -84,8 +84,8 @@
     "brokerFlowTitle": "Arus bersih broker",
     "brokerChartAria": "Arus bersih terobservasi kumulatif untuk {count} broker terpilih sepanjang {sessions} sesi pasar yang ditampilkan; jeda garis berarti observasi tidak diketahui",
     "evidenceAria": "Buka bukti untuk {id}",
-    "groupApp": "Broker berorientasi aplikasi",
-    "groupInstitution": "Broker berorientasi institusi",
+    "groupApp": "Broker aplikasi ritel",
+    "groupInstitution": "Broker institusional",
     "groupOther": "Broker lain / campuran",
     "groupUnknown": "Tidak terklasifikasi",
     "groupResidual": "Sisa sampel terlihat (semua broker)",
@@ -118,14 +118,19 @@
     "title": "Pemeriksaan tesis",
     "intro": "Pilih klaim umum tentang saham ini untuk melihat apa yang didukung data terlihat, apa yang menentangnya, dan apa yang tetap tidak diketahui.",
     "theses": {
-      "T-INST-LED": "Institusi sedang mengakumulasi",
+      "T-INST-LED": "Apakah broker institusional menjadi pembeli bersih di jendela ini?",
       "T-HP-SMART": "HP adalah smart money",
       "T-PRICE-PROOF": "Kenaikan harga membuktikan bisnis membaik"
     },
+    "streakLabel": "Pemeriksaan lima sesi terbaru",
+    "instLimitation": "Berdasarkan sampel broker sembilan teratas per sisi yang terlihat. Label grup adalah pemetaan tim dan tidak mengidentifikasi nasabah, kepemilikan, atau niat mereka.",
+    "detailToggle": "Tampilkan dukungan, sanggahan, dan ketidaktahuan terperinci",
+    "computedBadge": "Dihitung dari data broker yang terlihat",
     "buckets": {
       "supports": "Mendukung",
       "contradicts": "Menentang",
-      "unknown": "Tidak diketahui"
+      "unknown": "Tidak diketahui",
+      "evidence": "Pengamatan tambahan"
     },
     "savedBadge": "Jawaban Qwen tersimpan · replay",
     "empty": "Tidak ada apa pun di kelompok ini pada titik ini.",
@@ -196,15 +201,15 @@
     "positiveSessions": "Lima sesi positif: {dates}",
     "weakLinkLabel": "Mata rantai terlemah:",
     "vs": "vs",
-    "shortInstitution": "berorientasi institusi",
-    "shortApp": "berorientasi aplikasi",
+    "shortInstitution": "institusional",
+    "shortApp": "aplikasi ritel",
     "shortOther": "lain / campuran",
     "shortUnknown": "tidak terklasifikasi",
     "showEvidence": "Tampilkan bukti",
     "buyToday": "Referensi harga tersirat arus bersih hari ini:",
-    "buyWindow": "Referensi tersirat beli bersih berorientasi institusi (jendela sejauh ini):",
-    "buyAbove": "Referensi hari ini berada di atas referensi berorientasi institusi selama jendela.",
-    "buyBelow": "Referensi hari ini berada di bawah referensi berorientasi institusi selama jendela.",
+    "buyWindow": "Referensi tersirat beli bersih institusional (jendela sejauh ini):",
+    "buyAbove": "Referensi hari ini berada di atas referensi institusional selama jendela.",
+    "buyBelow": "Referensi hari ini berada di bawah referensi institusional selama jendela.",
     "notCostBasis": "Keduanya adalah referensi harga tersirat arus bersih: bukan penutup resmi, VWAP, dasar biaya, atau kutipan yang dapat dieksekusi.",
     "limitsTitle": "Batasan",
     "limitSell": "Ini tidak mengidentifikasi pembeli dari pesanan Anda.",
@@ -354,7 +359,7 @@
     "limitsTitle": "Sembilan teratas terlihat dan batas pembulatan",
     "limitsBody": "Hanya sembilan broker teratas terlihat per sisi per tanggal yang diketahui; apa pun di luar peringkat itu tidak terlihat, bukan nol. Lot dan nilai bersih adalah bilangan bulat yang diperiksa dengan Number.isSafeInteger; rasio menyimpan pembilang dan penyebutnya, dan pembulatan hanya terjadi untuk tampilan.",
     "groupsTitle": "Kelompok broker dan kekuatan bukti",
-    "groupsBody": "Broker diberi label berorientasi aplikasi, berorientasi institusi, atau lain / campuran dari profil publik yang ditinjau; profil tidak menetapkan identitas nasabah. Setiap klaim membawa kekuatan bukti (Kuat, Sedang, Lemah, Data tidak cukup) dengan alasan satu baris untuk pernyataan tersebut.",
+    "groupsBody": "Broker diberi label aplikasi ritel, institusional, atau lain / campuran dari profil publik yang ditinjau; profil tidak menetapkan identitas nasabah. Setiap klaim membawa kekuatan bukti (Kuat, Sedang, Lemah, Data tidak cukup) dengan alasan satu baris untuk pernyataan tersebut.",
     "codeTitle": "Peran kode dan peran Qwen",
     "codeBody": "Kode aplikasi menghitung setiap angka, tanggal, arus per kelompok, dan daftar klaim tersetujui langsung dari baris data. Qwen hanya memilih ID klaim tersetujui, mengurutkannya, dan memilih varian redaksi yang diizinkan; ia tidak dapat memperkenalkan angka, sumber, atau klaim baru, dan jawaban yang merujuk apa pun di luar daftar tersetujui ditolak sebelum tampil.",
     "costTitle": "Skenario biaya",
@@ -414,11 +419,11 @@
     },
     "step7": {
       "title": "Pindahkan TP ke Tidak terklasifikasi",
-      "body": "Dengan TP diperlakukan sebagai tidak terklasifikasi, total berorientasi institusi turun dan grup itu menyerap lotnya. Redaksi klaim berubah, baris mentah tidak ikut berubah, dan panel skenario mencantumkan yang tetap berlaku."
+      "body": "Dengan TP diperlakukan sebagai tidak terklasifikasi, total institusional turun dan grup itu menyerap lotnya. Redaksi klaim berubah, baris mentah tidak ikut berubah, dan panel skenario mencantumkan yang tetap berlaku."
     },
     "step8": {
       "title": "Simulasi beli",
-      "body": "Lembar beli membandingkan referensi harga tersirat arus bersih hari ini dengan referensi berorientasi institusi selama jendela. Keduanya referensi, bukan harga yang dapat dieksekusi."
+      "body": "Lembar beli membandingkan referensi harga tersirat arus bersih hari ini dengan referensi institusional selama jendela. Keduanya referensi, bukan harga yang dapat dieksekusi."
     },
     "step9": {
       "title": "Metode dan validator",
@@ -449,8 +454,8 @@
     "comparisonAria": "Perbandingan lot bersih pada {date}",
     "item": {
       "C25": "Perbandingan snapshot",
-      "C12": "Rentetan positif institution-facing",
-      "C13": "Pembeli bersih terbesar institution-facing",
+      "C12": "Rentetan positif institusional",
+      "C13": "Pembeli bersih terbesar institusional",
       "C16": "Perubahan arah CC",
       "C17": "Perubahan arah AZ",
       "C03": "Cakupan sesi"
@@ -461,8 +466,8 @@
     "intro": "Dua pertanyaan yang dapat dijawab baris terlihat pada snapshot ini. Tampilkan memperlihatkan klaim yang diperiksa, alasannya, dan perbandingan bila fakta membawanya.",
     "reveal": "Tampilkan",
     "hide": "Sembunyikan",
-    "q12": "Lot bersih institution-facing positif terobservasi selama lima sesi?",
-    "q13": "Lot bersih institution-facing terbesar terobservasi selama lima sesi?"
+    "q12": "Lot bersih institusional positif terobservasi selama lima sesi?",
+    "q13": "Lot bersih institusional terbesar terobservasi selama lima sesi?"
   },
   "explore": {
     "title": "Jelajahi Other Side",

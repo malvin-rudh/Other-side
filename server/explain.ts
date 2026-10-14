@@ -308,6 +308,7 @@ export function createExplainHandler(deps: ExplainHandlerDeps): (request: Reques
       latestRequestId: requestId,
       approved,
       cutoffAt: context.cutoffAt,
+      ...(input.thesisId !== undefined ? { thesisId: input.thesisId } : {}),
     });
     if (!validated.ok) {
       return errorResponse('VALIDATION_REJECTED', requestId, `plan failed validation: ${validated.reason}`, cors);

@@ -18,6 +18,7 @@ import {
   type SiniEvent,
 } from '../src/data/schemas';
 import type { FactsData } from '../src/engine/facts';
+import { CLAIMS_VERSION } from '../src/ai/versions';
 
 export interface ServerDataBundle extends FactsData {
   ticker: string;
@@ -59,7 +60,9 @@ export function loadServerData(ticker: string): ServerDataBundle {
     versions: {
       data: (sessionsDoc as SessionManifest).dataVersion,
       taxonomy: (brokersDoc as BrokersDocument).version,
-      claims: (eventsDoc as EventsDocument).version,
+      // Claim-contract version from code, kept separate from the events dataset
+      // version so the server context key matches the client for the same build.
+      claims: CLAIMS_VERSION,
     },
   };
   cache.set(ticker, bundle);

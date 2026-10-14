@@ -74,32 +74,84 @@ export const CLAIMS: readonly Claim[] = [
   { claim_id: 'CL-UNK-C03', section: 'unknown', facts: ['C03'], predicate: { type: 'fact_dates_nonempty', fact: 'C03', which: 'missing' }, required_caveats: UNK },
   { claim_id: 'CL-UNK-C24', section: 'unknown', facts: ['C24'], predicate: { type: 'fact_available', fact: 'C24' }, required_caveats: MAP },
   {
+    // Bounded to net buying over the selected window (C05). The five-session
+    // streak is reported separately by the CL-INST-STREAK-* qualifier claims so
+    // positive window buying and a failed recent streak are never collapsed into
+    // one contradictory verdict.
     claim_id: 'CL-SUP-INST-LED',
     section: 'supports',
-    facts: ['C05', 'C12'],
-    predicate: {
-      type: 'all',
-      of: [
-        { type: 'fact_gt', fact: 'C05', value: 0, focus: 'institution_facing' },
-        { type: 'fact_status', fact: 'C12', status: 'passes' },
-      ],
-    },
+    facts: ['C05'],
+    predicate: { type: 'fact_gt', fact: 'C05', value: 0, focus: 'institution_facing' },
     required_caveats: MAP_VIS,
     thesis: 'T-INST-LED',
   },
   {
     claim_id: 'CL-CON-INST-LED',
     section: 'contradicts',
-    facts: ['C05', 'C12'],
+    facts: ['C05'],
+    predicate: { type: 'fact_lt', fact: 'C05', value: 0, focus: 'institution_facing' },
+    required_caveats: MAP_VIS,
+    thesis: 'T-INST-LED',
+  },
+  {
+    // Exactly-zero window net is a distinct, engine-derived result: it is only
+    // offered when C05 is available and computes to zero, never inferred from
+    // missing observations.
+    claim_id: 'CL-FLAT-INST-LED',
+    section: 'observed',
+    facts: ['C05'],
     predicate: {
-      type: 'any',
+      type: 'all',
       of: [
-        { type: 'fact_lt', fact: 'C05', value: 0, focus: 'institution_facing' },
-        { type: 'fact_status', fact: 'C12', status: 'fails' },
+        { type: 'fact_gte', fact: 'C05', value: 0, focus: 'institution_facing' },
+        { type: 'fact_lte', fact: 'C05', value: 0, focus: 'institution_facing' },
       ],
     },
     required_caveats: MAP_VIS,
     thesis: 'T-INST-LED',
+    cardExcerpt: false,
+  },
+  {
+    // The window net could not be computed at this cutoff. Lists no fact
+    // dependency so it renders exactly when C05 is unavailable, keeping missing
+    // data separate from a flat result.
+    claim_id: 'CL-INST-WINDOW-NA',
+    section: 'observed',
+    facts: [],
+    predicate: { type: 'not', of: { type: 'fact_available', fact: 'C05' } },
+    required_caveats: UNK,
+    thesis: 'T-INST-LED',
+    cardExcerpt: false,
+  },
+  {
+    claim_id: 'CL-INST-STREAK-PASS',
+    section: 'observed',
+    facts: ['C12'],
+    predicate: { type: 'fact_status', fact: 'C12', status: 'passes' },
+    required_caveats: MAP_VIS,
+    thesis: 'T-INST-LED',
+    cardExcerpt: false,
+  },
+  {
+    claim_id: 'CL-INST-STREAK-FAIL',
+    section: 'observed',
+    facts: ['C12'],
+    predicate: { type: 'fact_status', fact: 'C12', status: 'fails' },
+    required_caveats: MAP_VIS,
+    thesis: 'T-INST-LED',
+    cardExcerpt: false,
+  },
+  {
+    // Available exactly when C12 is not: fewer than five captured market
+    // sessions in the window. It lists no fact dependency so it can render while
+    // C12 is unavailable, and states missing evidence rather than a failed run.
+    claim_id: 'CL-INST-STREAK-NA',
+    section: 'observed',
+    facts: [],
+    predicate: { type: 'not', of: { type: 'fact_available', fact: 'C12' } },
+    required_caveats: UNK,
+    thesis: 'T-INST-LED',
+    cardExcerpt: false,
   },
   {
     claim_id: 'CL-SUP-APP-SELLING',
@@ -242,14 +294,59 @@ export interface Thesis {
   supports: readonly string[];
   contradicts: readonly string[];
   unknown: readonly string[];
+  // Mutually-exclusive window-result claims (net buying, net selling, flat, or
+  // unavailable) rendered as the concise lead answer. At most one is available
+  // at a given cutoff.
+  window?: readonly string[];
+  // Mutually-exclusive recency qualifier claims rendered as their own labelled
+  // line, separate from the buckets. At most one is available at a cutoff.
+  streak?: readonly string[];
 }
 
 export const THESES: Record<string, Thesis> = {
-  'T-INST-LED': { supports: ['CL-SUP-INST-LED'], contradicts: ['CL-CON-INST-LED'], unknown: ['CL-UNK-C24'] },
+  'T-INST-LED': {
+    supports: ['CL-SUP-INST-LED'],
+    contradicts: ['CL-CON-INST-LED'],
+    unknown: ['CL-UNK-C24'],
+    window: ['CL-SUP-INST-LED', 'CL-CON-INST-LED', 'CL-FLAT-INST-LED', 'CL-INST-WINDOW-NA'],
+    streak: ['CL-INST-STREAK-PASS', 'CL-INST-STREAK-FAIL', 'CL-INST-STREAK-NA'],
+  },
   'T-APP-SELLING': { supports: ['CL-SUP-APP-SELLING'], contradicts: ['CL-CON-APP-SELLING'], unknown: [] },
   'T-HP-SMART': { supports: ['CL-SUP-HP-BUYER'], contradicts: ['CL-CON-HP-SELLER'], unknown: ['CL-UNK-HP-INTENT'] },
   'T-PRICE-PROOF': { supports: ['CL-SUP-PRICE-RISE'], contradicts: ['CL-CON-PRICE-RISE'], unknown: ['CL-UNK-BUSINESS-PROOF'] },
 };
+
+// Claims that answer a thesis as a window result or a recency qualifier rather
+// than as bucket evidence: they appear in some thesis's `window` or `streak`
+// list but in none of its supports/contradicts/unknown lists. They are rendered
+// as the concise lead (window) or the labelled qualifier line (streak), never as
+// support, so the plan renderer skips them and the shared validator rejects a
+// plan that carries only these and would otherwise render empty buckets. Derived
+// from THESES so it cannot drift from the wiring; CL-SUP/CON-INST-LED are in both
+// `window` and a bucket list, so they stay bucket evidence and are excluded here.
+export const NON_BUCKET_CLAIM_IDS: ReadonlySet<string> = (() => {
+  const bucketed = new Set<string>();
+  for (const thesis of Object.values(THESES)) {
+    for (const id of [...thesis.supports, ...thesis.contradicts, ...thesis.unknown]) bucketed.add(id);
+  }
+  const nonBucket = new Set<string>();
+  for (const thesis of Object.values(THESES)) {
+    for (const id of [...(thesis.window ?? []), ...(thesis.streak ?? [])]) {
+      if (!bucketed.has(id)) nonBucket.add(id);
+    }
+  }
+  return nonBucket;
+})();
+
+export type ThesisClaimPlacement = 'supports' | 'contradicts' | 'unknown' | 'evidence';
+
+export function classifyThesisClaim(thesis: Thesis, claimId: string): ThesisClaimPlacement | null {
+  if (thesis.supports.includes(claimId)) return 'supports';
+  if (thesis.contradicts.includes(claimId)) return 'contradicts';
+  if (thesis.unknown.includes(claimId)) return 'unknown';
+  if (thesis.window?.includes(claimId) || thesis.streak?.includes(claimId)) return null;
+  return 'evidence';
+}
 
 export function claimWording(claimId: string, variant: WordingVariant): BilingualText {
   const template = CLAIM_TEMPLATES[claimId];
@@ -374,19 +471,19 @@ function c25Move(value: FactValue): C25Move | null {
 
 function moveGroupLabel(group: BrokerGroup, locale: Locale): string {
   if (locale === 'zh-CN') {
-    if (group === 'app_facing') return '面向App的券商';
-    if (group === 'institution_facing') return '面向机构的券商';
+    if (group === 'app_facing') return '零售App券商';
+    if (group === 'institution_facing') return '机构券商';
     if (group === 'other_mixed') return '其他/混合券商';
     return '未分类券商';
   }
   if (locale === 'id') {
-    if (group === 'app_facing') return 'broker app-facing';
-    if (group === 'institution_facing') return 'broker institution-facing';
+    if (group === 'app_facing') return 'broker aplikasi ritel';
+    if (group === 'institution_facing') return 'broker institusional';
     if (group === 'other_mixed') return 'broker lain / campuran';
     return 'broker tak terklasifikasi';
   }
-  if (group === 'app_facing') return 'app-facing brokers';
-  if (group === 'institution_facing') return 'institution-facing brokers';
+  if (group === 'app_facing') return 'retail app brokers';
+  if (group === 'institution_facing') return 'institutional brokers';
   if (group === 'other_mixed') return 'other / mixed brokers';
   return 'unclassified brokers';
 }

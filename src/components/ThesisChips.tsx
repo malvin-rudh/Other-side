@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import type { ApprovedClaim, ApprovedClaimsDocument, RenderedPart } from '../ai/claims';
+import { classifyThesisClaim, type ApprovedClaim, type ApprovedClaimsDocument, type RenderedPart } from '../ai/claims';
 import { requestLiveExplanation, type LiveExplainEnvelope } from '../ai/liveClient';
 import { loadSavedPlan, type SavedPlanResult } from '../ai/savedPlans';
 import { buildThesisView, THESIS_IDS, THESIS_QUESTION_ID, type ThesisItemView } from '../ai/thesisView';
@@ -139,6 +139,57 @@ export function ThesisChips({ approved, onOpenEvidence }: ThesisChipsProps) {
     setSelected((prev) => (prev === thesisId ? null : thesisId));
   };
 
+  // Only the institution net-buying thesis defines a window result, so it is the
+  // only one that gets the concise lead plus a disclosure for the full buckets.
+  const concise = thesisView?.windowNet != null;
+  // The badge describes the source of the detailed answer that is actually on
+  // screen, so a rejected or still-loading model plan can never leave a live or
+  // saved badge sitting over rule-based fallback content.
+  const detailBadge =
+    live.status === 'ok'
+      ? { label: t('thesis.liveBadge'), className: 'border-buy/35 bg-buy/10 text-buy' }
+      : live.status === 'loading'
+        ? { label: t('thesis.loading'), className: 'chip-line' }
+        : plan?.status === 'valid'
+          ? { label: t('thesis.savedBadge'), className: 'chip-brand' }
+          : { label: t('stock.ruleBasedBadge'), className: 'chip-line' };
+  const answerBody = thesisView ? (
+    live.status === 'ok' ? (
+      <PlanAnswer
+        response={live.envelope.plan}
+        thesisId={thesisView.thesisId}
+        approved={approved}
+        locale={locale}
+        onOpenEvidence={onOpenEvidence}
+        insufficientText={t('thesis.insufficient')}
+        showCaveats={!concise}
+      />
+    ) : live.status === 'loading' ? null : plan?.status === 'valid' ? (
+      <PlanAnswer
+        response={plan.response}
+        thesisId={thesisView.thesisId}
+        approved={approved}
+        locale={locale}
+        onOpenEvidence={onOpenEvidence}
+        insufficientText={t('thesis.insufficient')}
+        showCaveats={!concise}
+      />
+    ) : (
+      <>
+        {plan?.status === 'loading' ? <p className="mt-2 text-xs text-muted">{t('thesis.loading')}</p> : null}
+        <ThesisBuckets view={thesisView} onOpenEvidence={onOpenEvidence} showCaveats={!concise} />
+        {live.status === 'failed' ? (
+          <div className="mt-3">
+            <p className="text-sm text-muted">{t('thesis.liveFailed')}</p>
+            <p className="mt-2 text-sm leading-relaxed text-ink">{t('thesis.insufficient')}</p>
+            <p className="mt-2 text-xs text-muted">{t('thesis.suggest')}</p>
+            <ChipRow selected={selected} onPick={pickChip} />
+          </div>
+        ) : null}
+      </>
+    )
+  ) : null;
+
   return (
     <section aria-label={t('thesis.title')} className="card card-pad border-l-4 border-l-navy">
       <h2 className="text-base font-semibold tracking-tight">{t('thesis.title')}</h2>
@@ -198,52 +249,60 @@ export function ThesisChips({ approved, onOpenEvidence }: ThesisChipsProps) {
               >
                 {live.status === 'loading' ? t('thesis.loading') : t('thesis.liveButton')}
               </button>
-              <span
-                className={`chip ${
-                  live.status === 'ok'
-                    ? 'border-buy/35 bg-buy/10 text-buy'
-                    : plan?.status === 'valid'
-                      ? 'chip-brand'
-                      : 'chip-line'
-                }`}
-              >
-                {live.status === 'ok'
-                  ? t('thesis.liveBadge')
-                  : plan?.status === 'valid'
-                    ? t('thesis.savedBadge')
-                    : t('stock.ruleBasedBadge')}
-              </span>
+              {/* For the concise thesis the model badge sits beside the detail it
+                  supplies, not over the locally computed summary. */}
+              {!concise ? <span className={`chip ${detailBadge.className}`}>{detailBadge.label}</span> : null}
             </div>
           </div>
 
-          {live.status === 'ok' ? (
-            <PlanAnswer
-              response={live.envelope.plan}
-              approved={approved}
-              locale={locale}
-              onOpenEvidence={onOpenEvidence}
-              insufficientText={t('thesis.insufficient')}
-            />
-          ) : live.status === 'loading' ? null : plan?.status === 'valid' ? (
-            <PlanAnswer
-              response={plan.response}
-              approved={approved}
-              locale={locale}
-              onOpenEvidence={onOpenEvidence}
-              insufficientText={t('thesis.insufficient')}
-            />
-          ) : (
-            <>
-              {plan?.status === 'loading' ? <p className="mt-2 text-xs text-muted">{t('thesis.loading')}</p> : null}
-              <ThesisBuckets view={thesisView} onOpenEvidence={onOpenEvidence} />
-              {live.status === 'failed' ? (
-                <div className="mt-3">
-                  <p className="text-sm text-muted">{t('thesis.liveFailed')}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-ink">{t('thesis.insufficient')}</p>
-                  <p className="mt-2 text-xs text-muted">{t('thesis.suggest')}</p>
-                  <ChipRow selected={selected} onPick={pickChip} />
+          {concise ? (
+            <div className="mt-3 space-y-3">
+              <span className="chip chip-line">{t('thesis.computedBadge')}</span>
+              {thesisView.windowNet ? (
+                <p className="text-sm leading-relaxed text-ink">
+                  <Parts
+                    parts={thesisView.windowNet.parts}
+                    fallbackFactId={thesisView.windowNet.factId}
+                    onOpenEvidence={onOpenEvidence}
+                  />
+                </p>
+              ) : null}
+              {thesisView.streak ? (
+                <div className="card-inset border-l-2 border-l-line p-3">
+                  <p className="eyebrow">{t('thesis.streakLabel')}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-ink">
+                    <Parts
+                      parts={thesisView.streak.parts}
+                      fallbackFactId={thesisView.streak.factId}
+                      onOpenEvidence={onOpenEvidence}
+                    />
+                  </p>
                 </div>
               ) : null}
+              <p className="note">{t('thesis.instLimitation')}</p>
+              <details className="rounded-lg border border-line bg-surface px-3 py-2">
+                <summary className="flex cursor-pointer items-center justify-between gap-2 text-xs font-semibold text-muted">
+                  <span>{t('thesis.detailToggle')}</span>
+                  <span className={`chip ${detailBadge.className}`}>{detailBadge.label}</span>
+                </summary>
+                <div className="mt-1 border-t border-line pt-1">{answerBody}</div>
+              </details>
+            </div>
+          ) : (
+            <>
+              {thesisView.streak ? (
+                <div className="card-inset mt-3 border-l-2 border-l-line p-3">
+                  <p className="eyebrow">{t('thesis.streakLabel')}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-ink">
+                    <Parts
+                      parts={thesisView.streak.parts}
+                      fallbackFactId={thesisView.streak.factId}
+                      onOpenEvidence={onOpenEvidence}
+                    />
+                  </p>
+                </div>
+              ) : null}
+              {answerBody}
             </>
           )}
         </div>
@@ -315,9 +374,11 @@ function Parts({
 function ThesisBuckets({
   view,
   onOpenEvidence,
+  showCaveats = true,
 }: {
   view: ReturnType<typeof buildThesisView> & object;
   onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  showCaveats?: boolean;
 }) {
   const { t } = useTranslation();
   const buckets: { key: 'supports' | 'contradicts' | 'unknown'; items: ThesisItemView[] }[] = [
@@ -344,7 +405,7 @@ function ThesisBuckets({
           )}
         </section>
       ))}
-      {view.caveats.length > 0 ? (
+      {showCaveats && view.caveats.length > 0 ? (
         <footer className="space-y-1 border-t border-line pt-3">
           {view.caveats.map((caveat) => (
             <p key={caveat} className="note">
@@ -359,38 +420,47 @@ function ThesisBuckets({
 
 function PlanAnswer({
   response,
+  thesisId,
   approved,
   locale,
   onOpenEvidence,
   insufficientText,
+  showCaveats = true,
 }: {
   response: ModelResponse;
+  thesisId: string;
   approved: ApprovedClaimsDocument;
   locale: Locale;
   onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
   insufficientText: string;
+  showCaveats?: boolean;
 }) {
   const { t } = useTranslation();
   const byId = new Map(approved.claims.map((claim) => [claim.claim_id, claim]));
   if (response.answer_kind === 'unavailable' || response.claims.length === 0) {
     return <p className="card-inset mt-3 p-3 text-sm leading-relaxed text-ink">{insufficientText}</p>;
   }
-  const sections = ['supports', 'contradicts', 'unknown'] as const;
+  const sections = ['supports', 'contradicts', 'unknown', 'evidence'] as const;
   const buckets: Record<(typeof sections)[number], { claim: ApprovedClaim; variant: 'short' | 'explained' }[]> = {
     supports: [],
     contradicts: [],
     unknown: [],
+    evidence: [],
   };
   for (const ref of response.claims) {
     const claim = byId.get(ref.claim_id);
     if (!claim || !claim.available) continue;
-    const key = claim.section === 'contradicts' ? 'contradicts' : claim.section === 'unknown' ? 'unknown' : 'supports';
+    const thesis = approved.theses[thesisId];
+    if (!thesis) continue;
+    const key = classifyThesisClaim(thesis, claim.claim_id);
+    if (key === null) continue;
     buckets[key].push({ claim, variant: ref.wording_variant });
   }
   return (
     <div className="mt-4 space-y-4">
       {sections.map((key) => {
         const items = buckets[key];
+        if (key === 'evidence' && items.length === 0) return null;
         return (
         <section key={key} aria-label={t(`thesis.buckets.${key}`)}>
           <h4 className="eyebrow">{t(`thesis.buckets.${key}`)}</h4>
@@ -406,7 +476,7 @@ function PlanAnswer({
                 return (
                   <li key={claim.claim_id} className="py-2.5 text-sm leading-relaxed text-ink first:pt-0">
                     <Parts parts={parts} fallbackFactId={null} onOpenEvidence={onOpenEvidence} />
-                    {caveats.length > 0 ? (
+                    {showCaveats && caveats.length > 0 ? (
                       <ul className="mt-2 list-disc space-y-0.5 pl-4 text-xs text-muted">
                         {caveats.map((caveat, index) => (
                           <li key={index}>{caveat}</li>
@@ -424,4 +494,3 @@ function PlanAnswer({
     </div>
   );
 }
-

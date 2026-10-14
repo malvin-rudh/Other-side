@@ -15,6 +15,7 @@ import {
   validateRowsDocument,
   validateSessionManifest,
 } from './schemas';
+import { CLAIMS_VERSION } from '../ai/versions';
 
 export interface PublicDataVersions {
   data: string;
@@ -74,7 +75,10 @@ export async function loadPublicData(ticker: string, fetchImpl: typeof fetch = f
     versions: {
       data: sessionsDoc.dataVersion,
       taxonomy: brokersDoc.version,
-      claims: eventsDoc.version,
+      // The claim contract lives in code, so its version is the code constant
+      // rather than the events dataset version. eventsDoc.version still records
+      // events provenance inside events.json.
+      claims: CLAIMS_VERSION,
     },
   };
 }

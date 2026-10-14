@@ -63,9 +63,9 @@
       "profileEvidence": {
         "strength": "Moderate",
         "reason": {
-          "en": "Team mapping labels this broker as institution-facing; source citation is pending.",
-          "id": "Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.",
-          "zh": "团队映射将该券商归为面向机构的券商；来源引用仍待补齐。"
+          "en": "Team mapping labels this broker as institutional; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai institusional; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为机构券商；来源引用仍待补齐。"
         },
         "basis": "team mapping supplied for this prototype",
         "sourceReference": "pending"
@@ -188,9 +188,9 @@
       "profileEvidence": {
         "strength": "Moderate",
         "reason": {
-          "en": "Team mapping labels this broker as institution-facing; source citation is pending.",
-          "id": "Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.",
-          "zh": "团队映射将该券商归为面向机构的券商；来源引用仍待补齐。"
+          "en": "Team mapping labels this broker as institutional; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai institusional; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为机构券商；来源引用仍待补齐。"
         },
         "basis": "team mapping supplied for this prototype",
         "sourceReference": "pending"
@@ -1088,9 +1088,9 @@
       "profileEvidence": {
         "strength": "Moderate",
         "reason": {
-          "en": "Team mapping labels this broker as app-facing; source citation is pending.",
-          "id": "Pemetaan tim mengelompokkan broker ini sebagai app-facing; sitasi sumber masih pending.",
-          "zh": "团队映射将该券商归为面向App的券商；来源引用仍待补齐。"
+          "en": "Team mapping labels this broker as retail app; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai aplikasi ritel; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为零售App券商；来源引用仍待补齐。"
         },
         "basis": "team mapping supplied for this prototype",
         "sourceReference": "pending"
@@ -1113,9 +1113,9 @@
       "profileEvidence": {
         "strength": "Moderate",
         "reason": {
-          "en": "Team mapping labels this broker as app-facing; source citation is pending.",
-          "id": "Pemetaan tim mengelompokkan broker ini sebagai app-facing; sitasi sumber masih pending.",
-          "zh": "团队映射将该券商归为面向App的券商；来源引用仍待补齐。"
+          "en": "Team mapping labels this broker as retail app; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai aplikasi ritel; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为零售App券商；来源引用仍待补齐。"
         },
         "basis": "team mapping supplied for this prototype",
         "sourceReference": "pending"
@@ -1238,9 +1238,9 @@
       "profileEvidence": {
         "strength": "Moderate",
         "reason": {
-          "en": "Team mapping labels this broker as institution-facing; source citation is pending.",
-          "id": "Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.",
-          "zh": "团队映射将该券商归为面向机构的券商；来源引用仍待补齐。"
+          "en": "Team mapping labels this broker as institutional; source citation is pending.",
+          "id": "Pemetaan tim mengelompokkan broker ini sebagai institusional; sitasi sumber masih pending.",
+          "zh": "团队映射将该券商归为机构券商；来源引用仍待补齐。"
         },
         "basis": "team mapping supplied for this prototype",
         "sourceReference": "pending"

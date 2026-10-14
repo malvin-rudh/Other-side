@@ -8,7 +8,7 @@ import { restoreFocus } from './useDialogTrap';
 interface EvidenceDrawerProps {
   view: EvidenceView;
   cutoffAt: string;
-  trigger: HTMLButtonElement | null;
+  trigger: HTMLElement | null;
   onClose: () => void;
   initialTab?: TabKey;
   onAssumeBroker?: (code: string) => void;

@@ -145,6 +145,7 @@ export async function loadSavedPlan(
     latestRequestId: typeof latestRequestId === 'string' ? latestRequestId : '',
     approved,
     cutoffAt: approved.context.cutoffAt,
+    thesisId,
   });
   if (!validated.ok) return { status: 'invalid', reason: validated.reason };
   return { status: 'valid', meta: parsed.meta, response: validated.response };

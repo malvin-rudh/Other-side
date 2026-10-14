@@ -2,7 +2,6 @@ import {
   Bar,
   BarChart,
   Cell,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -44,6 +43,8 @@ export function SessionComparisonChart({
 }: SessionComparisonChartProps) {
   const { t } = useTranslation();
   const intl = new Intl.NumberFormat(intlLocale(locale), { maximumFractionDigits: 0 });
+  // Axis ticks only: short enough that five of them fit a phone-width chart.
+  const compact = new Intl.NumberFormat(intlLocale(locale), { notation: 'compact', maximumFractionDigits: 1 });
   const labelOf = (group: BrokerGroup) =>
     group === 'app_facing'
       ? t('stock.groupApp')
@@ -59,7 +60,8 @@ export function SessionComparisonChart({
     toLots: row.toLots,
   }));
   const magnitudes = data.flatMap((row) => [Math.abs(row.fromLots), Math.abs(row.toLots)]);
-  const bound = Math.max(1, ...magnitudes);
+  const bound = niceBound(Math.max(1, ...magnitudes));
+  const ticks = [-bound, -bound / 2, 0, bound / 2, bound];
   const prevName = `${t('card.comparePrevious')} ${formatSessionDate(fromDate, locale)}`;
   const latestName = `${t('card.compareSelected')} ${formatSessionDate(toDate, locale)}`;
 
@@ -81,10 +83,12 @@ export function SessionComparisonChart({
           <XAxis
             type="number"
             domain={[-bound, bound]}
+            ticks={ticks}
+            interval={0}
             tick={{ fill: '#5A6B84', fontSize: 11 }}
             tickLine={false}
             axisLine={{ stroke: '#E3E8F0' }}
-            tickFormatter={(value: number) => intl.format(value)}
+            tickFormatter={(value: number) => compact.format(value)}
           />
           <YAxis
             type="category"
@@ -108,10 +112,6 @@ export function SessionComparisonChart({
               name === prevName ? prevName : latestName,
             ]}
           />
-          <Legend
-            formatter={(name: string) => (name === prevName ? prevName : latestName)}
-            wrapperStyle={{ fontSize: 12, color: '#0B1220', paddingTop: 4 }}
-          />
           <ReferenceLine x={0} stroke="#0B1220" strokeWidth={1} />
           <Bar dataKey="fromLots" name={prevName} fill="#0F766E" fillOpacity={0.45} barSize={13} radius={[0, 2, 2, 0]}>
             {data.map((row) => (
@@ -126,6 +126,18 @@ export function SessionComparisonChart({
         </BarChart>
       </ResponsiveContainer>
     </div>
+    {/* Bar colour carries the sign, so the legend only explains shade: pale is
+        the previous session, solid is the selected one. */}
+    <ul aria-hidden="true" className="mt-1 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink">
+      <li className="flex items-center gap-1.5">
+        <span className="inline-block h-2.5 w-4 rounded-sm bg-unknown/45" />
+        {prevName}
+      </li>
+      <li className="flex items-center gap-1.5">
+        <span className="inline-block h-2.5 w-4 rounded-sm bg-unknown" />
+        {latestName}
+      </li>
+    </ul>
     {evidenceTarget !== null ? (
       <ul aria-label={t('card.compareEvidenceList')} className="mt-1">
         {data.map((row) => (
@@ -156,4 +168,12 @@ export function SessionComparisonChart({
     ) : null}
     </>
   );
+}
+
+// Rounds the axis bound up to 1, 2 or 5 times a power of ten, so the ticks read
+// as round numbers instead of the largest observed value.
+function niceBound(value: number): number {
+  const power = 10 ** Math.floor(Math.log10(value));
+  const step = [1, 2, 5, 10].find((factor) => factor * power >= value) ?? 10;
+  return step * power;
 }

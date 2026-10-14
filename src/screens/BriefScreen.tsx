@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import type { RenderedPart } from '../ai/claims';
 import { DataModeChip } from '../components/DataModeChip';
-import { EvidenceButton } from '../components/EvidenceButton';
+import { EvidenceText } from '../components/EvidenceButton';
 import { EvidenceDrawer } from '../components/EvidenceDrawer';
 import { Icon } from '../components/Icon';
 import { InstrumentCard } from '../components/InstrumentCard';
@@ -31,7 +31,7 @@ type BriefEvidenceLayer = {
   ticker: string;
   sessionDate: string;
   factId: string;
-  trigger: HTMLButtonElement | null;
+  trigger: HTMLElement | null;
   fallback: HTMLElement | null;
 };
 
@@ -39,7 +39,7 @@ type OpenBriefEvidence = (
   ticker: string,
   sessionDate: string,
   factId: string,
-  trigger: HTMLButtonElement,
+  trigger: HTMLElement,
   fallback?: HTMLElement | null,
 ) => void;
 
@@ -86,14 +86,11 @@ export function BriefScreen() {
   const owned = portfolio.filter((entry) => entry.list === 'owned');
   const watchlist = portfolio.filter((entry) => entry.list === 'watchlist');
 
-  // Derived selections: an explicit choice only survives while its entry exists,
-  // otherwise the first entry takes over, so panels stay valid after removals.
-  const [ownedChoice, setOwnedChoice] = useState<string | null>(null);
+  // Derived selection: an explicit choice only survives while its entry exists,
+  // otherwise the first entry takes over, so the panel stays valid after removals.
+  // Holdings have no panel on the Brief; each summary row opens its stock page.
   const [watchChoice, setWatchChoice] = useState<string | null>(null);
-  const selectedOwned =
-    ownedChoice !== null && owned.some((entry) => entry.ticker === ownedChoice)
-      ? ownedChoice
-      : owned[0]?.ticker ?? null;
+  const selectedOwned = owned[0]?.ticker ?? null;
   const selectedWatch =
     watchChoice !== null && watchlist.some((entry) => entry.ticker === watchChoice)
       ? watchChoice
@@ -159,7 +156,6 @@ export function BriefScreen() {
     [evidenceLayer, evidenceContext, evidenceState, locale],
   );
 
-  const ownedEntry = selectedOwned !== null ? (owned.find((entry) => entry.ticker === selectedOwned) ?? null) : null;
   const watchEntry =
     selectedWatch !== null ? (watchlist.find((entry) => entry.ticker === selectedWatch) ?? null) : null;
 
@@ -239,11 +235,7 @@ export function BriefScreen() {
           )}
         </h1>
 
-        <p className="page-date">
-          {resolution.snapshot !== null && selectedMorning !== null
-            ? `${t('brief.briefingDate', { date: formatSessionDate(selectedMorning, locale) })} · ${t('scrubber.replayRule', { date: formatSessionDate(resolution.snapshot, locale) })}`
-            : t('brief.noSnapshot')}
-        </p>
+        {resolution.snapshot === null ? <p className="page-date">{t('brief.noSnapshot')}</p> : null}
 
         {resolution.marketClosedToday ? (
           <p className="mt-4 rounded-lg border border-brand/35 bg-brand/10 px-3 py-2 text-sm font-medium text-brandDeep">
@@ -301,62 +293,21 @@ export function BriefScreen() {
         )}
       </section>
 
-      {owned.length > 0 ? (
-        <section aria-labelledby="brief-holding" className="page-section">
-          <div className="page-section-heading">
-            <h2 id="brief-holding">{t('brief.selectHolding')}</h2>
-            {owned.length > 1 && selectedOwned !== null ? (
-              <div className="page-select">
-                <select
-                  id="brief-owned-select"
-                  aria-label={t('brief.selectHolding')}
-                  value={selectedOwned}
-                  onChange={(event) => setOwnedChoice(event.target.value)}
-                  className="field"
-                >
-                  {owned.map((entry) => (
-                    <option key={entry.ticker} value={entry.ticker}>
-                      {entry.ticker}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : null}
-          </div>
-          {ownedEntry !== null ? (
-            <AnalysisPanel entry={ownedEntry} morning={selectedMorning} onOpenEvidence={openEvidence} />
-          ) : null}
-        </section>
-      ) : null}
-
       <section aria-labelledby="brief-watchlist" className="page-section">
         <div className="page-section-heading">
           <h2 id="brief-watchlist">{t('brief.watchlist')}</h2>
-          <div className="flex items-center gap-2">
-            <span className="chip chip-line tabular-nums">
-              {t('portfolio.entriesCount', { count: String(watchlist.length) })}
-            </span>
-            {watchlist.length > 1 && selectedWatch !== null ? (
-              <div className="page-select">
-                <label htmlFor="brief-watch-select" className="sr-only">
-                  {t('brief.selectWatch')}
-                </label>
-                <select
-                  id="brief-watch-select"
-                  value={selectedWatch}
-                  onChange={(event) => setWatchChoice(event.target.value)}
-                  className="field"
-                >
-                  {watchlist.map((entry) => (
-                    <option key={entry.ticker} value={entry.ticker}>
-                      {entry.ticker}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : null}
-          </div>
+          <span className="chip chip-line tabular-nums">
+            {t('portfolio.entriesCount', { count: String(watchlist.length) })}
+          </span>
         </div>
+        {watchlist.length > 1 && selectedWatch !== null ? (
+          <TickerTabs
+            entries={watchlist}
+            selected={selectedWatch}
+            onSelect={setWatchChoice}
+            ariaLabel={t('brief.selectWatch')}
+          />
+        ) : null}
 
         {watchlist.length === 0 ? (
           <div className="card-inset flex flex-wrap items-center justify-between gap-x-3 gap-y-2 p-3">
@@ -452,6 +403,37 @@ function useInstrumentBrief(ticker: string, morning: string | null) {
   };
 }
 
+// Every tracked ticker stays on screen as a button, replacing a dropdown whose
+// other options were invisible until opened. Scrolls sideways when the list is
+// longer than the row.
+function TickerTabs({
+  entries,
+  selected,
+  onSelect,
+  ariaLabel,
+}: {
+  entries: readonly PortfolioEntry[];
+  selected: string;
+  onSelect: (ticker: string) => void;
+  ariaLabel: string;
+}) {
+  return (
+    <div role="group" aria-label={ariaLabel} className="page-ticker-tabs">
+      {entries.map((entry) => (
+        <button
+          key={entry.ticker}
+          type="button"
+          aria-pressed={entry.ticker === selected}
+          onClick={() => onSelect(entry.ticker)}
+          className="page-ticker-tab tabular-nums"
+        >
+          {entry.ticker}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function BriefCompactRow({
   ticker,
   morning,
@@ -462,6 +444,8 @@ function BriefCompactRow({
   onOpenEvidence: OpenBriefEvidence;
 }) {
   const { t, locale } = useTranslation();
+  const navigate = useNavigate();
+  const selectSession = useContextStore((state) => state.selectSession);
   const brief = useInstrumentBrief(ticker, morning);
   const snapshot = brief.resolution?.snapshot ?? null;
   // The leading "What changed" sentence is the approved C25 directional
@@ -474,10 +458,10 @@ function BriefCompactRow({
   const headline = brief.view?.card.observed[0] ?? null;
 
   return (
-    <li className="flex flex-wrap items-baseline gap-x-3 gap-y-1 py-2.5">
-      <span className="shrink-0 font-semibold tracking-tight tabular-nums text-ink">{ticker}</span>
+    <li className="page-summary-row flex flex-wrap items-baseline gap-x-3 gap-y-1 py-2.5">
+      <span className="page-summary-ticker shrink-0 font-semibold tracking-tight tabular-nums text-ink">{ticker}</span>
       {brief.instrument !== null ? <DataModeChip mode={brief.instrument.dataMode} /> : <DataModeChip mode="provider" />}
-      <span className="min-w-0 flex-1 text-sm leading-relaxed text-muted">
+      <span className="page-summary-text min-w-0 flex-1 text-sm leading-relaxed text-muted">
         {comparisonParts !== null && snapshot !== null ? (
           <ClaimText
             parts={comparisonParts}
@@ -500,6 +484,23 @@ function BriefCompactRow({
           t('card.unavailableAnalysis', { ticker })
         )}
       </span>
+      {/* Same destination as the card's View analysis: the stock page pinned
+          to the session this row describes. Only rows with a reviewed dataset
+          have a stock page to open. */}
+      {brief.instrument?.hasBrokerDataset && snapshot !== null ? (
+        <button
+          type="button"
+          onClick={() => {
+            selectSession(snapshot);
+            navigate(`/stock/${ticker}`);
+          }}
+          aria-label={`${t('card.openFull')}: ${ticker}`}
+          title={`${t('card.openFull')}: ${ticker}`}
+          className="page-summary-go"
+        >
+          <Icon name="next" className="h-4 w-4" />
+        </button>
+      ) : null}
     </li>
   );
 }
@@ -571,20 +572,20 @@ function ClaimText({
   onOpenEvidence,
 }: {
   parts: RenderedPart[];
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   return (
     <>
       {parts.map((part, index) =>
         part.kind === 'value' && part.factId ? (
-          <EvidenceButton
+          <EvidenceText
             key={index}
             factId={part.factId}
             className={TONE_CLASS[part.tone ?? 'neutral']}
             onActivate={onOpenEvidence}
           >
             {part.text}
-          </EvidenceButton>
+          </EvidenceText>
         ) : (
           <span key={index}>{part.text}</span>
         ),

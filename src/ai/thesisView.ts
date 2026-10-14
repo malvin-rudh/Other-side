@@ -2,6 +2,10 @@ import type { ApprovedClaim, ApprovedClaimsDocument, RenderedPart } from './clai
 import { pickText } from '../engine/facts';
 import type { Locale } from '../engine/context';
 
+// Window-result and recency-qualifier IDs live with the claim registry;
+// re-exported here for the renderer.
+export { NON_BUCKET_CLAIM_IDS } from './claims';
+
 export type ThesisBucketKey = 'supports' | 'contradicts' | 'unknown';
 
 export interface ThesisItemView {
@@ -17,6 +21,14 @@ export interface ThesisView {
   supports: ThesisItemView[];
   contradicts: ThesisItemView[];
   unknown: ThesisItemView[];
+  // The concise lead answer to the cumulative-flow question for theses that
+  // define one: net buying, net selling, flat, or unavailable. Computed locally
+  // so it renders identically in rule-based, saved and live modes.
+  windowNet: ThesisItemView | null;
+  // The recency qualifier for theses that define one (currently the institution
+  // net-buying thesis). Computed locally from the streak fact, so it renders the
+  // same in rule-based, saved and live modes and never enters a bucket.
+  streak: ThesisItemView | null;
   caveats: string[];
 }
 
@@ -82,6 +94,28 @@ export function buildThesisView(
     unknown.push(claim.available ? evaluableItem(claim) : unevaluableItem(claim));
   }
 
+  // Exactly one window-result claim is available at a cutoff: net buying, net
+  // selling, flat, or unavailable. The first available one is the lead answer.
+  let windowNet: ThesisItemView | null = null;
+  for (const id of thesis.window ?? []) {
+    const claim = byId.get(id);
+    if (claim?.available) {
+      windowNet = evaluableItem(claim);
+      break;
+    }
+  }
+
+  // Exactly one qualifier claim is available at a cutoff: pass, fail, or the
+  // not-enough-captured-sessions case. The first available one wins.
+  let streak: ThesisItemView | null = null;
+  for (const id of thesis.streak ?? []) {
+    const claim = byId.get(id);
+    if (claim?.available) {
+      streak = evaluableItem(claim);
+      break;
+    }
+  }
+
   const caveats = [...new Set([...supports, ...contradicts, ...unknown].flatMap((item) => item.caveats))];
-  return { thesisId, supports, contradicts, unknown, caveats };
+  return { thesisId, supports, contradicts, unknown, windowNet, streak, caveats };
 }

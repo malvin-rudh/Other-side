@@ -92,9 +92,9 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-OBS-C04': {
-    short: [text('Net lots of app-facing brokers.', 'Lot bersih broker app-facing.', '面向App的券商净手数。')],
+    short: [text('Net lots of retail app brokers.', 'Lot bersih broker aplikasi ritel.', '零售App券商净手数。')],
     explained: [
-      text('App-facing brokers were ', 'Broker app-facing menjadi ', '面向App的券商为'),
+      text('Retail app brokers were ', 'Broker aplikasi ritel menjadi ', '零售App券商为'),
       slot({ kind: 'direction', fact: 'C04', focus: 'app_facing' }),
       text(' of about ', ' sekitar ', '，净额约 '),
       slot({ kind: 'lots', fact: 'C04', focus: 'app_facing', sign: 'abs' }),
@@ -106,9 +106,9 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-OBS-C05': {
-    short: [text('Net lots of institution-facing brokers.', 'Lot bersih broker institution-facing.', '面向机构的券商净手数。')],
+    short: [text('Net lots of institutional brokers.', 'Lot bersih broker institusional.', '机构券商净手数。')],
     explained: [
-      text('Institution-facing brokers were ', 'Broker institution-facing menjadi ', '面向机构的券商为'),
+      text('Institutional brokers were ', 'Broker institusional menjadi ', '机构券商为'),
       slot({ kind: 'direction', fact: 'C05', focus: 'institution_facing' }),
       text(' of about ', ' sekitar ', '，净额约 '),
       slot({ kind: 'lots', fact: 'C05', focus: 'institution_facing', sign: 'abs' }),
@@ -180,12 +180,12 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-OBS-C12': {
-    short: [text('Institution-facing positive streak.', 'Rentetan positif institution-facing.', '面向机构券商的正净额连续记录。')],
+    short: [text('Institutional positive streak.', 'Rentetan positif institusional.', '机构券商的正净额连续记录。')],
     explained: [
       text(
-        'Institution-facing brokers were net buyers in each of the last five sessions (',
-        'Broker institution-facing menjadi pembeli bersih di masing-masing dari lima sesi terakhir (',
-        '面向机构的券商在最近五个时段（',
+        'Institutional brokers were net buyers in each of the last five sessions (',
+        'Broker institusional menjadi pembeli bersih di masing-masing dari lima sesi terakhir (',
+        '机构券商在最近五个时段（',
       ),
       slot({ kind: 'fact_date', fact: 'C12', which: 'start' }),
       text(' to ', ' hingga ', ' 至 '),
@@ -194,12 +194,12 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-OBS-C13': {
-    short: [text('Institution-facing main-buyer streak.', 'Rentetan pembeli utama institution-facing.', '面向机构券商的主力买入连续记录。')],
+    short: [text('Institutional main-buyer streak.', 'Rentetan pembeli utama institusional.', '机构券商的主力买入连续记录。')],
     explained: [
       text(
-        'Institution-facing brokers were the strictly largest visible net-buying group in each of the last five sessions (',
-        'Broker institution-facing adalah grup pembelian bersih terlihat yang terbesar secara ketat di masing-masing dari lima sesi terakhir (',
-        '面向机构的券商在最近五个时段（',
+        'Institutional brokers were the strictly largest visible net-buying group in each of the last five sessions (',
+        'Broker institusional adalah grup pembelian bersih terlihat yang terbesar secara ketat di masing-masing dari lima sesi terakhir (',
+        '机构券商在最近五个时段（',
       ),
       slot({ kind: 'fact_date', fact: 'C13', which: 'start' }),
       text(' to ', ' hingga ', ' 至 '),
@@ -264,11 +264,11 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
       slot({ kind: 'fact_date', fact: 'C25', which: 'start' }),
       text(', group nets on the selected session ', ', lot grup pada sesi terpilih ', ' 相比，所选时段 '),
       slot({ kind: 'fact_date', fact: 'C25', which: 'end' }),
-      text(': app-facing from ', ': app-facing dari ', ' 的各组净手数：面向App从 '),
+      text(': retail app from ', ': aplikasi ritel dari ', ' 的各组净手数：零售App从 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'app_facing', which: 'from', sign: 'explicit' }),
       text(' to ', ' ke ', ' 变为 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'app_facing', which: 'to', sign: 'explicit' }),
-      text(' lots, institution-facing from ', ' lot, institution-facing dari ', ' 手，面向机构从 '),
+      text(' lots, institutional from ', ' lot, institusional dari ', ' 手，机构从 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'institution_facing', which: 'from', sign: 'explicit' }),
       text(' to ', ' ke ', ' 变为 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'institution_facing', which: 'to', sign: 'explicit' }),
@@ -324,14 +324,14 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-INT-C18': {
-    short: [text('Label sensitivity of the largest institution-facing buyer.', 'Sensitivitas label pembeli institution-facing terbesar.', '最大面向机构买入方的标签敏感性。')],
+    short: [text('Label sensitivity of the largest institutional buyer.', 'Sensitivitas label pembeli institusional terbesar.', '最大机构买入方的标签敏感性。')],
     explained: [
       text('If ', 'Jika ', '若 '),
       slot({ kind: 'sensitivity_broker', fact: 'C18' }),
       text(
-        ', the largest visible institution-facing buyer, is moved to Unknown, the institution-facing net falls from about ',
-        ', broker pembeli institution-facing terbesar yang terlihat, dipindahkan ke tidak terklasifikasi, lot bersih institution-facing turun dari sekitar ',
-        '（可见的最大面向机构净买入方）被移至未分类，面向机构净额将从约 ',
+        ', the largest visible institutional buyer, is moved to Unknown, the institutional net falls from about ',
+        ', broker pembeli institusional terbesar yang terlihat, dipindahkan ke tidak terklasifikasi, lot bersih institusional turun dari sekitar ',
+        '（可见的最大机构净买入方）被移至未分类，机构净额将从约 ',
       ),
       slot({ kind: 'sensitivity_lots', fact: 'C18', which: 'baseline', focus: 'institution_facing' }),
       text(' to ', ' ke ', ' 手降至 '),
@@ -377,30 +377,153 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
       ),
     ],
   },
+  // The thesis is bounded to net buying over the selected window, so the
+  // supports/contradicts pair reads the C05 window net only. The five-session
+  // streak is a separate recency check rendered by the CL-INST-STREAK-* claims,
+  // never folded into this sentence, so positive window buying and a failed
+  // recent streak can both be stated without contradicting each other.
   'CL-SUP-INST-LED': {
-    short: [text('Supports: institution-facing brokers led visible net buying.', 'Mendukung: broker institution-facing memimpin pembelian bersih yang terlihat.', '支持：面向机构的券商主导可见净买入。')],
-    explained: [
+    short: [
       text(
-        'Institution-facing brokers had positive visible net lots and a passing five-session positive streak.',
-        'Broker institution-facing memiliki lot bersih positif yang terlihat dan rentetan positif lima sesi yang lulus.',
-        '面向机构券商的可见净手数为正，且五个时段的正净额连续记录通过。',
+        'Supports: institutional brokers were net buyers over this window.',
+        'Mendukung: broker institusional menjadi pembeli bersih di jendela ini.',
+        '支持：机构券商在本窗口内为净买入方。',
       ),
+    ],
+    explained: [
+      text('Institutional brokers were ', 'Broker institusional menjadi ', '机构券商在本窗口内为'),
+      slot({ kind: 'direction', fact: 'C05', focus: 'institution_facing' }),
+      text(' over this window, about ', ' di jendela ini, sekitar ', '，净额约 '),
+      slot({ kind: 'lots', fact: 'C05', focus: 'institution_facing', sign: 'abs' }),
+      text(' lots from ', ' lot dari ', ' 手，时间从 '),
+      slot({ kind: 'fact_date', fact: 'C05', which: 'start' }),
+      text(' to ', ' hingga ', ' 到 '),
+      slot({ kind: 'fact_date', fact: 'C05', which: 'end' }),
+      text('.', '.', '。'),
     ],
   },
   'CL-CON-INST-LED': {
-    short: [text('Contradicts: institution-facing leadership.', 'Menentang: kepemimpinan institution-facing.', '反对：面向机构券商的主导地位。')],
+    short: [
+      text(
+        'Contradicts: institutional brokers were net sellers over this window.',
+        'Menentang: broker institusional menjadi penjual bersih di jendela ini.',
+        '反对：机构券商在本窗口内为净卖出方。',
+      ),
+    ],
+    explained: [
+      text('Institutional brokers were ', 'Broker institusional menjadi ', '机构券商在本窗口内为'),
+      slot({ kind: 'direction', fact: 'C05', focus: 'institution_facing' }),
+      text(' over this window, about ', ' di jendela ini, sekitar ', '，净额约 '),
+      slot({ kind: 'lots', fact: 'C05', focus: 'institution_facing', sign: 'abs' }),
+      text(' lots from ', ' lot dari ', ' 手，时间从 '),
+      slot({ kind: 'fact_date', fact: 'C05', which: 'start' }),
+      text(' to ', ' hingga ', ' 到 '),
+      slot({ kind: 'fact_date', fact: 'C05', which: 'end' }),
+      text('.', '.', '。'),
+    ],
+  },
+  // Exactly-zero window net. Distinct from the unavailable case below: this is a
+  // computed flat result, not a stand-in for missing observations.
+  'CL-FLAT-INST-LED': {
+    short: [
+      text(
+        'Institutional net flow was flat over this window.',
+        'Arus bersih institusional datar di jendela ini.',
+        '机构券商在本窗口内净流向持平。',
+      ),
+    ],
+    explained: [
+      text('Institutional net flow was ', 'Arus bersih institusional ', '机构券商在本窗口内净流向'),
+      slot({ kind: 'direction', fact: 'C05', focus: 'institution_facing' }),
+      text(' across this window (', ' di jendela ini (', '（'),
+      slot({ kind: 'lots', fact: 'C05', focus: 'institution_facing', sign: 'abs' }),
+      text(' lots from ', ' lot dari ', ' 手，时间从 '),
+      slot({ kind: 'fact_date', fact: 'C05', which: 'start' }),
+      text(' to ', ' hingga ', ' 到 '),
+      slot({ kind: 'fact_date', fact: 'C05', which: 'end' }),
+      text(').', ').', '）。'),
+    ],
+  },
+  'CL-INST-WINDOW-NA': {
+    short: [
+      text(
+        'Not enough visible broker data for the window net.',
+        'Data broker yang terlihat tidak cukup untuk arus bersih jendela.',
+        '可见券商数据不足以计算窗口净流向。',
+      ),
+    ],
     explained: [
       text(
-        'Institution-facing visible net lots were not positive, or the five-session positive streak failed.',
-        'Lot bersih institution-facing yang terlihat tidak positif, atau rentetan positif lima sesi gagal.',
-        '面向机构券商的可见净手数不为正，或五个时段的正净额连续记录未通过。',
+        'Not enough visible broker data in this window to state institutional net flow. Missing sessions are unknown, not zero.',
+        'Data broker yang terlihat di jendela ini tidak cukup untuk menyatakan arus bersih institusional. Sesi yang hilang tidak diketahui, bukan nol.',
+        '本窗口内可见的券商数据不足，无法说明机构券商净流向。缺失时段为未知，而非零。',
+      ),
+    ],
+  },
+  // Recency qualifier for the institution thesis: one of these three is
+  // available at any cutoff, naming whether the latest five-session buying
+  // streak passed, failed, or could not be evaluated for lack of captured
+  // sessions. A failed streak is a distinct condition from missing evidence.
+  'CL-INST-STREAK-PASS': {
+    short: [
+      text(
+        'Latest five-session buying streak held.',
+        'Rentetan pembelian lima sesi terbaru bertahan.',
+        '最近五个时段的买入连续记录成立。',
+      ),
+    ],
+    explained: [
+      text(
+        'The latest five-session buying streak held: institutional brokers were net buyers in each session from ',
+        'Rentetan pembelian lima sesi terbaru bertahan: broker institusional menjadi pembeli bersih di setiap sesi dari ',
+        '最近五个时段的买入连续记录成立：机构券商在每个时段均为净买入方，时间从 ',
+      ),
+      slot({ kind: 'fact_date', fact: 'C12', which: 'start' }),
+      text(' to ', ' hingga ', ' 到 '),
+      slot({ kind: 'fact_date', fact: 'C12', which: 'end' }),
+      text('.', '.', '。'),
+    ],
+  },
+  'CL-INST-STREAK-FAIL': {
+    short: [
+      text(
+        'Latest five-session buying streak failed.',
+        'Rentetan pembelian lima sesi terbaru gagal.',
+        '最近五个时段的买入连续记录未通过。',
+      ),
+    ],
+    explained: [
+      text(
+        'The latest five-session buying streak failed: institutional brokers were not net buyers in every session from ',
+        'Rentetan pembelian lima sesi terbaru gagal: broker institusional tidak menjadi pembeli bersih di setiap sesi dari ',
+        '最近五个时段的买入连续记录未通过：机构券商并非在每个时段都为净买入方，时间从 ',
+      ),
+      slot({ kind: 'fact_date', fact: 'C12', which: 'start' }),
+      text(' to ', ' hingga ', ' 到 '),
+      slot({ kind: 'fact_date', fact: 'C12', which: 'end' }),
+      text('.', '.', '。'),
+    ],
+  },
+  'CL-INST-STREAK-NA': {
+    short: [
+      text(
+        'Latest five-session streak: not enough captured sessions.',
+        'Rentetan lima sesi terbaru: sesi tertangkap tidak cukup.',
+        '最近五个时段连续记录：已捕获时段不足。',
+      ),
+    ],
+    explained: [
+      text(
+        'Not enough captured market sessions in this window to check the latest five-session buying streak.',
+        'Sesi pasar tertangkap di jendela ini tidak cukup untuk memeriksa rentetan pembelian lima sesi terbaru.',
+        '本窗口内已捕获的市场时段不足，无法检查最近五个时段的买入连续记录。',
       ),
     ],
   },
   'CL-SUP-APP-SELLING': {
-    short: [text('Supports: app-facing brokers were net sellers.', 'Mendukung: broker app-facing menjadi penjual bersih.', '支持：面向App的券商为净卖出方。')],
+    short: [text('Supports: retail app brokers were net sellers.', 'Mendukung: broker aplikasi ritel menjadi penjual bersih.', '支持：零售App券商为净卖出方。')],
     explained: [
-      text('App-facing brokers’ visible net lots are negative between ', 'Lot bersih broker app-facing yang terlihat negatif antara ', '面向App券商的可见净手数在 '),
+      text('Retail app brokers’ visible net lots are negative between ', 'Lot bersih broker aplikasi ritel yang terlihat negatif antara ', '零售App券商的可见净手数在 '),
       slot({ kind: 'fact_date', fact: 'C04', which: 'start' }),
       text(' and ', ' dan ', ' 与 '),
       slot({ kind: 'fact_date', fact: 'C04', which: 'end' }),
@@ -408,9 +531,9 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-CON-APP-SELLING': {
-    short: [text('Contradicts: app-facing selling.', 'Menentang: penjualan app-facing.', '反对：面向App的券商卖出。')],
+    short: [text('Contradicts: retail app selling.', 'Menentang: penjualan aplikasi ritel.', '反对：零售App券商卖出。')],
     explained: [
-      text('App-facing brokers’ visible net lots are positive between ', 'Lot bersih broker app-facing yang terlihat positif antara ', '面向App券商的可见净手数在 '),
+      text('Retail app brokers’ visible net lots are positive between ', 'Lot bersih broker aplikasi ritel yang terlihat positif antara ', '零售App券商的可见净手数在 '),
       slot({ kind: 'fact_date', fact: 'C04', which: 'start' }),
       text(' and ', ' dan ', ' 与 '),
       slot({ kind: 'fact_date', fact: 'C04', which: 'end' }),
@@ -625,9 +748,9 @@ export const CURATED_QUESTIONS: Record<string, CuratedQuestion> = {
   },
   'Q-STREAK': {
     text: {
-      en: 'Did institution-facing brokers keep buying?',
-      id: 'Apakah broker institution-facing terus membeli?',
-      zh: '面向机构的券商是否持续买入？',
+      en: 'Did institutional brokers keep buying?',
+      id: 'Apakah broker institusional terus membeli?',
+      zh: '机构券商是否持续买入？',
     },
     claim_ids: ['CL-OBS-C12', 'CL-OBS-C13', 'CL-SUP-INST-LED', 'CL-CON-INST-LED'],
     follow_up_ids: ['Q-WINDOW-NET', 'Q-LABELS'],
@@ -643,11 +766,11 @@ export const CURATED_QUESTIONS: Record<string, CuratedQuestion> = {
   },
   'Q-THESIS-INST': {
     text: {
-      en: 'Institutions are accumulating',
-      id: 'Institusi sedang mengakumulasi',
-      zh: '机构正在吸筹',
+      en: 'Were institutional brokers net buyers over this window?',
+      id: 'Apakah broker institusional menjadi pembeli bersih di jendela ini?',
+      zh: '机构券商在本窗口内是否为净买入方？',
     },
-    claim_ids: ['CL-SUP-INST-LED', 'CL-CON-INST-LED', 'CL-OBS-C05', 'CL-OBS-C12', 'CL-UNK-C24'],
+    claim_ids: ['CL-SUP-INST-LED', 'CL-CON-INST-LED', 'CL-OBS-C05', 'CL-UNK-C24'],
     follow_up_ids: ['Q-THESIS-HP', 'Q-THESIS-PRICE'],
   },
   'Q-THESIS-HP': {

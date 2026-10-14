@@ -129,7 +129,7 @@ const EN: ResearchContent = {
     },
     {
       title: 'Names do not identify investors',
-      body: 'Institution-facing and app-facing are team broker classifications. They do not establish customer identity, ownership or a matched counterparty.',
+      body: 'Institutional and retail app are team broker classifications. They do not establish customer identity, ownership or a matched counterparty.',
     },
     {
       title: 'A price reference has a limited meaning',
@@ -220,7 +220,7 @@ const ID: ResearchContent = {
     },
     {
       title: 'Nama tidak mengidentifikasi investor',
-      body: 'Institution-facing dan app-facing adalah klasifikasi broker oleh tim. Tidak menetapkan identitas nasabah, kepemilikan, atau lawan transaksi tertentu.',
+      body: 'Institusional dan aplikasi ritel adalah klasifikasi broker oleh tim. Tidak menetapkan identitas nasabah, kepemilikan, atau lawan transaksi tertentu.',
     },
     {
       title: 'Referensi harga memiliki batas',
@@ -311,7 +311,7 @@ const ZH: ResearchContent = {
     },
     {
       title: '名称不识别投资者',
-      body: '面向机构和面向应用是团队的券商分类，不代表客户身份、持仓或确切交易对手。',
+      body: '机构和零售App是团队的券商分类，不代表客户身份、持仓或确切交易对手。',
     },
     {
       title: '价格参考有边界',

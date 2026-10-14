@@ -19,6 +19,7 @@ import {
 } from '../src/data/schemas';
 import { parseManifest } from '../src/engine/manifest';
 import { parseSafeIntegerLabel } from '../src/data/numberParser';
+import { CLAIMS_VERSION } from '../src/ai/versions';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const RAW_BROKERS_CSV = 'data/raw/sini_broker_summary.csv';
@@ -165,7 +166,9 @@ async function main() {
   const manifest = parseManifest({
     dataVersion: DATA_VERSION,
     taxonomyVersion: BROKER_VERSION,
-    claimVersion: EVENTS_VERSION,
+    // The manifest claim version tracks the code claim contract, not the events
+    // dataset, so regeneration cannot restore an older claim version.
+    claimVersion: CLAIMS_VERSION,
     dataThrough: lastCapturedDate(sessionsDocument),
   });
   if (!manifest) throw new Error('manifest failed schema validation');
@@ -437,16 +440,16 @@ function groupForBroker(code: string, seed: RawSeedBroker | undefined): BrokerGr
 function profileReasonFor(group: BrokerGroup, strength: 'Moderate' | 'Weak') {
   if (strength === 'Moderate' && group === 'app_facing') {
     return {
-      en: 'Team mapping labels this broker as app-facing; source citation is pending.',
-      id: 'Pemetaan tim mengelompokkan broker ini sebagai app-facing; sitasi sumber masih pending.',
-      zh: '团队映射将该券商归为面向App的券商；来源引用仍待补齐。',
+      en: 'Team mapping labels this broker as retail app; source citation is pending.',
+      id: 'Pemetaan tim mengelompokkan broker ini sebagai aplikasi ritel; sitasi sumber masih pending.',
+      zh: '团队映射将该券商归为零售App券商；来源引用仍待补齐。',
     };
   }
   if (strength === 'Moderate' && group === 'institution_facing') {
     return {
-      en: 'Team mapping labels this broker as institution-facing; source citation is pending.',
-      id: 'Pemetaan tim mengelompokkan broker ini sebagai institution-facing; sitasi sumber masih pending.',
-      zh: '团队映射将该券商归为面向机构的券商；来源引用仍待补齐。',
+      en: 'Team mapping labels this broker as institutional; source citation is pending.',
+      id: 'Pemetaan tim mengelompokkan broker ini sebagai institusional; sitasi sumber masih pending.',
+      zh: '团队映射将该券商归为机构券商；来源引用仍待补齐。',
     };
   }
   return {

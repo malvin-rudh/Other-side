@@ -80,19 +80,53 @@ export function BrokerFlowChart({ points, codes, locale, presentation = false }:
             ]}
           />
           <Legend wrapperStyle={{ fontSize: 12, color: '#0B1220', paddingTop: 4 }} />
-          {codes.map((code, index) => (
-            <Line
-              key={code}
-              type="linear"
-              dataKey={code}
-              stroke={SERIES_COLORS[index % SERIES_COLORS.length]}
-              strokeWidth={2}
-              dot={false}
-              connectNulls={false}
-            />
-          ))}
+          {codes.map((code, index) => {
+            const color: string = SERIES_COLORS[index % SERIES_COLORS.length] ?? SERIES_COLORS[0];
+            return (
+              <Line
+                key={code}
+                type="linear"
+                dataKey={code}
+                stroke={color}
+                strokeWidth={2}
+                dot={(props: { cx?: number; cy?: number; index?: number }) => (
+                  <IsolatedDot key={`${code}-${props.index}`} {...props} data={data} code={code} color={color} />
+                )}
+                connectNulls={false}
+                // Recharts only draws dots after the draw-in animation ends, so
+                // an interrupted animation would hide isolated observations.
+                isAnimationActive={false}
+              />
+            );
+          })}
         </LineChart>
       </ResponsiveContainer>
     </div>
   );
+}
+
+// Lines break wherever a broker is outside the visible sample, so a session
+// observed with no observed neighbour has no segment to draw. Without a dot it
+// would vanish (ES in SINI: seen on 1 and 3 Sept only); joined points keep the
+// plain line.
+function IsolatedDot({
+  cx,
+  cy,
+  index,
+  data,
+  code,
+  color,
+}: {
+  cx?: number;
+  cy?: number;
+  index?: number;
+  data: readonly Record<string, number | string | null>[];
+  code: string;
+  color: string;
+}) {
+  if (cx === undefined || cy === undefined || index === undefined) return <g />;
+  const value = data[index]?.[code];
+  const joined = (offset: number) => typeof data[index + offset]?.[code] === 'number';
+  if (typeof value !== 'number' || joined(-1) || joined(1)) return <g />;
+  return <circle cx={cx} cy={cy} r={3.5} fill={color} stroke="#FFFFFF" strokeWidth={1.5} />;
 }

@@ -16,7 +16,7 @@ import { BrokerFlowChart as BrokerFlowChartSync } from './charts/BrokerFlowChart
 import { GroupNetChart as GroupNetChartSync } from './charts/GroupNetChart';
 import { SessionComparisonChart as SessionComparisonChartSync } from './charts/SessionComparisonChart';
 import { DataModeChip } from './DataModeChip';
-import { EvidenceButton } from './EvidenceButton';
+import { EvidenceButton, EvidenceText } from './EvidenceButton';
 import { Icon } from './Icon';
 import { Tabs, type TabSpec } from './TabList';
 
@@ -40,7 +40,10 @@ const TONE_CLASS: Record<string, string> = {
   neutral: '',
 };
 
-const NUM_CELL = 'inline-block w-16 shrink-0 text-right tabular-nums';
+// Shared widths so the Previous / Selected headers sit exactly over their columns.
+const LENS_NUM = 'inline-block w-[5.5rem] shrink-0 text-right tabular-nums';
+const LENS_ARROW = 'inline-block w-5 shrink-0 text-center';
+const LENS_UNIT = 'inline-block w-9 shrink-0 pl-1.5 text-left';
 
 interface InstrumentCardProps {
   instrument: Instrument;
@@ -51,7 +54,7 @@ interface InstrumentCardProps {
   view: StockView | null;
   context: FactsContext | null;
   data: FactsData | null;
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }
 
 export function InstrumentCard({
@@ -83,38 +86,25 @@ export function InstrumentCard({
           {
             id: 'overview',
             label: t('card.tabOverview'),
-            content: (
-              <>
-                <OverviewTab view={view} locale={locale} onOpenEvidence={onOpenEvidence} />
-                <ExplainNote text={t('card.explainOverview')} />
-              </>
-            ),
+            content: <OverviewTab view={view} locale={locale} onOpenEvidence={onOpenEvidence} />,
           },
           {
             id: 'broker-flow',
             label: t('card.tabBrokerFlow'),
             content: (
-              <>
-                <BrokerFlowTab
-                  context={context}
-                  data={data}
-                  checks={view.lens.checks}
-                  locale={locale}
-                  onOpenEvidence={onOpenEvidence}
-                />
-                <ExplainNote text={t('card.explainBrokerFlow', { count: String(MAX_VISIBLE_BROKER_LINES) })} />
-              </>
+              <BrokerFlowTab
+                context={context}
+                data={data}
+                checks={view.lens.checks}
+                locale={locale}
+                onOpenEvidence={onOpenEvidence}
+              />
             ),
           },
           {
             id: 'events',
             label: t('card.tabEvents'),
-            content: (
-              <>
-                <EventsTab events={view.story} />
-                <ExplainNote text={t('card.explainEvents')} />
-              </>
-            ),
+            content: <EventsTab events={view.story} />,
           },
           {
             id: 'financials',
@@ -199,6 +189,17 @@ export function InstrumentCard({
                 onOpenEvidence={onOpenEvidence}
               />
               <RawFlowRows view={view} locale={locale} onOpenEvidence={onOpenEvidence} />
+              <ul className="space-y-1.5 border-t border-line pt-3">
+                {[
+                  t('card.explainOverview'),
+                  t('card.explainBrokerFlow', { count: String(MAX_VISIBLE_BROKER_LINES) }),
+                  t('card.explainEvents'),
+                ].map((note) => (
+                  <li key={note} className="note">
+                    {note}
+                  </li>
+                ))}
+              </ul>
               <Link to="/method" className="btn btn-ghost px-3 py-1.5 text-xs">
                 {t('nav.howItWorks')}
               </Link>
@@ -210,12 +211,6 @@ export function InstrumentCard({
   );
 }
 
-// One concise paragraph under the active panel of each analytical tab,
-// carrying the approved caveats for that tab's numbers.
-function ExplainNote({ text }: { text: string }) {
-  return <p className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">{text}</p>;
-}
-
 function OverviewTab({
   view,
   locale,
@@ -223,7 +218,7 @@ function OverviewTab({
 }: {
   view: StockView;
   locale: Locale;
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   const { t } = useTranslation();
   const [showCumulative, setShowCumulative] = useState(false);
@@ -302,7 +297,24 @@ function OverviewTab({
               <ClaimParts parts={moveStatement} onOpenEvidence={onOpenEvidence} />
             </p>
           ) : null}
-          <ul className="mt-1 divide-y divide-line">
+          {lens.fromDate !== null && lens.toDate !== null ? (
+            <div
+              aria-hidden="true"
+              className="mt-3 flex items-end justify-end border-b border-line px-0.5 pb-1.5 text-[11px] leading-tight text-muted"
+            >
+              <span className={LENS_NUM}>
+                {t('card.comparePrevious')}
+                <span className="block tabular-nums text-mutedSoft">{formatSessionDate(lens.fromDate, locale)}</span>
+              </span>
+              <span className={LENS_ARROW} />
+              <span className={`${LENS_NUM} font-semibold text-ink`}>
+                {t('card.compareSelected')}
+                <span className="block font-normal tabular-nums text-mutedSoft">{formatSessionDate(lens.toDate, locale)}</span>
+              </span>
+              <span className={LENS_UNIT} />
+            </div>
+          ) : null}
+          <ul className="divide-y divide-line">
             {lens.rows.map((row) => (
               <LensRowCell key={row.group} row={row} factId={lensFactId} onOpenEvidence={onOpenEvidence} />
             ))}
@@ -320,19 +332,19 @@ function LensRowCell({
 }: {
   row: LensRow;
   factId: string;
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   const { t, locale } = useTranslation();
   return (
     <li className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 py-1.5 text-sm">
       <GroupChip group={row.group} plain />
-      <EvidenceButton factId={factId} onActivate={onOpenEvidence}>
-        <span className={`${NUM_CELL} ${signedClass(row.fromLots)}`}>{formatSigned(row.fromLots, locale)}</span>
-        <span aria-hidden="true" className="mx-1.5 shrink-0 text-xs text-muted">
+      <EvidenceButton quiet factId={factId} onActivate={onOpenEvidence} className="inline-flex items-baseline">
+        <span className={`${LENS_NUM} ${signedClass(row.fromLots)}`}>{formatSigned(row.fromLots, locale)}</span>
+        <span aria-hidden="true" className={`${LENS_ARROW} text-xs text-muted`}>
           {row.toLots > row.fromLots ? '▲' : row.toLots < row.fromLots ? '▼' : '·'}
         </span>
-        <span className={`${NUM_CELL} ${signedClass(row.toLots)}`}>{formatSigned(row.toLots, locale)}</span>
-        <span className="ml-1.5 shrink-0 text-xs text-muted">{t('stock.flowLotsUnit')}</span>
+        <span className={`${LENS_NUM} ${signedClass(row.toLots)}`}>{formatSigned(row.toLots, locale)}</span>
+        <span className={`${LENS_UNIT} text-xs text-muted`}>{t('stock.flowLotsUnit')}</span>
       </EvidenceButton>
     </li>
   );
@@ -351,7 +363,7 @@ function BrokerFlowTab({
   data: FactsData;
   checks: readonly StreakCheckView[];
   locale: Locale;
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   const { t } = useTranslation();
   const [section, setSection] = useState<BrokerSection>('trends');
@@ -436,6 +448,7 @@ function BrokerFlowTab({
                 return (
                   <EvidenceButton
                     key={code}
+                    quiet
                     factId={summary.factId}
                     className="chip chip-line gap-1.5"
                     onActivate={onOpenEvidence}
@@ -491,69 +504,73 @@ function ChecksPanel({
   onOpenEvidence,
 }: {
   checks: readonly StreakCheckView[];
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   const { t, locale } = useTranslation();
   return (
     <div>
-      <div className="card-inset p-3">
-        <p className="eyebrow">{t('card.flowViewChecks')}</p>
-        <ul className="mt-1 divide-y divide-line">
-          {checks.map((check) => (
-            <li key={check.key} className="py-2.5">
-              <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
-                <p className="min-w-0 flex-1 text-sm leading-relaxed text-ink">
-                  {check.note ? pickText(check.note, locale) : ''}
-                </p>
-                {check.available && check.approximate ? (
-                  <EvidenceButton
-                    factId={check.factId}
-                    onActivate={onOpenEvidence}
-                    className={`shrink-0 text-sm ${checkStatusClass(check.status)}`}
-                  >
-                    {pickText(check.approximate, locale)}
-                  </EvidenceButton>
-                ) : (
-                  <span className="chip chip-line shrink-0 text-muted">{t('status.notEnough')}</span>
-                )}
-              </div>
-              {check.available && check.cells.length > 0 ? (
-                <div className="mt-2">
-                  <p className="text-[11px] text-mutedSoft">{t('card.flowChecksDaily')}</p>
-                  <ul className="mt-1 flex flex-wrap gap-1.5">
-                    {check.cells.map((cell) => (
-                      <li key={cell.date}>
-                        <EvidenceButton
-                          factId={check.factId}
-                          onActivate={onOpenEvidence}
-                          className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[11px] tabular-nums no-underline ${
-                            cell.ok ? 'border-buy/40 text-buy' : 'border-sell/40 text-sell'
-                          }`}
-                        >
-                          <span aria-hidden="true">{cell.ok ? '✓' : '✕'}</span>
+      <ul className="space-y-3">
+        {checks.map((check) => (
+          <li key={check.key} className="card-inset p-3">
+            <div className="flex items-start gap-3">
+              {check.available && check.approximate ? (
+                <EvidenceButton
+                  quiet
+                  factId={check.factId}
+                  onActivate={onOpenEvidence}
+                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-sm font-semibold no-underline ${checkBadgeClass(check.status)}`}
+                >
+                  <span aria-hidden="true">{check.status === 'passes' ? '✓' : check.status === 'fails' ? '✕' : '?'}</span>
+                  {pickText(check.approximate, locale)}
+                </EvidenceButton>
+              ) : (
+                <span className="chip chip-line shrink-0 px-2.5 py-1 text-xs text-muted">{t('status.notEnough')}</span>
+              )}
+              <p className="min-w-0 flex-1 text-sm leading-relaxed text-ink">
+                {check.note ? pickText(check.note, locale) : ''}
+              </p>
+            </div>
+            {check.available && check.cells.length > 0 ? (
+              <div className="mt-3">
+                <p className="text-[11px] text-mutedSoft">{t('card.flowChecksDaily')}</p>
+                <ol className="mt-1.5 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${check.cells.length}, minmax(0, 1fr))` }}>
+                  {check.cells.map((cell) => (
+                    <li key={cell.date}>
+                      <EvidenceButton
+                        quiet
+                        factId={check.factId}
+                        onActivate={onOpenEvidence}
+                        className={`flex w-full flex-col items-center gap-0.5 rounded-md border py-1.5 no-underline ${
+                          cell.ok ? 'border-buy/30 bg-buy/10 text-buy' : 'border-sell/30 bg-sell/10 text-sell'
+                        }`}
+                      >
+                        <span aria-hidden="true" className={`text-sm font-bold leading-none ${cell.ok ? 'text-buy' : 'text-sell'}`}>
+                          {cell.ok ? '✓' : '✕'}
+                        </span>
+                        <span className="text-[11px] leading-tight tabular-nums text-muted">
                           {formatSessionDate(cell.date, locale)}
-                        </EvidenceButton>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {!check.available && check.unavailableReason ? (
-                <p className="mt-1 text-xs text-muted">{pickText(check.unavailableReason, locale)}</p>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      </div>
+                        </span>
+                      </EvidenceButton>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ) : null}
+            {!check.available && check.unavailableReason ? (
+              <p className="mt-2 text-xs text-muted">{pickText(check.unavailableReason, locale)}</p>
+            ) : null}
+          </li>
+        ))}
+      </ul>
       <p className="note mt-3">{t('card.streakDifference')}</p>
     </div>
   );
 }
 
-function checkStatusClass(status: PredicateStatus | null): string {
-  if (status === 'passes') return 'text-buy';
-  if (status === 'fails') return 'text-sell';
-  return 'text-muted';
+function checkBadgeClass(status: PredicateStatus | null): string {
+  if (status === 'passes') return 'border-buy/30 bg-buy/10 text-buy';
+  if (status === 'fails') return 'border-sell/30 bg-sell/10 text-sell';
+  return 'border-line bg-surfaceAlt text-muted';
 }
 
 function EventsTab({ events }: { events: readonly EventView[] }) {
@@ -599,7 +616,7 @@ function RawFlowRows({
 }: {
   view: StockView;
   locale: Locale;
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   const { t } = useTranslation();
   if (!view.flow.available) {
@@ -639,7 +656,7 @@ function FactIdList({
 }: {
   label: string;
   factIds: readonly string[];
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   if (factIds.length === 0) return null;
   return (
@@ -659,20 +676,20 @@ function ClaimParts({
   onOpenEvidence,
 }: {
   parts: readonly RenderedPart[];
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
 }) {
   return (
     <>
       {parts.map((part, index) =>
         part.kind === 'value' && part.factId ? (
-          <EvidenceButton
+          <EvidenceText
             key={index}
             factId={part.factId}
             className={TONE_CLASS[part.tone ?? 'neutral']}
             onActivate={onOpenEvidence}
           >
             {part.text}
-          </EvidenceButton>
+          </EvidenceText>
         ) : (
           <span key={index}>{part.text}</span>
         ),
@@ -684,7 +701,7 @@ function ClaimParts({
 function GroupChip({ group, plain = false }: { group: BrokerGroup; plain?: boolean }) {
   const { t } = useTranslation();
   const label = groupText(group, t);
-  if (group === 'unknown') return <span className="chip chip-unknown">{label}</span>;
+  if (group === 'unknown') return <span className="font-medium text-muted">{label}</span>;
   return plain ? <span className="font-medium text-ink">{label}</span> : <span className="text-xs text-muted">{label}</span>;
 }
 

@@ -1,7 +1,7 @@
 import Ajv from 'ajv';
 import { isCurrentResponse } from '../engine/context';
 import type { FactKey } from '../engine/facts';
-import type { ApprovedClaimsDocument } from './claims';
+import { classifyThesisClaim, NON_BUCKET_CLAIM_IDS, type ApprovedClaimsDocument } from './claims';
 import type { WordingVariant } from './templates';
 
 export interface ModelClaimRef {
@@ -52,6 +52,7 @@ export interface ValidateModelResponseInput {
   latestRequestId: string;
   approved: ApprovedClaimsDocument;
   cutoffAt: string;
+  thesisId?: string;
 }
 
 export function validateModelResponse(input: ValidateModelResponseInput): ValidationResult {
@@ -59,6 +60,10 @@ export function validateModelResponse(input: ValidateModelResponseInput): Valida
     return { ok: false, reason: 'response failed schema validation' };
   }
   const response = input.response as ModelResponse;
+  const thesis = input.thesisId === undefined ? undefined : input.approved.theses[input.thesisId];
+  if (input.thesisId !== undefined && !thesis) {
+    return { ok: false, reason: 'unknown selected thesis' };
+  }
 
   if (response.answer_kind === 'claims' && response.claims.length === 0) {
     return { ok: false, reason: 'claims answer has no claims' };
@@ -72,6 +77,7 @@ export function validateModelResponse(input: ValidateModelResponseInput): Valida
   }
 
   const seen = new Set<string>();
+  let substantive = 0;
   for (const ref of response.claims) {
     if (seen.has(ref.claim_id)) {
       return { ok: false, reason: `duplicate claim_id: ${ref.claim_id}` };
@@ -85,6 +91,13 @@ export function validateModelResponse(input: ValidateModelResponseInput): Valida
     if (!claim.available) {
       return { ok: false, reason: `claim not available at this cutoff: ${ref.claim_id}` };
     }
+    // Window-result and recency-qualifier claims are rendered as the concise
+    // lead and the labelled qualifier line, never as bucket evidence, so they do
+    // not answer the question on their own.
+    const displayable = thesis
+      ? classifyThesisClaim(thesis, ref.claim_id) !== null
+      : !NON_BUCKET_CLAIM_IDS.has(ref.claim_id);
+    if (displayable) substantive += 1;
     // A requested wording variant must actually be renderable in the locale this
     // context was built for. A variant whose value slots resolved to nothing has
     // null parts, and falling back to template prose would print a sentence with
@@ -99,6 +112,14 @@ export function validateModelResponse(input: ValidateModelResponseInput): Valida
     if (future) {
       return { ok: false, reason: `claim references a fact not yet available at cutoff: ${ref.claim_id}` };
     }
+  }
+
+  // An accepted "claims" answer must carry at least one claim that renders as
+  // bucket evidence, otherwise the renderer would show empty buckets under a
+  // saved/live badge. Reject here so the caller falls back to the rule-based
+  // preview with an honest badge.
+  if (response.answer_kind === 'claims' && substantive === 0) {
+    return { ok: false, reason: 'answer carries only window-result or recency-qualifier claims' };
   }
 
   for (const followUpId of response.follow_up_ids) {

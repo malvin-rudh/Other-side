@@ -657,8 +657,8 @@ export function focusValue(nets: GroupNet, focus: GroupFocus): number {
 }
 
 const FOCUS_LABEL: Record<GroupFocus, BilingualText> = {
-  app_facing: { en: 'app-facing brokers', id: 'broker app-facing', zh: '面向App的券商' },
-  institution_facing: { en: 'institution-facing brokers', id: 'broker institution-facing', zh: '面向机构的券商' },
+  app_facing: { en: 'retail app brokers', id: 'broker aplikasi ritel', zh: '零售App券商' },
+  institution_facing: { en: 'institutional brokers', id: 'broker institusional', zh: '机构券商' },
   other_mixed: { en: 'other / mixed brokers', id: 'broker lain / campuran', zh: '其他/混合券商' },
   unknown: { en: 'unclassified brokers', id: 'broker tak terklasifikasi', zh: '未分类券商' },
   combined_other: { en: 'other / mixed and unclassified brokers', id: 'broker lain / campuran dan tak terklasifikasi', zh: '其他/混合及未分类券商' },
@@ -1105,16 +1105,16 @@ function buildStreak(
     coverage_note: {
       en:
         flavour === 'positive'
-          ? 'Checks whether institution-facing net lots are positive in each of the last five actual market sessions.'
-          : 'Checks whether institution-facing brokers are the strictly largest visible net-buying group in each of the last five actual market sessions.',
+          ? 'Checks whether institutional net lots are positive in each of the last five actual market sessions.'
+          : 'Checks whether institutional brokers are the strictly largest visible net-buying group in each of the last five actual market sessions.',
       id:
         flavour === 'positive'
-          ? 'Memeriksa apakah lot bersih institution-facing positif di masing-masing dari lima sesi pasar aktif terakhir.'
-          : 'Memeriksa apakah broker institution-facing adalah grup pembeli bersih terlihat yang terbesar secara ketat di masing-masing dari lima sesi pasar aktif terakhir.',
+          ? 'Memeriksa apakah lot bersih institusional positif di masing-masing dari lima sesi pasar aktif terakhir.'
+          : 'Memeriksa apakah broker institusional adalah grup pembeli bersih terlihat yang terbesar secara ketat di masing-masing dari lima sesi pasar aktif terakhir.',
       zh:
         flavour === 'positive'
-          ? '检查面向机构的券商净手数在最近五个实际市场时段中的每一个是否为正。'
-          : '检查面向机构的券商在最近五个实际市场时段中的每一个是否都是严格最大的可见净买入组。',
+          ? '检查机构券商净手数在最近五个实际市场时段中的每一个是否为正。'
+          : '检查机构券商在最近五个实际市场时段中的每一个是否都是严格最大的可见净买入组。',
     },
     evidence: {
       strength: 'Moderate',
@@ -1398,7 +1398,7 @@ function buildC18(
   if (!target) {
     return unavailable(
       { ...base, source_row_ids: [], source_event_ids: [], source_sessions: [], unit: 'lots', available_at: context.cutoffAt },
-      { en: 'No institution-facing broker appears in the visible window.', id: 'Tidak ada broker institution-facing yang muncul di jendela yang terlihat.', zh: '可见窗口中没有出现面向机构的券商。' },
+      { en: 'No institutional broker appears in the visible window.', id: 'Tidak ada broker institusional yang muncul di jendela yang terlihat.', zh: '可见窗口中没有出现机构券商。' },
     );
   }
   const override = withOneBrokerUnknownOverride(scenario, target.brokerCode);
@@ -1416,9 +1416,9 @@ function buildC18(
       return `${target.brokerCode}: ${label} ${lotsRangeCompact(baseline.institution_facing, overridden.institution_facing, locale)}`;
     }),
     coverage_note: {
-      en: `What-if: reclassifying ${target.brokerCode} (largest visible institution-facing net) as unknown shifts group nets; labels are team mapping.`,
-      id: `Skenario: mengklasifikasi ulang ${target.brokerCode} (bersih institution-facing terbesar yang terlihat) sebagai tak diketahui menggeser lot grup; label adalah pemetaan tim.`,
-      zh: `假设情形：将 ${target.brokerCode}（可见的最大面向机构净额）重新归类为未知会改变各组净额；标签仅为团队映射。`,
+      en: `What-if: reclassifying ${target.brokerCode} (largest visible institutional net) as unknown shifts group nets; labels are team mapping.`,
+      id: `Skenario: mengklasifikasi ulang ${target.brokerCode} (bersih institusional terbesar yang terlihat) sebagai tak diketahui menggeser lot grup; label adalah pemetaan tim.`,
+      zh: `假设情形：将 ${target.brokerCode}（可见的最大机构净额）重新归类为未知会改变各组净额；标签仅为团队映射。`,
     },
     available_at: sessionAvailableAt(base.period.end),
     evidence: {
@@ -1715,13 +1715,13 @@ function buildReference(
     coverage_note: {
       en: brokerCode
         ? `Net-flow implied price reference from ${brokerCode} visible net-${side ?? 'buy'} rows; not an official close, VWAP, cost basis or executable quote.`
-        : 'Net-flow implied price reference from visible institution-facing net-buy rows; not an official close, VWAP, cost basis or executable quote.',
+        : 'Net-flow implied price reference from visible institutional net-buy rows; not an official close, VWAP, cost basis or executable quote.',
       id: brokerCode
         ? `Referensi harga tersirat arus bersih dari baris ${side ?? 'buy'} bersih ${brokerCode} yang terlihat; bukan penutup resmi, VWAP, biaya perolehan, atau kutipan yang dapat dieksekusi.`
-        : 'Referensi harga tersirat arus bersih dari baris beli bersih institution-facing yang terlihat; bukan penutup resmi, VWAP, biaya perolehan, atau kutipan yang dapat dieksekusi.',
+        : 'Referensi harga tersirat arus bersih dari baris beli bersih institusional yang terlihat; bukan penutup resmi, VWAP, biaya perolehan, atau kutipan yang dapat dieksekusi.',
       zh: brokerCode
         ? `由 ${brokerCode} 可见净${side === 'sell' ? '卖出' : '买入'}数据行得出的净流入隐含价格参考；并非官方收盘价、VWAP、成本基准或可执行报价。`
-        : '由可见的面向机构净买入数据行得出的净流入隐含价格参考；并非官方收盘价、VWAP、成本基准或可执行报价。',
+        : '由可见的机构净买入数据行得出的净流入隐含价格参考；并非官方收盘价、VWAP、成本基准或可执行报价。',
     },
     available_at: sessionAvailableAt(base.period.end),
     evidence: {

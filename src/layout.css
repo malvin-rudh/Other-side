@@ -7,6 +7,9 @@
 
 .page-stack {
   display: grid;
+  /* minmax(0, 1fr) lets wide content (charts, ticker rows) shrink to the
+     viewport instead of widening the page on a phone. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 36px;
   max-width: 1000px;
   margin: 0 auto;
@@ -75,6 +78,7 @@
 
 .page-section {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -86,6 +90,7 @@
 }
 
 .page-section-heading h2 {
+  scroll-margin-top: 72px;
   font-size: 26px;
   font-weight: 600;
   line-height: 1.2;
@@ -115,8 +120,76 @@
   font-size: 17px;
 }
 
-.page-summary-card > ul li > span:last-child {
+.page-summary-card > ul li > .page-summary-text {
   flex-basis: 60%;
+}
+
+/* A holding row: the arrow opens that stock's full analysis. One line on
+   desktop so every arrow lines up; the phone layout below lets it wrap. */
+.page-summary-row {
+  align-items: center;
+}
+
+@media (min-width: 641px) {
+  .page-summary-row {
+    flex-wrap: nowrap;
+  }
+}
+
+.page-summary-go {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e3e8f0;
+  border-radius: 999px;
+  background: #fff;
+  color: #5a6b84;
+  transition: border-color 120ms, color 120ms;
+}
+
+.page-summary-go:hover,
+.page-summary-go:focus-visible {
+  border-color: #f58220;
+  color: #0b1220;
+}
+
+/* Ticker switcher: every tracked ticker stays visible as a pill instead of
+   hiding behind a dropdown; the active one is filled navy. */
+.page-ticker-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 0 4px;
+  margin-top: -4px;
+  scrollbar-width: thin;
+}
+
+.page-ticker-tab {
+  flex-shrink: 0;
+  border: 1px solid #e3e8f0;
+  background: #fff;
+  border-radius: 999px;
+  padding: 7px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #5a6b84;
+  transition: border-color 120ms, color 120ms, background-color 120ms;
+}
+
+.page-ticker-tab:hover {
+  border-color: #f58220;
+  color: #0b1220;
+}
+
+.page-ticker-tab[aria-pressed='true'] {
+  border-color: #0b1220;
+  background: #0b1220;
+  color: #fff;
 }
 
 @media (max-width: 640px) {
@@ -145,7 +218,8 @@
     padding: 4px 16px 18px;
   }
 
-  .page-summary-card > ul li > span:last-child {
+  .page-summary-card > ul li > .page-summary-text {
     flex-basis: 100%;
+    order: 3;
   }
 }
