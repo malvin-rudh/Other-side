@@ -1,0 +1,38 @@
+{
+  "ticker": "SMPE",
+  "version": "sample-fixture-smpe-events-v2",
+  "events": [
+    {
+      "id": "E-SMPE-FIXTURE-01",
+      "layer": "health",
+      "reportingDate": "2026-09-03",
+      "publicationDate": "2026-09-03",
+      "availableAt": "2026-09-03T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/smpe/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer announced a mock refinancing that pushes its loan maturities out to 2031.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif mengumumkan refinancing pura-pura yang memundurkan jatuh tempo pinjaman ke 2031.",
+        "zh": "虚构样本事件：该虚构发行人宣布模拟再融资，将贷款到期日延至 2031 年。"
+      }
+    },
+    {
+      "id": "E-SMPE-FIXTURE-02",
+      "layer": "story",
+      "eventDate": "2026-09-16",
+      "publicationDate": "2026-09-16",
+      "availableAt": "2026-09-16T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/smpe/event-02"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer named a mock new chief executive from a regional energy group.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif menunjuk CEO baru pura-pura dari grup energi regional.",
+        "zh": "虚构样本事件：该虚构发行人任命一位来自地区能源集团的模拟新任首席执行官。"
+      }
+    }
+  ]
+}

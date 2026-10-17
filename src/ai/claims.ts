@@ -480,7 +480,7 @@ function moveGroupLabel(group: BrokerGroup, locale: Locale): string {
     if (group === 'app_facing') return 'broker aplikasi ritel';
     if (group === 'institution_facing') return 'broker institusional';
     if (group === 'other_mixed') return 'broker lain / campuran';
-    return 'broker tak terklasifikasi';
+    return 'broker tidak terklasifikasi';
   }
   if (group === 'app_facing') return 'retail app brokers';
   if (group === 'institution_facing') return 'institutional brokers';

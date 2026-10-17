@@ -31,6 +31,13 @@ function interpolate(template: string, vars: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (match, name: string) => vars[name] ?? match);
 }
 
+// "1 stock" / "3 stocks" for the list headers on the Brief and Portfolio screens.
+export function stockCountLabel(count: number, locale: Locale): string {
+  return count === 1
+    ? translate(locale, 'portfolio.stockCount')
+    : translate(locale, 'portfolio.stocksCount', { count: String(count) });
+}
+
 export function useTranslation() {
   const locale = useContextStore((state) => state.locale);
   return {

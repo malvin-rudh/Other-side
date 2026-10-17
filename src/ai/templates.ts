@@ -56,7 +56,7 @@ export const CAVEATS = {
   },
   reversal: {
     en: 'Opposite observed net directions through one broker, not a proven same-client round trip.',
-    id: 'Arah bersih terobservasi yang berlawanan melalui satu broker, bukan pembalikan putaran klien yang sama yang terbukti.',
+    id: 'Arah bersih teramati yang berlawanan melalui satu broker, bukan pembalikan putaran klien yang sama yang terbukti.',
     zh: '通过同一券商观察到的相反净方向，并非已证实的同一客户往返交易。',
   },
   unknown_not_zero: {
@@ -123,12 +123,12 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     short: [
       text(
         'Net lots of other / mixed and unclassified brokers.',
-        'Lot bersih broker lain / campuran dan tak terklasifikasi.',
+        'Lot bersih broker lain / campuran dan tidak terklasifikasi.',
         '其他/混合及未分类券商净手数。',
       ),
     ],
     explained: [
-      text('Other / mixed and unclassified brokers were ', 'Broker lain / campuran dan tak terklasifikasi menjadi ', '其他/混合及未分类券商为'),
+      text('Other / mixed and unclassified brokers were ', 'Broker lain / campuran dan tidak terklasifikasi menjadi ', '其他/混合及未分类券商为'),
       slot({ kind: 'direction', fact: 'C06', focus: 'combined_other' }),
       text(' of about ', ' sekitar ', '，净额约 '),
       slot({ kind: 'lots', fact: 'C06', focus: 'combined_other', sign: 'abs' }),
@@ -224,7 +224,7 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-OBS-C16': {
-    short: [text('CC observed direction change.', 'Perubahan arah terobservasi CC.', 'CC 观察到的方向变化。')],
+    short: [text('CC observed direction change.', 'Perubahan arah teramati CC.', 'CC 观察到的方向变化。')],
     explained: [
       text('CC swung from ', 'CC berayun dari ', 'CC 从 '),
       slot({ kind: 'lots', fact: 'C16', which: 'from', sign: 'explicit' }),
@@ -238,7 +238,7 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     ],
   },
   'CL-OBS-C17': {
-    short: [text('AZ observed direction change.', 'Perubahan arah terobservasi AZ.', 'AZ 观察到的方向变化。')],
+    short: [text('AZ observed direction change.', 'Perubahan arah teramati AZ.', 'AZ 观察到的方向变化。')],
     explained: [
       text('AZ swung from ', 'AZ berayun dari ', 'AZ 从 '),
       slot({ kind: 'lots', fact: 'C17', which: 'from', sign: 'explicit' }),
@@ -276,7 +276,7 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
       slot({ kind: 'lots', fact: 'C25', focus: 'other_mixed', which: 'from', sign: 'explicit' }),
       text(' to ', ' ke ', ' 变为 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'other_mixed', which: 'to', sign: 'explicit' }),
-      text(' lots, unclassified from ', ' lot, tak terklasifikasi dari ', ' 手，未分类从 '),
+      text(' lots, unclassified from ', ' lot, tidak terklasifikasi dari ', ' 手，未分类从 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'unknown', which: 'from', sign: 'explicit' }),
       text(' to ', ' ke ', ' 变为 '),
       slot({ kind: 'lots', fact: 'C25', focus: 'unknown', which: 'to', sign: 'explicit' }),
@@ -508,15 +508,15 @@ export const CLAIM_TEMPLATES: Record<string, ClaimTemplate> = {
     short: [
       text(
         'Latest five-session streak: not enough captured sessions.',
-        'Rentetan lima sesi terbaru: sesi tertangkap tidak cukup.',
-        '最近五个时段连续记录：已捕获时段不足。',
+        'Rentetan lima sesi terbaru: sesi terekam tidak cukup.',
+        '最近五个时段连续记录：已采集时段不足。',
       ),
     ],
     explained: [
       text(
         'Not enough captured market sessions in this window to check the latest five-session buying streak.',
-        'Sesi pasar tertangkap di jendela ini tidak cukup untuk memeriksa rentetan pembelian lima sesi terbaru.',
-        '本窗口内已捕获的市场时段不足，无法检查最近五个时段的买入连续记录。',
+        'Sesi pasar terekam di jendela ini tidak cukup untuk memeriksa rentetan pembelian lima sesi terbaru.',
+        '本窗口内已采集的市场时段不足，无法检查最近五个时段的买入连续记录。',
       ),
     ],
   },

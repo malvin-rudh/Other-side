@@ -4,8 +4,8 @@
 //
 // Three data modes are kept explicit and never blended:
 //   verified  reviewed historical broker rows under public/data/<ticker>
-//   sample    fictional fixture, labelled everywhere; SMPA and SMPB ship their
-//             own synthetic datasets, SMPC has none, and none of them is a
+//   sample    fictional fixture, labelled everywhere; SMPA to SMPE each ship
+//             a generated broker dataset and prices, and none of them is a
 //             listed company or a real capture
 //   provider  a live quote from the server adapter, shown with its own
 //             timestamp and never merged into the historical replay snapshot
@@ -65,9 +65,29 @@ export const INSTRUMENTS: readonly Instrument[] = [
     exchange: { en: 'Not listed (sample fixture)', id: 'Tidak tercatat (data sampel)', zh: '未上市（示例数据）' },
     currency: 'IDR',
     dataMode: 'sample',
-    hasBrokerDataset: false,
+    hasBrokerDataset: true,
     providerSymbol: null,
-    verifiedThrough: null,
+    verifiedThrough: '2026-09-23',
+  },
+  {
+    ticker: 'SMPD',
+    name: { en: 'Sampel Dharma Konsumen (fictional)', id: 'Sampel Dharma Konsumen (fiktif)', zh: 'Sampel Dharma Konsumen（虚构）' },
+    exchange: { en: 'Not listed (sample fixture)', id: 'Tidak tercatat (data sampel)', zh: '未上市（示例数据）' },
+    currency: 'IDR',
+    dataMode: 'sample',
+    hasBrokerDataset: true,
+    providerSymbol: null,
+    verifiedThrough: '2026-09-23',
+  },
+  {
+    ticker: 'SMPE',
+    name: { en: 'Sampel Energi Nusantara (fictional)', id: 'Sampel Energi Nusantara (fiktif)', zh: 'Sampel Energi Nusantara（虚构）' },
+    exchange: { en: 'Not listed (sample fixture)', id: 'Tidak tercatat (data sampel)', zh: '未上市（示例数据）' },
+    currency: 'IDR',
+    dataMode: 'sample',
+    hasBrokerDataset: true,
+    providerSymbol: null,
+    verifiedThrough: '2026-09-23',
   },
 ];
 
@@ -89,28 +109,20 @@ export function instrumentExchange(instrument: Instrument, locale: Locale): stri
   return instrument.exchange[locale === 'zh-CN' ? 'zh' : locale];
 }
 
-// The sample portfolio is an explicit, labelled action. It always contains the
-// one verified case plus the fictional fixtures, so an evaluator can see all
-// three data modes side by side without any real holding being invented.
-export const SAMPLE_PORTFOLIO: readonly { ticker: string; list: 'owned' | 'watchlist' }[] = [
-  { ticker: 'SINI', list: 'owned' },
-  { ticker: 'SMPA', list: 'owned' },
-  { ticker: 'SMPB', list: 'watchlist' },
-  { ticker: 'SMPC', list: 'watchlist' },
-];
-
-// The sample analytics preset is the offline analytics path: every owned
-// holding is a fictional fixture with a deterministic prices.json, so the
-// analytics card works without a provider. The verified SINI case stays on the
-// watchlist precisely because mixing a provider price with fixture prices is
-// refused by the analytics engine.
-export const SAMPLE_ANALYTICS_PORTFOLIO: readonly {
+// The sample portfolio, also what a fresh visit starts with: two fictional
+// holdings with deterministic prices.json fixtures, so the holdings and the
+// analytics card work offline, plus SINI and SMPC on the watchlist. The verified
+// SINI case stays on the watchlist because mixing a provider price with fixture
+// prices is refused by the analytics engine.
+export const SAMPLE_PORTFOLIO: readonly {
   ticker: string;
   list: 'owned' | 'watchlist';
   quantityShares: number | null;
+  averagePrice: number | null;
+  purchaseDate: string | null;
 }[] = [
-  { ticker: 'SMPA', list: 'owned', quantityShares: 1200 },
-  { ticker: 'SMPB', list: 'owned', quantityShares: 800 },
-  { ticker: 'SINI', list: 'watchlist', quantityShares: null },
-  { ticker: 'SMPC', list: 'watchlist', quantityShares: null },
+  { ticker: 'SMPA', list: 'owned', quantityShares: 1200, averagePrice: 5200, purchaseDate: '2026-08-14' },
+  { ticker: 'SMPB', list: 'owned', quantityShares: 800, averagePrice: 2000, purchaseDate: '2026-08-14' },
+  { ticker: 'SINI', list: 'watchlist', quantityShares: null, averagePrice: null, purchaseDate: null },
+  { ticker: 'SMPC', list: 'watchlist', quantityShares: null, averagePrice: null, purchaseDate: null },
 ];

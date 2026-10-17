@@ -125,7 +125,7 @@ describe('WhatIfPanel in Bahasa Indonesia', () => {
     const html = renderPanel();
 
     expect(html).toContain('Asumsi Anda: TP diperlakukan sebagai tidak terklasifikasi');
-    expect(html).toContain('Total grup, sebelum vs sesudah');
+    expect(html).toContain('Total kelompok, sebelum vs sesudah');
     expect(html).toContain('Sebelum');
     expect(html).toContain('Sesudah');
     expect(html).toContain('+181.305');

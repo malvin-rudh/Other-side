@@ -111,6 +111,15 @@ export function BrokerPickerDialog({
         </header>
 
         <div className="flex-1 overflow-y-auto px-4 pb-5 pt-3">
+          <p
+            role="status"
+            className="mb-3 rounded-lg border border-brand/35 bg-brand/10 px-3 py-2 text-xs font-medium text-brandDeep"
+          >
+            {t('card.brokerLimit', { count: String(maxLines) })}{' '}
+            <span className="tabular-nums">
+              {t('card.brokerSelected', { selected: String(selected.length), count: String(maxLines) })}
+            </span>
+          </p>
           <div className="flex items-center justify-between gap-3">
             <label className="sr-only" htmlFor="broker-picker-search">
               {t('card.brokerSearchLabel')}
@@ -160,7 +169,6 @@ export function BrokerPickerDialog({
             </ul>
           )}
 
-          <p className="note mt-3">{t('card.brokerLimit', { count: String(maxLines) })}</p>
         </div>
 
         <footer className="border-t border-line px-4 py-3">

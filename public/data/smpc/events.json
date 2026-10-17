@@ -1,0 +1,38 @@
+{
+  "ticker": "SMPC",
+  "version": "sample-fixture-smpc-events-v2",
+  "events": [
+    {
+      "id": "E-SMPC-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-09-02",
+      "publicationDate": "2026-09-02",
+      "availableAt": "2026-09-02T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/smpc/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer reported a mock nickel find at its exploration site.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif melaporkan temuan nikel pura-pura di lokasi eksplorasinya.",
+        "zh": "虚构样本事件：该虚构发行人报告其勘探区发现模拟镍矿。"
+      }
+    },
+    {
+      "id": "E-SMPC-FIXTURE-02",
+      "layer": "story",
+      "eventDate": "2026-09-14",
+      "publicationDate": "2026-09-14",
+      "availableAt": "2026-09-14T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/smpc/event-02"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional exchange flagged unusual price and volume moves in the stock.",
+        "id": "Peristiwa contoh fiksi: bursa fiktif menandai pergerakan harga dan volume yang tidak wajar pada saham ini.",
+        "zh": "虚构样本事件：虚构交易所提示该股价格和成交量出现异常波动。"
+      }
+    }
+  ]
+}

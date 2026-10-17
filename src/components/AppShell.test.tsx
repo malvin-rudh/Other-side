@@ -54,7 +54,7 @@ describe('AppShell header badge', () => {
   it('shows the full replay line with the selected session date at 480px and up', () => {
     setStore({ selectedSessionDate: '2026-08-24' });
     const html = renderShell();
-    expect(html).toContain('Historical replay');
+    expect(html).toContain('Historical Replay');
     expect(html).toContain('data through 24 Aug 2026');
   });
 

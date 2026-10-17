@@ -6,7 +6,7 @@ import {
   type Locale,
 } from '../engine/context';
 import type { Manifest } from '../engine/manifest';
-import { findInstrument, SAMPLE_PORTFOLIO, SAMPLE_ANALYTICS_PORTFOLIO } from '../data/instruments';
+import { findInstrument, SAMPLE_PORTFOLIO } from '../data/instruments';
 
 export interface ViewSnapshot {
   route: string;
@@ -31,6 +31,14 @@ export interface PortfolioEntry {
   // zero, and no value is inferred from them anywhere in the analysis.
   quantityShares: number | null;
   averagePrice: number | null;
+  // The day the holding was bought, as YYYY-MM-DD. Shown with the holding only.
+  purchaseDate: string | null;
+}
+
+export interface HoldingPurchase {
+  quantityShares: number;
+  averagePrice: number;
+  purchaseDate: string;
 }
 
 // A symbol the evaluator tracked from the provider search. It has no broker
@@ -48,14 +56,14 @@ const PROVIDER_INSTRUMENTS_STORAGE_KEY = 'other-side.provider-instruments.v1';
 const LOCALE_STORAGE_KEY = 'other-side.locale.v1';
 const LOCALES: readonly Locale[] = ['en', 'id', 'zh-CN'];
 
-// A fresh visit opens in Simplified Chinese; an explicit earlier choice wins.
+// A fresh visit opens in English; an explicit earlier choice wins.
 function readStoredLocale(): Locale {
-  if (typeof localStorage === 'undefined') return 'zh-CN';
+  if (typeof localStorage === 'undefined') return 'en';
   try {
     const raw = localStorage.getItem(LOCALE_STORAGE_KEY);
-    return LOCALES.includes(raw as Locale) ? (raw as Locale) : 'zh-CN';
+    return LOCALES.includes(raw as Locale) ? (raw as Locale) : 'en';
   } catch {
-    return 'zh-CN';
+    return 'en';
   }
 }
 
@@ -68,11 +76,10 @@ function writeStoredLocale(locale: Locale): void {
   }
 }
 
-// A fresh visit tracks the one verified case and owns nothing, so the Your
-// portfolio empty state is real while the Brief still has something to explain.
-const DEFAULT_PORTFOLIO: readonly PortfolioEntry[] = [
-  { ticker: 'SINI', list: 'watchlist', quantityShares: null, averagePrice: null },
-];
+// A fresh visit starts on the labelled sample portfolio.
+function samplePortfolio(): PortfolioEntry[] {
+  return SAMPLE_PORTFOLIO.map((entry) => ({ ...entry }));
+}
 
 function isPortfolioList(value: unknown): value is PortfolioList {
   return value === 'owned' || value === 'watchlist';
@@ -93,6 +100,11 @@ function optionalShareQuantity(value: unknown): number | null {
   return value;
 }
 
+function optionalDate(value: unknown): string | null {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  return Number.isNaN(Date.parse(`${value}T00:00:00Z`)) ? null : value;
+}
+
 // Persisted input crosses a trust boundary, so every stored entry is validated
 // against the registry or the persisted provider symbols and dropped when it
 // does not fit. Older storage that predates provider symbols keeps working:
@@ -111,6 +123,7 @@ function normalizePortfolio(value: unknown, knownTickers: ReadonlySet<string>): 
       list: isPortfolioList(candidate.list) ? candidate.list : 'watchlist',
       quantityShares: optionalShareQuantity(candidate.quantityShares),
       averagePrice: optionalAmount(candidate.averagePrice),
+      purchaseDate: optionalDate(candidate.purchaseDate),
     });
   }
   return entries;
@@ -161,13 +174,13 @@ function writeStoredProviderInstruments(instruments: readonly ProviderInstrument
 }
 
 function readStoredPortfolio(knownTickers: ReadonlySet<string>): PortfolioEntry[] {
-  if (typeof localStorage === 'undefined') return [...DEFAULT_PORTFOLIO];
+  if (typeof localStorage === 'undefined') return samplePortfolio();
   try {
     const raw = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-    if (raw === null) return [...DEFAULT_PORTFOLIO];
+    if (raw === null) return samplePortfolio();
     return normalizePortfolio(JSON.parse(raw) as unknown, knownTickers);
   } catch {
-    return [...DEFAULT_PORTFOLIO];
+    return samplePortfolio();
   }
 }
 
@@ -214,8 +227,8 @@ export interface ContextStore extends AnalyticalContext {
   setHoldingList: (ticker: string, list: PortfolioList) => void;
   setHoldingQuantity: (ticker: string, quantityShares: number | null) => void;
   setHoldingAveragePrice: (ticker: string, averagePrice: number | null) => void;
+  recordPurchase: (ticker: string, purchase: HoldingPurchase) => void;
   loadSamplePortfolio: () => void;
-  loadSampleAnalyticsPortfolio: () => void;
   clearPortfolio: () => void;
 }
 
@@ -311,7 +324,7 @@ export const useContextStore = create<ContextStore>()((set, get) => {
         if (!known) return {};
         const portfolio = state.portfolio.some((entry) => entry.ticker === normalized)
           ? state.portfolio.map((entry) => (entry.ticker === normalized ? { ...entry, list } : entry))
-          : [...state.portfolio, { ticker: normalized, list, quantityShares: null, averagePrice: null }];
+          : [...state.portfolio, { ticker: normalized, list, quantityShares: null, averagePrice: null, purchaseDate: null }];
         writeStoredPortfolio(portfolio);
         return { portfolio };
       });
@@ -333,7 +346,7 @@ export const useContextStore = create<ContextStore>()((set, get) => {
           : [...state.providerInstruments, { symbol, name: match.name, exchange: match.exchange }];
         const portfolio = state.portfolio.some((entry) => entry.ticker === symbol)
           ? state.portfolio.map((entry) => (entry.ticker === symbol ? { ...entry, list } : entry))
-          : [...state.portfolio, { ticker: symbol, list, quantityShares: null, averagePrice: null }];
+          : [...state.portfolio, { ticker: symbol, list, quantityShares: null, averagePrice: null, purchaseDate: null }];
         writeStoredProviderInstruments(instruments);
         writeStoredPortfolio(portfolio);
         return { providerInstruments: instruments, portfolio };
@@ -361,29 +374,28 @@ export const useContextStore = create<ContextStore>()((set, get) => {
             : entry,
         ),
       ),
+    // Records the buy from the Add to Portfolio dialog: the stock moves to the
+    // holdings with its quantity, average price and buy date.
+    recordPurchase: (ticker, purchase) => {
+      const normalized = ticker.trim().toUpperCase();
+      get().addHolding(normalized, 'owned');
+      patchPortfolio((entries) =>
+        entries.map((entry) =>
+          entry.ticker === normalized
+            ? {
+                ...entry,
+                list: 'owned',
+                quantityShares: optionalShareQuantity(purchase.quantityShares),
+                averagePrice: optionalAmount(purchase.averagePrice),
+                purchaseDate: optionalDate(purchase.purchaseDate),
+              }
+            : entry,
+        ),
+      );
+    },
     // Only ever reached from an explicitly labelled control that has already
     // asked for confirmation when the evaluator has entries of their own.
-    loadSamplePortfolio: () =>
-      patchPortfolio(() =>
-        SAMPLE_PORTFOLIO.map((entry) => ({
-          ticker: entry.ticker,
-          list: entry.list,
-          quantityShares: null,
-          averagePrice: null,
-        })),
-      ),
-    // The analytics preset carries the fictional quantities the fixtures were
-    // designed for, so the analytics card works offline. Same confirmation rule
-    // as the plain sample portfolio: the caller confirms before replacing.
-    loadSampleAnalyticsPortfolio: () =>
-      patchPortfolio(() =>
-        SAMPLE_ANALYTICS_PORTFOLIO.map((entry) => ({
-          ticker: entry.ticker,
-          list: entry.list,
-          quantityShares: entry.quantityShares,
-          averagePrice: null,
-        })),
-      ),
+    loadSamplePortfolio: () => patchPortfolio(() => samplePortfolio()),
     clearPortfolio: () => patchPortfolio(() => []),
   };
 });

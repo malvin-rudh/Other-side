@@ -211,7 +211,9 @@ export function InstrumentCard({
   );
 }
 
-function OverviewTab({
+// The session comparison chart with a switch to cumulative group flows. Used by
+// the Overview tab and by the stock analysis page.
+export function SessionFlowChart({
   view,
   locale,
   onOpenEvidence,
@@ -222,6 +224,75 @@ function OverviewTab({
 }) {
   const { t } = useTranslation();
   const [showCumulative, setShowCumulative] = useState(false);
+  const lens = view.lens;
+  const lensFactId = lens.available && lens.factId !== null ? lens.factId : null;
+  return (
+    <>
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+        <p className="eyebrow">{t('card.compareTitle')}</p>
+        <div
+          role="group"
+          aria-label={t('card.compareViewAria')}
+          className="flex shrink-0 overflow-hidden rounded-lg border border-line text-xs"
+        >
+          <button
+            type="button"
+            aria-pressed={!showCumulative}
+            onClick={() => setShowCumulative(false)}
+            className={`px-2.5 py-1 transition-colors ${
+              showCumulative ? 'text-muted hover:bg-canvas' : 'bg-brand/10 font-semibold text-ink'
+            }`}
+          >
+            {t('card.compareViewSession')}
+          </button>
+          <button
+            type="button"
+            aria-pressed={showCumulative}
+            onClick={() => setShowCumulative(true)}
+            className={`border-l border-line px-2.5 py-1 transition-colors ${
+              showCumulative ? 'bg-brand/10 font-semibold text-ink' : 'text-muted hover:bg-canvas'
+            }`}
+          >
+            {t('card.compareViewCumulative')}
+          </button>
+        </div>
+      </div>
+      {showCumulative ? (
+        view.cumulativePoints.length > 0 ? (
+          <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
+            <GroupNetChart points={view.cumulativePoints} locale={locale} />
+          </Suspense>
+        ) : (
+          <p className="py-6 text-center text-sm text-muted">{t('states.empty')}</p>
+        )
+      ) : lens.available && lens.fromDate !== null && lens.toDate !== null ? (
+        <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
+          <SessionComparisonChart
+            rows={lens.rows}
+            fromDate={lens.fromDate}
+            toDate={lens.toDate}
+            locale={locale}
+            factId={lensFactId}
+            onOpenEvidence={onOpenEvidence}
+          />
+        </Suspense>
+      ) : (
+        <p className="py-6 text-center text-sm text-muted">{t('changed.noPrevious')}</p>
+      )}
+    </>
+  );
+}
+
+function OverviewTab({
+  view,
+  locale,
+  onOpenEvidence,
+}: {
+  view: StockView;
+  locale: Locale;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
+}) {
+  const { t } = useTranslation();
   const lens = view.lens;
   // Narrowing on lens.factId does not survive into the rows .map callback, so
   // the non-null fact id is captured once here.
@@ -234,57 +305,7 @@ function OverviewTab({
   return (
     <div>
       <div className="card-inset p-3">
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
-          <p className="eyebrow">{t('card.compareTitle')}</p>
-          <div
-            role="group"
-            aria-label={t('card.compareViewAria')}
-            className="flex shrink-0 overflow-hidden rounded-lg border border-line text-xs"
-          >
-            <button
-              type="button"
-              aria-pressed={!showCumulative}
-              onClick={() => setShowCumulative(false)}
-              className={`px-2.5 py-1 transition-colors ${
-                showCumulative ? 'text-muted hover:bg-canvas' : 'bg-brand/10 font-semibold text-ink'
-              }`}
-            >
-              {t('card.compareViewSession')}
-            </button>
-            <button
-              type="button"
-              aria-pressed={showCumulative}
-              onClick={() => setShowCumulative(true)}
-              className={`border-l border-line px-2.5 py-1 transition-colors ${
-                showCumulative ? 'bg-brand/10 font-semibold text-ink' : 'text-muted hover:bg-canvas'
-              }`}
-            >
-              {t('card.compareViewCumulative')}
-            </button>
-          </div>
-        </div>
-        {showCumulative ? (
-          view.cumulativePoints.length > 0 ? (
-            <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
-              <GroupNetChart points={view.cumulativePoints} locale={locale} />
-            </Suspense>
-          ) : (
-            <p className="py-6 text-center text-sm text-muted">{t('states.empty')}</p>
-          )
-        ) : lens.available && lens.fromDate !== null && lens.toDate !== null ? (
-          <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
-            <SessionComparisonChart
-              rows={lens.rows}
-              fromDate={lens.fromDate}
-              toDate={lens.toDate}
-              locale={locale}
-              factId={lensFactId}
-              onOpenEvidence={onOpenEvidence}
-            />
-          </Suspense>
-        ) : (
-          <p className="py-6 text-center text-sm text-muted">{t('changed.noPrevious')}</p>
-        )}
+        <SessionFlowChart view={view} locale={locale} onOpenEvidence={onOpenEvidence} />
       </div>
 
       {lensFactId !== null ? (
@@ -367,6 +388,61 @@ function BrokerFlowTab({
 }) {
   const { t } = useTranslation();
   const [section, setSection] = useState<BrokerSection>('trends');
+
+  return (
+    <div>
+      <div
+        role="group"
+        aria-label={t('card.flowViewAria')}
+        className="mb-3 flex w-fit overflow-hidden rounded-lg border border-line text-xs"
+      >
+        <button
+          type="button"
+          aria-pressed={section === 'trends'}
+          onClick={() => setSection('trends')}
+          className={`px-3 py-1.5 transition-colors ${
+            section === 'trends' ? 'bg-brand/10 font-semibold text-ink' : 'text-muted hover:bg-canvas'
+          }`}
+        >
+          {t('card.flowViewTrends')}
+        </button>
+        <button
+          type="button"
+          aria-pressed={section === 'checks'}
+          onClick={() => setSection('checks')}
+          className={`border-l border-line px-3 py-1.5 transition-colors ${
+            section === 'checks' ? 'bg-brand/10 font-semibold text-ink' : 'text-muted hover:bg-canvas'
+          }`}
+        >
+          {t('card.flowViewChecks')}
+        </button>
+      </div>
+      {section === 'trends' ? (
+        <div className="card-inset p-3">
+          <p className="eyebrow">{t('stock.brokerFlowTitle')}</p>
+          <BrokerTrends context={context} data={data} locale={locale} onOpenEvidence={onOpenEvidence} />
+        </div>
+      ) : (
+        <ChecksPanel checks={checks} onOpenEvidence={onOpenEvidence} />
+      )}
+    </div>
+  );
+}
+
+// Daily net flow for up to three chosen brokers, with the picker that chooses
+// them. Used by the Broker flow tab and by the stock analysis page.
+export function BrokerTrends({
+  context,
+  data,
+  locale,
+  onOpenEvidence,
+}: {
+  context: FactsContext;
+  data: FactsData;
+  locale: Locale;
+  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
+}) {
+  const { t } = useTranslation();
   const [pickerOpen, setPickerOpen] = useState(false);
   const pickerTriggerRef = useRef<HTMLButtonElement>(null);
   // Built once per context to read the default selection, then rebuilt only when
@@ -378,55 +454,14 @@ function BrokerFlowTab({
     () => (codes.length === 0 ? probe : buildBrokerSeries(context, data, codes)),
     [codes, probe, context, data],
   );
-  const trendsAvailable = probe !== null && series !== null && probe.summaries.length > 0;
 
-  const sectionSwitch = (
-    <div
-      role="group"
-      aria-label={t('card.flowViewAria')}
-      className="mb-3 flex w-fit overflow-hidden rounded-lg border border-line text-xs"
-    >
-      <button
-        type="button"
-        aria-pressed={section === 'trends'}
-        onClick={() => setSection('trends')}
-        className={`px-3 py-1.5 transition-colors ${
-          section === 'trends' ? 'bg-brand/10 font-semibold text-ink' : 'text-muted hover:bg-canvas'
-        }`}
-      >
-        {t('card.flowViewTrends')}
-      </button>
-      <button
-        type="button"
-        aria-pressed={section === 'checks'}
-        onClick={() => setSection('checks')}
-        className={`border-l border-line px-3 py-1.5 transition-colors ${
-          section === 'checks' ? 'bg-brand/10 font-semibold text-ink' : 'text-muted hover:bg-canvas'
-        }`}
-      >
-        {t('card.flowViewChecks')}
-      </button>
-    </div>
-  );
-
-  if (!trendsAvailable) {
-    return (
-      <div>
-        {sectionSwitch}
-        {section === 'trends' ? (
-          <p className="rounded-lg border border-dashed border-unknown/50 px-3 py-3 text-sm leading-relaxed text-muted">
-            {t('card.brokerNone')}
-          </p>
-        ) : (
-          <ChecksPanel checks={checks} onOpenEvidence={onOpenEvidence} />
-        )}
-      </div>
-    );
+  if (probe === null || series === null || probe.summaries.length === 0) {
+    return <p className="mt-2 py-6 text-center text-sm text-muted">{t('card.brokerNone')}</p>;
   }
 
   const toggle = (code: string) =>
     setSelected((current) => {
-      const active = current ?? probe?.defaultCodes ?? [];
+      const active = current ?? probe.defaultCodes;
       return active.includes(code)
         ? active.filter((entry) => entry !== code)
         : active.length >= MAX_VISIBLE_BROKER_LINES
@@ -435,55 +470,42 @@ function BrokerFlowTab({
     });
 
   return (
-    <div>
-      {sectionSwitch}
-      {section === 'trends' ? (
-        <div>
-          <div className="card-inset p-3">
-            <p className="eyebrow">{t('stock.brokerFlowTitle')}</p>
-            <div className="mt-2 flex flex-wrap items-center gap-1.5">
-              {codes.map((code) => {
-                const summary = series.summaries.find((entry) => entry.brokerCode === code);
-                if (!summary) return null;
-                return (
-                  <EvidenceButton
-                    key={code}
-                    quiet
-                    factId={summary.factId}
-                    className="chip chip-line gap-1.5"
-                    onActivate={onOpenEvidence}
-                  >
-                    <span className="font-semibold tabular-nums text-ink">{summary.brokerCode}</span>
-                    <span className={`tabular-nums ${signedClass(summary.netLots)}`}>
-                      {formatSigned(summary.netLots, locale)}
-                    </span>
-                  </EvidenceButton>
-                );
-              })}
-              <button
-                ref={pickerTriggerRef}
-                type="button"
-                onClick={() => setPickerOpen(true)}
-                aria-haspopup="dialog"
-                className="btn btn-quiet gap-1.5 px-2.5 py-1 text-xs"
-              >
-                <Icon name="expand" className="h-3.5 w-3.5" />
-                {t('card.brokerChoose')}
-              </button>
-            </div>
-            {codes.length === 0 ? (
-              <p className="py-6 text-center text-sm text-muted">{t('card.brokerNone')}</p>
-            ) : (
-              <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
-                <BrokerFlowChart points={series.points} codes={codes} locale={locale} />
-              </Suspense>
-            )}
-          </div>
-        </div>
+    <>
+      <div className="mt-2 flex flex-wrap items-center gap-1.5">
+        {codes.map((code) => {
+          const summary = series.summaries.find((entry) => entry.brokerCode === code);
+          if (!summary) return null;
+          return (
+            <EvidenceButton
+              key={code}
+              quiet
+              factId={summary.factId}
+              className="chip chip-line gap-1.5"
+              onActivate={onOpenEvidence}
+            >
+              <span className="font-semibold tabular-nums text-ink">{summary.brokerCode}</span>
+              <span className={`tabular-nums ${signedClass(summary.netLots)}`}>{formatSigned(summary.netLots, locale)}</span>
+            </EvidenceButton>
+          );
+        })}
+        <button
+          ref={pickerTriggerRef}
+          type="button"
+          onClick={() => setPickerOpen(true)}
+          aria-haspopup="dialog"
+          className="btn btn-quiet gap-1.5 px-2.5 py-1 text-xs"
+        >
+          <Icon name="expand" className="h-3.5 w-3.5" />
+          {t('card.brokerChoose')}
+        </button>
+      </div>
+      {codes.length === 0 ? (
+        <p className="py-6 text-center text-sm text-muted">{t('card.brokerNone')}</p>
       ) : (
-        <ChecksPanel checks={checks} onOpenEvidence={onOpenEvidence} />
+        <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
+          <BrokerFlowChart points={series.points} codes={codes} locale={locale} />
+        </Suspense>
       )}
-
       {pickerOpen ? (
         <BrokerPickerDialog
           summaries={probe.summaries}
@@ -495,7 +517,7 @@ function BrokerFlowTab({
           trigger={pickerTriggerRef.current}
         />
       ) : null}
-    </div>
+    </>
   );
 }
 

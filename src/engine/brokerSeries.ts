@@ -161,7 +161,7 @@ export function buildBrokerSeries(
       ),
       coverage_note: {
         en: `${code} observed net lots per captured session inside the window. Missing and excluded market sessions inside the window stay on the axis as unknown dates. A session where ${code} is not in the visible top-nine-per-side sample is unknown, not zero, and the line breaks there. Group labels follow the active classification and do not change this broker's own rows.`,
-        id: `Lot bersih terobservasi ${code} per sesi tertangkap di dalam jendela. Sesi pasar yang hilang atau dikecualikan di dalam jendela tetap berada di sumbu sebagai tanggal tidak diketahui. Sesi ketika ${code} tidak ada dalam sampel sembilan teratas per sisi yang terlihat tidak diketahui, bukan nol, dan garisnya terputus di sana. Label grup mengikuti klasifikasi aktif dan tidak mengubah baris broker ini sendiri.`,
+        id: `Lot bersih teramati ${code} per sesi terekam di dalam jendela. Sesi pasar yang hilang atau dikeluarkan di dalam jendela tetap berada di sumbu sebagai tanggal tidak diketahui. Sesi ketika ${code} tidak ada dalam sampel sembilan teratas per sisi yang terlihat tidak diketahui, bukan nol, dan garisnya terputus di sana. Label grup mengikuti klasifikasi aktif dan tidak mengubah baris broker ini sendiri.`,
         zh: `${code} 在窗口内每个已采集时段的净手数。窗口内的缺失或已剔除市场时段在坐标轴上保留为未知日期。${code} 不在前九大每边可见样本中的时段为未知，而非零，且线条在该处断开。分组标签遵循当前分类，不改变该券商自身的行。`,
       },
       available_at: sessionAvailableAt(window.end),

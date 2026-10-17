@@ -1,6 +1,6 @@
 {
   "ticker": "SMPB",
-  "dataVersion": "sample-fixture-smpb-2026-08-14_2026-09-23-v1",
+  "dataVersion": "sample-fixture-smpb-2026-08-14_2026-09-23-v2",
   "defaultWindow": {
     "start": "2026-08-14",
     "end": "2026-09-23"
@@ -12,8 +12,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -52,8 +52,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -62,8 +62,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -72,8 +72,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -82,8 +82,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -112,8 +112,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -132,8 +132,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -142,8 +142,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -152,8 +152,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -182,8 +182,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -192,8 +192,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -202,8 +202,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -212,8 +212,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -222,8 +222,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -252,8 +252,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -272,8 +272,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -282,8 +282,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -292,8 +292,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -322,8 +322,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -332,8 +332,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -342,8 +342,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -352,8 +352,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -362,8 +362,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -392,8 +392,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -402,8 +402,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     },
     {
@@ -412,8 +412,8 @@
       "status": "captured",
       "reason": "captured sample rows (fictional fixture)",
       "rowCounts": {
-        "buy": 5,
-        "sell": 5
+        "buy": 9,
+        "sell": 9
       }
     }
   ]

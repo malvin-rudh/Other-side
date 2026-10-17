@@ -1,11 +1,11 @@
 {
   "ticker": "SMPA",
-  "version": "sample-fixture-smpa-events-v1",
+  "version": "sample-fixture-smpa-events-v2",
   "events": [
     {
       "id": "E-SMPA-FIXTURE-01",
       "layer": "story",
-      "eventDate": "2026-08-20",
+      "eventDate": "2026-08-21",
       "publicationDate": "2026-08-21",
       "availableAt": "2026-08-21T00:00:00+07:00",
       "source": {
@@ -13,15 +13,15 @@
         "url": "sample://fixture/smpa/event-01"
       },
       "text": {
-        "en": "Fictional sample event: the fictional issuer announced a mock expansion plan. This text exists only inside the sample fixture.",
-        "id": "Peristiwa contoh fiksi: penerbit fiktif mengumumkan rencana ekspansi pura-pura. Teks ini hanya ada di dalam fixture contoh.",
-        "zh": "虚构样本事件：该虚构发行人宣布了一项模拟扩张计划。此文本仅存在于样本数据集中。"
+        "en": "Fictional sample event: the fictional issuer announced a mock long-term supply contract with a state utility.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif mengumumkan kontrak pasokan jangka panjang pura-pura dengan BUMN utilitas.",
+        "zh": "虚构样本事件：该虚构发行人宣布与一家国有公用事业公司签订模拟长期供货合同。"
       }
     },
     {
       "id": "E-SMPA-FIXTURE-02",
       "layer": "health",
-      "reportingDate": "2026-09-10",
+      "reportingDate": "2026-09-11",
       "publicationDate": "2026-09-11",
       "availableAt": "2026-09-11T00:00:00+07:00",
       "source": {
@@ -29,9 +29,9 @@
         "url": "sample://fixture/smpa/event-02"
       },
       "text": {
-        "en": "Fictional sample report: the fictional issuer filed a mock quarterly result. This text exists only inside the sample fixture.",
-        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil kuartal pura-pura. Teks ini hanya ada di dalam fixture contoh.",
-        "zh": "虚构样本报告：该虚构发行人提交了模拟的季度业绩。此文本仅存在于样本数据集中。"
+        "en": "Fictional sample report: the fictional issuer filed a mock half-year result with revenue up and net debt down.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura dengan pendapatan naik dan utang bersih turun.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟半年业绩，收入上升、净负债下降。"
       }
     }
   ]

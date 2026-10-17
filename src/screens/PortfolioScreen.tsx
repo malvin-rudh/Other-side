@@ -1,50 +1,36 @@
-import { useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DataModeChip } from '../components/DataModeChip';
 import { Icon } from '../components/Icon';
 import { PortfolioAnalyticsCard } from '../components/PortfolioAnalyticsCard';
-import { ProviderEntryCard } from '../components/ProviderEntryCard';
 import { useDialogTrap } from '../components/useDialogTrap';
-import { INSTRUMENTS, instrumentExchange, instrumentNameText, type Instrument } from '../data/instruments';
-import { formatSessionDate, useTranslation } from '../i18n';
-import { useContextStore, type PortfolioEntry, type PortfolioList } from '../store/contextStore';
+import { findInstrument, INSTRUMENTS, instrumentExchange, instrumentNameText } from '../data/instruments';
+import type { Locale } from '../engine/context';
+import { formatSessionDate, intlLocale, stockCountLabel, useTranslation } from '../i18n';
+import { useContextStore, type PortfolioEntry } from '../store/contextStore';
 import '../layout.css';
 
-function parseAmount(raw: string): number | null {
-  const trimmed = raw.trim();
-  if (trimmed === '') return null;
-  const value = Number(trimmed);
-  if (!Number.isFinite(value) || value < 0) return null;
-  return value;
-}
+// Indonesian shares trade in lots of 100.
+const LOT_SIZE = 100;
 
-// Shares are whole shares, so the field rejects zero and fractional input rather
-// than passing a value the analytics engine would have to refuse.
-function parseShareQuantity(raw: string): number | null {
-  const trimmed = raw.trim();
-  if (trimmed === '') return null;
-  const value = Number(trimmed);
-  if (!Number.isSafeInteger(value) || value <= 0) return null;
-  return value;
-}
+type DialogState =
+  | { kind: 'buy'; ticker: string; trigger: HTMLElement | null }
+  | { kind: 'remove'; ticker: string; list: PortfolioEntry['list']; trigger: HTMLElement | null }
+  | { kind: 'sample'; trigger: HTMLElement | null };
 
 export function PortfolioScreen() {
   const { t, locale } = useTranslation();
+  const navigate = useNavigate();
   const portfolio = useContextStore((state) => state.portfolio);
   const addHolding = useContextStore((state) => state.addHolding);
   const removeHolding = useContextStore((state) => state.removeHolding);
-  const setHoldingList = useContextStore((state) => state.setHoldingList);
-  const setHoldingQuantity = useContextStore((state) => state.setHoldingQuantity);
-  const setHoldingAveragePrice = useContextStore((state) => state.setHoldingAveragePrice);
+  const recordPurchase = useContextStore((state) => state.recordPurchase);
   const loadSamplePortfolio = useContextStore((state) => state.loadSamplePortfolio);
-  const loadSampleAnalyticsPortfolio = useContextStore((state) => state.loadSampleAnalyticsPortfolio);
-  const clearPortfolio = useContextStore((state) => state.clearPortfolio);
 
   const [query, setQuery] = useState('');
-  const [confirmTrigger, setConfirmTrigger] = useState<HTMLButtonElement | null>(null);
-  const [analyticsConfirmTrigger, setAnalyticsConfirmTrigger] = useState<HTMLButtonElement | null>(null);
+  const [dialog, setDialog] = useState<DialogState | null>(null);
 
-  const tracked = new Set(portfolio.map((entry) => entry.ticker));
+  const listOf = new Map(portfolio.map((entry) => [entry.ticker, entry.list]));
   const normalizedQuery = query.trim().toLowerCase();
   const matches = useMemo(() => {
     if (normalizedQuery === '') return INSTRUMENTS;
@@ -57,6 +43,20 @@ export function PortfolioScreen() {
 
   const owned = portfolio.filter((entry) => entry.list === 'owned');
   const watchlist = portfolio.filter((entry) => entry.list === 'watchlist');
+
+  const openBuy = (ticker: string, trigger: HTMLElement) => setDialog({ kind: 'buy', ticker, trigger });
+  const openRemove = (entry: PortfolioEntry, trigger: HTMLElement) =>
+    setDialog({ kind: 'remove', ticker: entry.ticker, list: entry.list, trigger });
+  const openAnalysis = (ticker: string) => navigate(`/stock/${ticker}`);
+  const loadSample = (trigger: HTMLElement) => {
+    if (portfolio.length === 0) {
+      loadSamplePortfolio();
+      return;
+    }
+    setDialog({ kind: 'sample', trigger });
+  };
+
+  const buyEntry = dialog?.kind === 'buy' ? (portfolio.find((entry) => entry.ticker === dialog.ticker) ?? null) : null;
 
   return (
     <section aria-labelledby="portfolio-title" className="page-stack">
@@ -71,128 +71,171 @@ export function PortfolioScreen() {
       </header>
 
       <div className="card card-pad">
-        <div>
-          <label htmlFor="portfolio-search" className="eyebrow">
-            {t('portfolio.search')}
-          </label>
-          <div className="mt-1.5 flex items-center gap-2">
-            <span className="text-mutedSoft">
-              <Icon name="search" />
-            </span>
-            <input
-              id="portfolio-search"
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              className="field min-w-0 flex-1"
-              autoComplete="off"
-            />
-          </div>
-
-          {matches.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">{t('portfolio.noMatch')}</p>
-          ) : (
-            <ul className="mt-3 divide-y divide-line">
-              {matches.map((instrument) => (
-                <RegistryRow
-                  key={instrument.ticker}
-                  instrument={instrument}
-                  tracked={tracked.has(instrument.ticker)}
-                  onAdd={(list) => addHolding(instrument.ticker, list)}
-                />
-              ))}
-            </ul>
-          )}
-          <p className="note mt-3">{t('portfolio.registryNote')}</p>
+        <label htmlFor="portfolio-search" className="eyebrow">
+          {t('portfolio.search')}
+        </label>
+        <div className="mt-1.5 flex items-center gap-2">
+          <span className="text-mutedSoft">
+            <Icon name="search" />
+          </span>
+          <input
+            id="portfolio-search"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={t('stocks.searchPlaceholder')}
+            className="field min-w-0 flex-1"
+            autoComplete="off"
+          />
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-line pt-4">
-          <button
-            type="button"
-            className="btn btn-quiet"
-            onClick={(event) => {
-              if (portfolio.length === 0) {
-                loadSamplePortfolio();
-                return;
-              }
-              setConfirmTrigger(event.currentTarget);
-            }}
-          >
+        {matches.length === 0 ? (
+          <p className="mt-3 text-sm text-muted">{t('portfolio.noMatch')}</p>
+        ) : (
+          <ul className="mt-3 divide-y divide-line">
+            {matches.map((instrument) => {
+              const list = listOf.get(instrument.ticker) ?? null;
+              return (
+                <li key={instrument.ticker} className="portfolio-row">
+                  <StockIdentity ticker={instrument.ticker} />
+                  <div className="flex flex-wrap items-center justify-end gap-1.5">
+                    {list === 'owned' ? (
+                      <AddedChip label={t('portfolio.addedPortfolio')} />
+                    ) : (
+                      <>
+                        {list === 'watchlist' ? <AddedChip label={t('portfolio.addedWatchlist')} /> : null}
+                        <button
+                          type="button"
+                          className="btn btn-primary px-3 py-1.5 text-xs"
+                          onClick={(event) => openBuy(instrument.ticker, event.currentTarget)}
+                        >
+                          <Icon name="plus" className="h-3.5 w-3.5" />
+                          {t('portfolio.addToPortfolio')}
+                        </button>
+                        {list === null ? (
+                          <button
+                            type="button"
+                            className="btn btn-quiet px-3 py-1.5 text-xs"
+                            onClick={() => addHolding(instrument.ticker, 'watchlist')}
+                          >
+                            {t('portfolio.addToWatchlist')}
+                          </button>
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <div className="mt-5 border-t border-line pt-4">
+          <button type="button" className="btn btn-quiet" onClick={(event) => loadSample(event.currentTarget)}>
             <Icon name="plus" className="h-3.5 w-3.5" />
             {t('portfolio.sample')}
           </button>
-          <button
-            type="button"
-            className="btn btn-quiet"
-            onClick={(event) => {
-              if (portfolio.length === 0) {
-                loadSampleAnalyticsPortfolio();
-                return;
-              }
-              setAnalyticsConfirmTrigger(event.currentTarget);
-            }}
-          >
-            <Icon name="stock" className="h-3.5 w-3.5" />
-            {t('portfolio.analyticsPreset')}
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={clearPortfolio} disabled={portfolio.length === 0}>
-            <Icon name="trash" className="h-3.5 w-3.5" />
-            {t('portfolio.clear')}
-          </button>
-          <span className="chip chip-line tabular-nums">{t('portfolio.entriesCount', { count: String(portfolio.length) })}</span>
         </div>
-        <p className="note mt-3">{t('portfolio.sampleHint')}</p>
-        <p className="note mt-1.5">{t('portfolio.storageNote')}</p>
       </div>
 
-      <HoldingSection
-        id="portfolio-owned"
-        heading={t('portfolio.yourHoldings')}
-        entries={owned}
-        emptyText={t('portfolio.empty')}
-        onRemove={removeHolding}
-        onList={setHoldingList}
-        onQuantity={setHoldingQuantity}
-        onAveragePrice={setHoldingAveragePrice}
-      />
+      <ListCard id="portfolio-owned" heading={t('portfolio.myHoldings')} count={owned.length}>
+        {owned.length === 0 ? (
+          <EmptyNote text={t('portfolio.emptyHoldings')} />
+        ) : (
+          <ul className="divide-y divide-line">
+            {owned.map((entry) => (
+              <li key={entry.ticker} className="py-4 first:pt-1 last:pb-1">
+                <div className="portfolio-row !p-0">
+                  <StockIdentity ticker={entry.ticker} />
+                  <RowActions
+                    ticker={entry.ticker}
+                    onAnalysis={() => openAnalysis(entry.ticker)}
+                    onEdit={(trigger) => openBuy(entry.ticker, trigger)}
+                    onRemove={(trigger) => openRemove(entry, trigger)}
+                  />
+                </div>
+                <PurchaseDetails entry={entry} locale={locale} onAdd={(trigger) => openBuy(entry.ticker, trigger)} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </ListCard>
 
       <PortfolioAnalyticsCard />
 
-      <HoldingSection
-        id="portfolio-watchlist"
-        heading={t('portfolio.watchlist')}
-        entries={watchlist}
-        emptyText={t('portfolio.empty')}
-        onRemove={removeHolding}
-        onList={setHoldingList}
-        onQuantity={setHoldingQuantity}
-        onAveragePrice={setHoldingAveragePrice}
-      />
+      <ListCard id="portfolio-watchlist" heading={t('portfolio.watchlist')} count={watchlist.length}>
+        {watchlist.length === 0 ? (
+          <EmptyNote text={t('portfolio.emptyWatchlist')} />
+        ) : (
+          <ul className="divide-y divide-line">
+            {watchlist.map((entry) => (
+              <li key={entry.ticker} className="portfolio-row">
+                <StockIdentity ticker={entry.ticker} />
+                <div className="flex flex-wrap items-center justify-end gap-1.5">
+                  <button
+                    type="button"
+                    className="btn btn-quiet px-3 py-1.5 text-xs"
+                    onClick={(event) => openBuy(entry.ticker, event.currentTarget)}
+                  >
+                    <Icon name="plus" className="h-3.5 w-3.5" />
+                    {t('portfolio.addToPortfolio')}
+                  </button>
+                  <RowActions
+                    ticker={entry.ticker}
+                    onAnalysis={() => openAnalysis(entry.ticker)}
+                    onRemove={(trigger) => openRemove(entry, trigger)}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </ListCard>
 
-      {confirmTrigger ? (
-        <SampleConfirmDialog
-          count={portfolio.length}
-          trigger={confirmTrigger}
-          onCancel={() => setConfirmTrigger(null)}
-          onConfirm={() => {
-            loadSamplePortfolio();
-            setConfirmTrigger(null);
+      {dialog?.kind === 'buy' ? (
+        <PurchaseDialog
+          ticker={dialog.ticker}
+          entry={buyEntry}
+          trigger={dialog.trigger}
+          onCancel={() => setDialog(null)}
+          onSave={(purchase) => {
+            recordPurchase(dialog.ticker, purchase);
+            setDialog(null);
           }}
         />
       ) : null}
 
-      {analyticsConfirmTrigger ? (
-        <SampleConfirmDialog
-          count={portfolio.length}
-          trigger={analyticsConfirmTrigger}
-          title={t('portfolio.analyticsConfirmTitle')}
-          body={t('portfolio.analyticsConfirmBody')}
-          confirmLabel={t('portfolio.analyticsConfirm')}
-          cancelLabel={t('portfolio.analyticsCancel')}
-          onCancel={() => setAnalyticsConfirmTrigger(null)}
+      {dialog?.kind === 'remove' ? (
+        <ConfirmDialog
+          trigger={dialog.trigger}
+          title={t(dialog.list === 'owned' ? 'portfolio.removeHoldingTitle' : 'portfolio.removeWatchTitle', {
+            ticker: dialog.ticker,
+          })}
+          body={t(dialog.list === 'owned' ? 'portfolio.removeHoldingBody' : 'portfolio.removeWatchBody', {
+            ticker: dialog.ticker,
+          })}
+          confirmLabel={t('portfolio.remove')}
+          cancelLabel={t('portfolio.keep')}
+          danger
+          onCancel={() => setDialog(null)}
           onConfirm={() => {
-            loadSampleAnalyticsPortfolio();
-            setAnalyticsConfirmTrigger(null);
+            removeHolding(dialog.ticker);
+            setDialog(null);
+          }}
+        />
+      ) : null}
+
+      {dialog?.kind === 'sample' ? (
+        <ConfirmDialog
+          trigger={dialog.trigger}
+          title={t('portfolio.sampleConfirmTitle')}
+          body={t('portfolio.sampleConfirmBody', { count: String(portfolio.length) })}
+          confirmLabel={t('portfolio.sampleConfirm')}
+          cancelLabel={t('portfolio.sampleCancel')}
+          onCancel={() => setDialog(null)}
+          onConfirm={() => {
+            loadSamplePortfolio();
+            setDialog(null);
           }}
         />
       ) : null}
@@ -200,220 +243,342 @@ export function PortfolioScreen() {
   );
 }
 
-function RegistryRow({
-  instrument,
-  tracked,
-  onAdd,
-}: {
-  instrument: Instrument;
-  tracked: boolean;
-  onAdd: (list: PortfolioList) => void;
-}) {
-  const { t, locale } = useTranslation();
+// Ticker, company name and exchange: how a stock reads in every Portfolio list.
+function StockIdentity({ ticker }: { ticker: string }) {
+  const { locale } = useTranslation();
+  const instrument = findInstrument(ticker);
+  const provider = useContextStore((state) => state.providerInstruments.find((entry) => entry.symbol === ticker));
+  const name = instrument !== null ? instrumentNameText(instrument.name, locale) : (provider?.name ?? null);
+  const exchange = instrument !== null ? instrumentExchange(instrument, locale) : (provider?.exchange ?? null);
   return (
-    <li className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2.5">
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-semibold tabular-nums text-ink">{instrument.ticker}</span>
-          <DataModeChip mode={instrument.dataMode} />
-        </div>
-        <p className="mt-0.5 truncate text-xs text-muted">{instrumentNameText(instrument.name, locale)}</p>
-        <p className="mt-0.5 text-[11px] text-mutedSoft">
-          {instrumentExchange(instrument, locale)}
-          {instrument.verifiedThrough !== null
-            ? ` · ${t('dataMode.verifiedNote', { date: formatSessionDate(instrument.verifiedThrough, locale) })}`
-            : ''}
-        </p>
+    <div className="min-w-0">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-[15px] font-semibold tracking-tight tabular-nums text-ink">{ticker}</span>
+        <DataModeChip mode={instrument?.dataMode ?? 'provider'} />
       </div>
-      {tracked ? (
-        <span className="chip chip-line">
-          <Icon name="check" className="h-3.5 w-3.5" />
-          {t('portfolio.added')}
-        </span>
-      ) : (
-        <div className="flex items-center gap-1.5">
-          <button type="button" className="btn btn-primary px-3 py-1.5 text-xs" onClick={() => onAdd('owned')}>
-            <Icon name="plus" className="h-3.5 w-3.5" />
-            {t('portfolio.ownThis')}
-          </button>
-          <button type="button" className="btn btn-quiet px-3 py-1.5 text-xs" onClick={() => onAdd('watchlist')}>
-            {t('portfolio.followOnly')}
-          </button>
-        </div>
-      )}
-    </li>
+      {name !== null ? <p className="mt-0.5 truncate text-sm text-muted">{name}</p> : null}
+      {exchange !== null ? <p className="mt-0.5 text-xs text-mutedSoft">{exchange}</p> : null}
+    </div>
   );
 }
 
-function HoldingSection({
-  id,
-  heading,
-  entries,
-  emptyText,
+function AddedChip({ label }: { label: string }) {
+  return (
+    <span className="chip chip-line">
+      <Icon name="check" className="h-3.5 w-3.5" />
+      {label}
+    </span>
+  );
+}
+
+function RowActions({
+  ticker,
+  onAnalysis,
+  onEdit,
   onRemove,
-  onList,
-  onQuantity,
-  onAveragePrice,
 }: {
-  id: string;
-  heading: string;
-  entries: PortfolioEntry[];
-  emptyText: string;
-  onRemove: (ticker: string) => void;
-  onList: (ticker: string, list: PortfolioList) => void;
-  onQuantity: (ticker: string, quantityShares: number | null) => void;
-  onAveragePrice: (ticker: string, averagePrice: number | null) => void;
+  ticker: string;
+  onAnalysis: () => void;
+  onEdit?: (trigger: HTMLElement) => void;
+  onRemove: (trigger: HTMLElement) => void;
 }) {
-  const { t, locale } = useTranslation();
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center gap-1.5">
+      <button
+        type="button"
+        className="btn btn-quiet px-3 py-1.5 text-xs"
+        onClick={onAnalysis}
+        aria-label={`${t('card.openFull')}: ${ticker}`}
+      >
+        {t('card.openFull')}
+      </button>
+      {onEdit ? (
+        <button
+          type="button"
+          className="btn btn-quiet px-3 py-1.5 text-xs"
+          onClick={(event) => onEdit(event.currentTarget)}
+          aria-label={t('portfolio.editAria', { ticker })}
+        >
+          {t('portfolio.edit')}
+        </button>
+      ) : null}
+      <button
+        type="button"
+        className="btn btn-ghost px-2.5 py-1.5 text-xs"
+        onClick={(event) => onRemove(event.currentTarget)}
+        aria-label={t('portfolio.removeAria', { ticker })}
+        title={t('portfolio.remove')}
+      >
+        <Icon name="trash" className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+}
+
+// The holding's purchase: date, lots (and shares), average price and cost.
+function PurchaseDetails({
+  entry,
+  locale,
+  onAdd,
+}: {
+  entry: PortfolioEntry;
+  locale: Locale;
+  onAdd: (trigger: HTMLElement) => void;
+}) {
+  const { t } = useTranslation();
+  if (entry.quantityShares === null || entry.averagePrice === null) {
+    return (
+      <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-dashed border-line px-3 py-2">
+        <p className="text-xs text-muted">{t('portfolio.detailsMissing')}</p>
+        <button
+          type="button"
+          className="btn btn-quiet ml-auto px-2.5 py-1 text-xs"
+          onClick={(event) => onAdd(event.currentTarget)}
+        >
+          {t('portfolio.addDetails')}
+        </button>
+      </div>
+    );
+  }
+  const lots = entry.quantityShares / LOT_SIZE;
+  return (
+    <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 rounded-lg bg-surfaceAlt px-3 py-2.5 sm:grid-cols-4">
+      <Detail label={t('portfolio.boughtOn')}>
+        {entry.purchaseDate !== null ? formatSessionDate(entry.purchaseDate, locale) : '—'}
+      </Detail>
+      <Detail label={t('portfolio.lotsLabelShort')}>
+        {formatNumber(lots, locale)}
+        <span className="ml-1 text-xs font-normal text-mutedSoft">
+          {t('portfolio.sharesValue', { shares: formatNumber(entry.quantityShares, locale) })}
+        </span>
+      </Detail>
+      <Detail label={t('portfolio.avgPrice')}>Rp{formatNumber(entry.averagePrice, locale)}</Detail>
+      <Detail label={t('portfolio.costBasis')}>Rp{formatNumber(entry.averagePrice * entry.quantityShares, locale)}</Detail>
+    </dl>
+  );
+}
+
+function Detail({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <dt className="eyebrow">{label}</dt>
+      <dd className="mt-0.5 text-sm font-semibold tabular-nums text-ink">{children}</dd>
+    </div>
+  );
+}
+
+function ListCard({ id, heading, count, children }: { id: string; heading: string; count: number; children: ReactNode }) {
+  const { locale } = useTranslation();
   return (
     <section aria-labelledby={id} className="card card-pad">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
+      <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h2 id={id} className="text-xl font-semibold tracking-tight">
           {heading}
         </h2>
-        <span className="chip chip-line tabular-nums">{t('portfolio.entriesCount', { count: String(entries.length) })}</span>
+        <span className="chip chip-line tabular-nums">{stockCountLabel(count, locale)}</span>
       </div>
-
-      {entries.length === 0 ? (
-        <div className="mt-4 rounded-xl border border-dashed border-line bg-surfaceAlt p-4">
-          <p className="text-sm text-muted">{emptyText}</p>
-          <Link to="/stocks" className="btn btn-quiet mt-3">
-            <Icon name="stocks" className="h-3.5 w-3.5" />
-            {t('nav.stocks')}
-          </Link>
-        </div>
-      ) : (
-        <ul className="mt-4 space-y-3">
-          {entries.map((entry) => {
-            const instrument = INSTRUMENTS.find((candidate) => candidate.ticker === entry.ticker);
-            if (instrument === undefined) {
-              return (
-                <li key={entry.ticker}>
-                  <ProviderEntryCard
-                    entry={entry}
-                    inset
-                    onList={(list) => onList(entry.ticker, list)}
-                    onRemove={() => onRemove(entry.ticker)}
-                    onQuantity={(quantityShares) => onQuantity(entry.ticker, quantityShares)}
-                    onAveragePrice={(averagePrice) => onAveragePrice(entry.ticker, averagePrice)}
-                  />
-                </li>
-              );
-            }
-            return (
-              <li key={entry.ticker} className="card-inset p-3">
-                <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-semibold tabular-nums text-ink">{instrument.ticker}</span>
-                      <DataModeChip mode={instrument.dataMode} />
-                      <span className="chip chip-line">
-                        {entry.list === 'owned' ? t('portfolio.owned') : t('portfolio.watchlist')}
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-xs text-muted">{instrumentNameText(instrument.name, locale)}</p>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    {instrument.hasBrokerDataset ? (
-                      <Link
-                        to={`/stock/${instrument.ticker}`}
-                        className="btn btn-quiet px-3 py-1.5 text-xs"
-                        aria-label={t('portfolio.openAria', { ticker: instrument.ticker })}
-                      >
-                        {t('card.openFull')}
-                      </Link>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="btn btn-ghost px-2.5 py-1.5 text-xs"
-                      onClick={() => onRemove(entry.ticker)}
-                      aria-label={t('portfolio.removeAria', { ticker: instrument.ticker })}
-                      title={t('portfolio.remove')}
-                    >
-                      <Icon name="trash" className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                <details className="mt-2">
-                  <summary className="flex cursor-pointer items-center gap-1.5 text-xs font-semibold text-muted hover:text-ink">
-                    {t('portfolio.editDetails')}
-                    <Icon name="expand" className="h-3.5 w-3.5 text-mutedSoft" />
-                  </summary>
-                  <div className="mt-3 grid gap-2 border-t border-line pt-3 sm:grid-cols-[11rem_minmax(0,1fr)_minmax(0,1fr)]">
-                    <label className="block">
-                      <span className="eyebrow">{t('portfolio.listLabel')}</span>
-                      <select
-                        className="field mt-1"
-                        value={entry.list}
-                        onChange={(event) => onList(entry.ticker, event.target.value === 'owned' ? 'owned' : 'watchlist')}
-                      >
-                        <option value="owned">{t('portfolio.owned')}</option>
-                        <option value="watchlist">{t('portfolio.watchlist')}</option>
-                      </select>
-                    </label>
-                    <label className="block">
-                      <span className="eyebrow">{t('portfolio.quantityLabel')}</span>
-                      <input
-                        type="number"
-                        min={1}
-                        step={1}
-                        inputMode="numeric"
-                        className="field mt-1 tabular-nums"
-                        value={entry.quantityShares === null ? '' : String(entry.quantityShares)}
-                        placeholder={t('card.notProvided')}
-                        onChange={(event) => onQuantity(entry.ticker, parseShareQuantity(event.target.value))}
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="eyebrow">{t('portfolio.averagePriceLabel')}</span>
-                      <input
-                        type="number"
-                        min={0}
-                        step={5}
-                        inputMode="decimal"
-                        className="field mt-1 tabular-nums"
-                        value={entry.averagePrice === null ? '' : String(entry.averagePrice)}
-                        placeholder={t('card.notProvided')}
-                        onChange={(event) => onAveragePrice(entry.ticker, parseAmount(event.target.value))}
-                      />
-                    </label>
-                  </div>
-                  <p className="note mt-2">
-                    {entry.quantityShares === null ? t('portfolio.trackedOnly') : `${t('card.optional')} · ${instrument.currency}`}
-                  </p>
-                </details>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {children}
     </section>
   );
 }
 
-// Loading a sample portfolio or the sample analytics preset replaces the
-// evaluator's own entries, so both ask first instead of doing it silently.
-function SampleConfirmDialog({
-  count,
+function EmptyNote({ text }: { text: string }) {
+  return (
+    <div className="rounded-xl border border-dashed border-line bg-surfaceAlt p-4">
+      <p className="text-sm text-muted">{text}</p>
+    </div>
+  );
+}
+
+function todayIso(): string {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+// The buy overlay: lots, price per share and buy date. Opens empty for a new
+// holding and pre-filled when editing one.
+function PurchaseDialog({
+  ticker,
+  entry,
+  trigger,
+  onCancel,
+  onSave,
+}: {
+  ticker: string;
+  entry: PortfolioEntry | null;
+  trigger: HTMLElement | null;
+  onCancel: () => void;
+  onSave: (purchase: { quantityShares: number; averagePrice: number; purchaseDate: string }) => void;
+}) {
+  const { t, locale } = useTranslation();
+  const today = todayIso();
+  // A new buy, details for a holding added without them, or an edit.
+  const mode =
+    entry === null || entry.list !== 'owned' ? 'new' : entry.quantityShares === null ? 'details' : 'edit';
+  const [lots, setLots] = useState(
+    entry?.quantityShares != null ? String(entry.quantityShares / LOT_SIZE) : '',
+  );
+  const [price, setPrice] = useState(entry?.averagePrice != null ? String(entry.averagePrice) : '');
+  const [date, setDate] = useState(entry?.purchaseDate ?? today);
+  const [submitted, setSubmitted] = useState(false);
+  const lotsRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    lotsRef.current?.focus();
+  }, []);
+
+  const lotsValue = Number(lots);
+  const lotsOk = lots.trim() !== '' && Number.isSafeInteger(lotsValue) && lotsValue > 0;
+  const priceValue = Number(price);
+  const priceOk = price.trim() !== '' && Number.isFinite(priceValue) && priceValue > 0;
+  const dateOk = /^\d{4}-\d{2}-\d{2}$/.test(date) && date <= today;
+  const valid = lotsOk && priceOk && dateOk;
+
+  return (
+    <DialogShell trigger={trigger} titleId="purchase-title" onCancel={onCancel}>
+      {(closeRef) => (
+        <form
+          noValidate
+          onSubmit={(event) => {
+            event.preventDefault();
+            setSubmitted(true);
+            if (valid) onSave({ quantityShares: lotsValue * LOT_SIZE, averagePrice: priceValue, purchaseDate: date });
+          }}
+        >
+          <h2 id="purchase-title" className="text-base font-semibold tracking-tight">
+            {t(mode === 'edit' ? 'portfolio.editTitle' : mode === 'details' ? 'portfolio.detailsTitle' : 'portfolio.buyTitle', {
+              ticker,
+            })}
+          </h2>
+          <div className="mt-4 grid gap-3">
+            <label className="block">
+              <span className="eyebrow">{t('portfolio.lotsLabel')}</span>
+              <input
+                ref={lotsRef}
+                type="number"
+                min={1}
+                step={1}
+                inputMode="numeric"
+                className="field mt-1 tabular-nums"
+                value={lots}
+                onChange={(event) => setLots(event.target.value)}
+              />
+              <span className="mt-1 block text-xs text-mutedSoft">
+                {t('portfolio.lotsHint', {
+                  shares: lotsOk ? formatNumber(lotsValue * LOT_SIZE, locale) : '0',
+                })}
+              </span>
+              {submitted && !lotsOk ? <FieldError text={t('portfolio.lotsError')} /> : null}
+            </label>
+            <label className="block">
+              <span className="eyebrow">{t('portfolio.priceLabel')}</span>
+              <input
+                type="number"
+                min={0}
+                step="any"
+                inputMode="decimal"
+                className="field mt-1 tabular-nums"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
+              />
+              {submitted && !priceOk ? <FieldError text={t('portfolio.priceError')} /> : null}
+            </label>
+            <label className="block">
+              <span className="eyebrow">{t('portfolio.dateLabel')}</span>
+              <input
+                type="date"
+                max={today}
+                className="field mt-1 tabular-nums"
+                value={date}
+                onChange={(event) => setDate(event.target.value)}
+              />
+              {submitted && !dateOk ? <FieldError text={t('portfolio.dateError')} /> : null}
+            </label>
+            {lotsOk && priceOk ? (
+              <p className="text-sm text-muted">
+                {t('portfolio.costPreview', {
+                  cost: `Rp${formatNumber(lotsValue * LOT_SIZE * priceValue, locale)}`,
+                })}
+              </p>
+            ) : null}
+          </div>
+          <div className="mt-5 flex flex-wrap justify-end gap-2">
+            <button ref={closeRef} type="button" className="btn btn-quiet" onClick={onCancel}>
+              {t('portfolio.cancel')}
+            </button>
+            <button type="submit" className="btn btn-primary">
+              {t(mode === 'new' ? 'portfolio.addToPortfolio' : 'portfolio.saveEdit')}
+            </button>
+          </div>
+        </form>
+      )}
+    </DialogShell>
+  );
+}
+
+function FieldError({ text }: { text: string }) {
+  return <span className="mt-1 block text-xs font-medium text-sell">{text}</span>;
+}
+
+function ConfirmDialog({
   trigger,
   title,
   body,
   confirmLabel,
   cancelLabel,
+  danger = false,
   onCancel,
   onConfirm,
 }: {
-  count: number;
   trigger: HTMLElement | null;
-  title?: string;
-  body?: string;
-  confirmLabel?: string;
-  cancelLabel?: string;
+  title: string;
+  body: string;
+  confirmLabel: string;
+  cancelLabel: string;
+  danger?: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
-  const { t } = useTranslation();
+  return (
+    <DialogShell trigger={trigger} titleId="confirm-title" onCancel={onCancel}>
+      {(closeRef) => (
+        <>
+          <h2 id="confirm-title" className="text-base font-semibold tracking-tight">
+            {title}
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{body}</p>
+          <div className="mt-4 flex flex-wrap justify-end gap-2">
+            <button ref={closeRef} type="button" className="btn btn-quiet" onClick={onCancel}>
+              {cancelLabel}
+            </button>
+            <button
+              type="button"
+              className={danger ? 'btn border-sell bg-sell text-white hover:bg-sell/90' : 'btn btn-primary'}
+              onClick={onConfirm}
+            >
+              {confirmLabel}
+            </button>
+          </div>
+        </>
+      )}
+    </DialogShell>
+  );
+}
+
+function DialogShell({
+  trigger,
+  titleId,
+  onCancel,
+  children,
+}: {
+  trigger: HTMLElement | null;
+  titleId: string;
+  onCancel: () => void;
+  children: (closeRef: RefObject<HTMLButtonElement>) => ReactNode;
+}) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   useDialogTrap(panelRef, closeRef, onCancel, trigger);
@@ -424,24 +589,15 @@ function SampleConfirmDialog({
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="sample-confirm-title"
+        aria-labelledby={titleId}
         className="w-full max-w-md animate-sheet-in rounded-2xl border border-line bg-surface p-5 shadow-lift"
       >
-        <h2 id="sample-confirm-title" className="text-base font-semibold tracking-tight">
-          {title ?? t('portfolio.sampleConfirmTitle')}
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted">
-          {body ?? t('portfolio.sampleConfirmBody', { count: String(count) })}
-        </p>
-        <div className="mt-4 flex flex-wrap justify-end gap-2">
-          <button ref={closeRef} type="button" className="btn btn-quiet" onClick={onCancel}>
-            {cancelLabel ?? t('portfolio.sampleCancel')}
-          </button>
-          <button type="button" className="btn btn-primary" onClick={onConfirm}>
-            {confirmLabel ?? t('portfolio.sampleConfirm')}
-          </button>
-        </div>
+        {children(closeRef)}
       </div>
     </div>
   );
+}
+
+function formatNumber(value: number, locale: Locale): string {
+  return new Intl.NumberFormat(intlLocale(locale), { maximumFractionDigits: 2 }).format(value);
 }

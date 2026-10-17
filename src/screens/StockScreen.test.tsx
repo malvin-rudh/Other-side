@@ -87,209 +87,70 @@ beforeEach(() => {
 });
 
 describe('StockScreen at the 24 Aug replay cutoff', () => {
-  it('renders header, proxy button, window and card without any future data', () => {
+  it('renders the header, flow, chart, events and observations without any future data', () => {
     vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
     const html = renderScreen();
 
     expect(html).toContain('SINI · PT Singaraja Putra');
-    expect(html).toContain('data-fact-id="F-SINI-C11-20260821-20260824-baseline"');
-    expect(html).toMatch(/≈Rp8,777 · (?:<!-- -->)?24 Aug/);
-    expect(html).toContain('implied price reference, not close');
-    expect(html).toContain('14 Aug 2026');
-    expect(html).toContain('24 Aug 2026');
-    expect(html).toContain('Other Side');
-    expect(html).toContain('Rule-based preview');
-    expect(html).toContain('Observed');
+    expect(html).toContain('aria-label="Session calendar"');
+    expect(html).toContain('Retail app brokers');
+    expect(html).toContain('Top 5 Net Buyers');
+    expect(html).toContain('Top 5 Net Sellers');
+    expect(html).toContain('Session broker flow');
+    expect(html).toContain('Events in the past 30 days');
+    expect(html).toContain('H1 2026 results');
+    expect(html).toContain('What was observed?');
+    expect(html).toContain('What could be interpreted?');
+    expect(html).toContain('This reads the visible broker data only. It is not advice.');
+    expect(html).toContain('Broker net flow');
+    expect(html).toContain('Company Health');
+    expect(html).toContain('Negative, improving');
+    expect(html).toContain('Profit without one-offs');
+    expect(html).toContain('Choose brokers');
 
-    expect(html).not.toContain('E-SINI-0831-BOARD-EXIT');
-    expect(html).not.toContain('E-SINI-0903-ATH');
-    expect(html).toContain('Daily net-flow implied price reference, 6 captured sessions');
-    expect(html).toContain('Cumulative group net flows over 6 sessions');
-    expect(html).toContain(' is excluded: overlapping screenshots put the same brokers on both sides.');
-    expect(html).not.toContain('was not captured, so its flows are unknown, not zero');
-    expect(html).toContain('Who the end clients are, and whether they still hold the shares.');
-    expect(html).toContain('institution-facing net falls from about');
+    // Published after 24 Aug, or before the 30-day window.
+    expect(html).not.toContain('SINI left the special monitoring board');
+    expect(html).not.toContain('first all-time high');
+    expect(html).not.toContain('rights issue completed');
   });
 
-  it('renders Bahasa Indonesia strings with identical facts', () => {
+  it('leaves out the replay player, the Other Side card and the demo tools', () => {
+    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
+    const html = renderScreen();
+
+    expect(html).not.toContain('Rule-based preview');
+    expect(html).not.toContain('What changed since the previous session');
+    expect(html).not.toContain('chip-unknown');
+    expect(html).not.toContain('data-assume-broker');
+  });
+
+  it('renders Bahasa Indonesia strings', () => {
     setStore({ locale: 'id' });
     vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
     const html = renderScreen();
 
-    expect(html).toContain('Pratinjau berbasis aturan');
-    expect(html).toContain('Teramati');
-    expect(html).toContain('data-fact-id="F-SINI-C11-20260821-20260824-baseline"');
-    expect(html).toMatch(/≈Rp8\.777 · (?:<!-- -->)?24 Agu/);
-    expect(html).toContain(' dikeluarkan: tangkapan layar yang tumpang tindih menempatkan broker yang sama di kedua sisi.');
-    expect(html).toContain('lot bersih institution-facing turun dari sekitar');
-    expect(html).not.toContain('E-SINI-0831-BOARD-EXIT');
+    expect(html).toContain('Apa yang teramati?');
+    expect(html).toContain('5 Pembeli Bersih Teratas');
+    expect(html).toContain('Peristiwa 30 hari terakhir');
   });
 
-  it('translates evidence-strength chips in Bahasa Indonesia', () => {
-    setStore({ locale: 'id' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Kuat');
-    expect(html).toContain('Sedang');
-    expect(html).not.toContain('Strong');
-    expect(html).not.toContain('Moderate');
-    expect(html).not.toContain('Not enough data');
-  });
-
-  it('shows the nothing-published message when a layer has no events', () => {
+  it('says so when no event falls in the window', () => {
     vi.mocked(usePublicData).mockReturnValue({
       status: 'ready',
       data: { ...readyData, events: [] },
     });
     const html = renderScreen();
-    expect(html).toContain('Nothing published yet at this point.');
+    expect(html).toContain('No events published in the past 30 days.');
   });
 });
 
-describe('StockScreen session scrubber', () => {
-  it('renders the framing title and the replay-rule subtitle for the selected session', () => {
+describe('StockScreen company health', () => {
+  it('holds the H1 report back until it was public', () => {
+    setStore({ selectedSessionDate: '2026-08-19' });
     vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
     const html = renderScreen();
-
-    expect(html).toContain('What could you know at this point?');
-    expect(html).toContain('24 Aug 2026 session · available after publication (replay rule)');
-  });
-
-  it('exposes an accessible slider plus previous, next and play controls', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('aria-label="Captured session scrubber"');
-    expect(html).toContain('aria-valuetext="24 Aug 2026"');
-    expect(html).toContain('aria-label="Previous session"');
-    expect(html).toContain('aria-label="Next session"');
-    expect(html).toContain('aria-label="Play"');
-    expect(html).toContain('type="range"');
-  });
-
-  it('offers the three quick stops', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Jump to 24 Aug 2026');
-    // Month abbreviation varies across ICU versions ("Sep" vs "Sept").
-    expect(html).toMatch(/Jump to 3 Sep(t)? 2026/);
-    expect(html).toMatch(/Jump to 23 Sep(t)? 2026/);
-  });
-
-  it('carries the raw reason on the grey excluded and missing markers', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('13 Aug 2026: Excluded. quarantined overlapping screenshots');
-    expect(html).toMatch(/8 Sep(t)? 2026: Not captured\. not captured/);
-  });
-
-  it('labels market holidays directly in the strip', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('17 Aug 2026: market holiday');
-    expect(html).toContain('25 Aug 2026: market holiday');
-    expect(html).toContain('>holiday<');
-  });
-
-  it('renders the scrubber strings in Bahasa Indonesia', () => {
-    setStore({ locale: 'id' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Apa yang bisa Anda ketahui pada titik ini?');
-    expect(html).toContain('Sesi 24 Agu 2026 · tersedia setelah publikasi (aturan replay)');
-    expect(html).toContain('Lompat ke 23 Sep 2026');
-    expect(html).toContain('13 Agu 2026: Dikeluarkan. quarantined overlapping screenshots');
-  });
-});
-
-describe('StockScreen Other Side card caps and footer caveats', () => {
-  it('caps the observed section at three claims and offers the rest via Show all', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Institution-facing brokers were net buyers in each of the last five sessions (');
-    expect(html).toContain('App-facing brokers were ');
-    expect(html).toContain('57.5k');
-    expect(html).toContain('Show all (9)');
-    expect(html).not.toContain('The window average net-flow implied price reference is about ');
-  });
-
-  it('renders the shared caveat once in the card footer instead of under each claim', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    const caveat = 'Visible top-nine-per-side sample only; brokers outside the sample are unknown.';
-    expect(html.split(caveat)).toHaveLength(2);
-  });
-
-  it('uses the same cap control wording in Bahasa Indonesia', () => {
-    setStore({ locale: 'id' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Tampilkan semua (9)');
-  });
-});
-
-describe('StockScreen simulation buttons', () => {
-  it('renders Simulate Sell and Simulate Buy without opening any sheet by default', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Simulate Sell');
-    expect(html).toContain('Simulate Buy');
-    expect(html).not.toContain('Who am I trading with?');
-    expect(html).not.toContain('Simulated · historical snapshot after publication.');
-  });
-
-  it('renders the button labels in Bahasa Indonesia', () => {
-    setStore({ locale: 'id' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Simulasi jual');
-    expect(html).toContain('Simulasi beli');
-    expect(html).not.toContain('Simulate Sell');
-  });
-});
-
-describe('StockScreen broker what-if', () => {
-  it('offers the unclassified-assumption control on ranking chips while the scenario is off', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain(
-      'What if the client profile of this broker is unclear? Treat CC as unclassified',
-    );
-    expect(html).not.toContain('Your assumption:');
-  });
-
-  it('renders the what-if panel with before/after totals and reset when the scenario is active', () => {
-    setStore({ scenario: 'unknown-broker:TP' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Your assumption: TP treated as unclassified');
-    expect(html).toContain('Group totals, before vs after');
-    expect(html).toContain('direction remains positive');
-    expect(html).toContain('Claims that changed');
-    expect(html).toContain('Claims that survived');
-    expect(html).toContain('Reset to baseline');
-  });
-
-  it('renders the what-if panel strings in Bahasa Indonesia', () => {
-    setStore({ locale: 'id', scenario: 'unknown-broker:TP' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Asumsi Anda: TP diperlakukan sebagai tidak terklasifikasi');
-    expect(html).toContain('arah tetap positif');
-    expect(html).toContain('Kembali ke baseline');
+    expect(html).toContain('The Q2 2026 report was first public on 20 Aug 2026');
+    expect(html).not.toContain('Profit without one-offs');
   });
 });
 
@@ -322,31 +183,6 @@ describe('StockScreen evidence acceptance', () => {
     for (const factId of factIds) {
       expect(buildEvidenceView(factId, context, readyData, 'en'), factId).not.toBeNull();
     }
-  });
-});
-
-describe('StockScreen changed strip', () => {
-  it('names both sessions at the 24 Aug cutoff', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('What changed since the previous session');
-    expect(html).toContain('21 Aug 2026 → 24 Aug 2026');
-  });
-
-  it('marks each move with a text arrow so direction never relies on colour alone', () => {
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toMatch(/[▲▼]/);
-  });
-
-  it('shows an honest note at the first captured session instead of invented moves', () => {
-    setStore({ selectedSessionDate: '2026-08-14' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('No previous captured session, so nothing can be compared yet.');
   });
 });
 

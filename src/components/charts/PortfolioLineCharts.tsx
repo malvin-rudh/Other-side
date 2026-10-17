@@ -15,7 +15,10 @@ import {
   CartesianGrid,
   ComposedChart,
   Legend,
+  Cell,
   Line,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -214,14 +217,14 @@ export function PortfolioPerformanceChart({ analytics, benchmarkSeries, locale }
               typeof value === 'number' ? signedPercent(value, locale) : '\u2014',
               name === 'portfolio'
                 ? t('analytics.chart.portfolioName')
-                : t('analytics.chart.benchmarkName', { symbol: analytics.benchmark?.symbol ?? '' }),
+                : benchmarkLabel(analytics.benchmark?.symbol ?? '', t),
             ]}
           />
           <Legend
             formatter={(name: string) =>
               name === 'portfolio'
                 ? t('analytics.chart.portfolioName')
-                : t('analytics.chart.benchmarkName', { symbol: analytics.benchmark?.symbol ?? '' })
+                : benchmarkLabel(analytics.benchmark?.symbol ?? '', t)
             }
             wrapperStyle={{ fontSize: 12, color: '#0B1220', paddingTop: 4 }}
           />
@@ -230,7 +233,7 @@ export function PortfolioPerformanceChart({ analytics, benchmarkSeries, locale }
             <Line
               type="linear"
               dataKey="benchmark"
-              stroke="#64748B"
+              stroke="#F58220"
               strokeWidth={1.5}
               strokeDasharray="4 3"
               dot={false}
@@ -390,6 +393,93 @@ export function PortfolioAllocationChart({
             </li>
           );
         })}
+      </ul>
+    </div>
+  );
+}
+
+// The index line's name: the real IHSG, or the fictional sample index that
+// imitates it.
+function benchmarkLabel(symbol: string, t: (key: 'analytics.indexReal' | 'analytics.indexSample') => string): string {
+  return symbol === '^JKSE' ? t('analytics.indexReal') : t('analytics.indexSample');
+}
+
+// Each owned holding's share of today's value as a donut, with a legend that
+// names every slice and opens the breakdown evidence.
+export function PortfolioAllocationPie({
+  analytics,
+  locale,
+  factId,
+  onOpenEvidence,
+}: {
+  analytics: PortfolioAnalytics;
+  locale: Locale;
+  factId: string;
+  onOpenEvidence: OpenEvidence;
+}) {
+  const { t } = useTranslation();
+  const symbols = analytics.holdings.map((holding) => holding.symbol);
+  const rows = [...analytics.holdings].sort((a, b) => b.weightFraction - a.weightFraction);
+  return (
+    <div className="grid items-center gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div role="img" aria-label={t('analytics.allocation.listLabel')} className="h-56 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={rows.map((row) => ({ name: row.symbol, value: row.weightFraction }))}
+              dataKey="value"
+              nameKey="name"
+              innerRadius="55%"
+              outerRadius="90%"
+              paddingAngle={1}
+              stroke="#FFFFFF"
+              isAnimationActive={false}
+            >
+              {rows.map((row) => (
+                <Cell key={row.symbol} fill={holdingColour(row.symbol, symbols)} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={{ fontSize: 12 }}
+              formatter={(value: unknown, name: string) => [
+                typeof value === 'number' ? `${plainPercent(value, locale)}%` : '\u2014',
+                name,
+              ]}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      <ul className="space-y-2">
+        {rows.map((row) => (
+          <li key={row.symbol} className="flex items-center justify-between gap-3 text-sm">
+            <span className="flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className="h-3 w-3 shrink-0 rounded-sm"
+                style={{ background: holdingColour(row.symbol, symbols) }}
+              />
+              <span className="font-semibold tabular-nums">{row.symbol}</span>
+            </span>
+            <span className="tabular-nums">
+              {factId !== '' ? (
+                <EvidenceButton
+                  factId={factId}
+                  ariaLabel={t('analytics.evidenceWeightAria', {
+                    symbol: row.symbol,
+                    value: plainPercent(row.weightFraction, locale),
+                  })}
+                  onActivate={onOpenEvidence}
+                >
+                  {plainPercent(row.weightFraction, locale)}%
+                </EvidenceButton>
+              ) : (
+                <>{plainPercent(row.weightFraction, locale)}%</>
+              )}
+              <span className="text-muted"> · {idrCompact(row.endValue, locale)}</span>
+            </span>
+          </li>
+        ))}
       </ul>
     </div>
   );

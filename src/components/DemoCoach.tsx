@@ -1,46 +1,43 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation, type MessageKey } from '../i18n';
+import { useTranslation } from '../i18n';
 import { useContextStore } from '../store/contextStore';
 
-const STEP_COUNT = 9;
+import { tourCopy, TOUR_STEP_COUNT } from '../i18n/tourCopy';
+
+const STEP_COUNT = TOUR_STEP_COUNT;
 
 interface CoachStepSpec {
   path: string;
   sessionDate: string;
-  scenario: string;
   briefDate: string | null;
 }
 
+// Order matches the steps in i18n/tourCopy.ts.
 const STEPS: readonly CoachStepSpec[] = [
-  { path: '/', sessionDate: '2026-08-24', scenario: 'default', briefDate: '2026-08-25' },
-  { path: '/stock/SINI', sessionDate: '2026-08-24', scenario: 'default', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-08-24', scenario: 'default', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-09-23', scenario: 'default', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-09-23', scenario: 'default', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-09-23', scenario: 'default', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-09-23', scenario: 'unknown-broker:TP', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-09-23', scenario: 'default', briefDate: null },
-  { path: '/method', sessionDate: '2026-09-23', scenario: 'default', briefDate: null },
+  { path: '/', sessionDate: '2026-08-24', briefDate: '2026-08-26' },
+  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
+  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
+  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
+  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
+  { path: '/stock/SINI', sessionDate: '2026-09-23', briefDate: null },
+  { path: '/stocks', sessionDate: '2026-09-23', briefDate: null },
+  { path: '/portfolio', sessionDate: '2026-09-23', briefDate: null },
+  { path: '/', sessionDate: '2026-09-23', briefDate: '2026-09-24' },
 ];
 
 // Steps whose coach panel docks under the screen header instead of the bottom
 // corner, so it never covers the control the step is talking about.
-const TOP_LEFT_STEPS = new Set([2, 5, 6, 7]);
+const TOP_LEFT_STEPS = new Set([1, 7]);
 const TOP_RIGHT_STEPS = new Set([0]);
 
-function stepKey(index: number): MessageKey {
-  return `demo.step${index + 1}` as MessageKey;
-}
-
 export function DemoCoach() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const navigate = useNavigate();
   const demoMode = useContextStore((state) => state.demoMode);
   const coachStep = useContextStore((state) => state.coachStep);
   const setCoachStep = useContextStore((state) => state.setCoachStep);
   const selectSession = useContextStore((state) => state.selectSession);
-  const setScenario = useContextStore((state) => state.setScenario);
   const setBriefDate = useContextStore((state) => state.setBriefDate);
   const dockTopLeft = TOP_LEFT_STEPS.has(coachStep);
   const dockTopRight = TOP_RIGHT_STEPS.has(coachStep);
@@ -74,9 +71,8 @@ export function DemoCoach() {
     if (!spec) return;
     navigate(spec.path, { replace: true });
     selectSession(spec.sessionDate);
-    setScenario(spec.scenario);
     setBriefDate(spec.briefDate);
-  }, [demoMode, coachStep, navigate, selectSession, setScenario, setBriefDate]);
+  }, [demoMode, coachStep, navigate, selectSession, setBriefDate]);
 
   useEffect(() => {
     if (!demoMode) return;
@@ -93,7 +89,8 @@ export function DemoCoach() {
 
   const spec = STEPS[coachStep];
   if (!spec) return null;
-  const key = stepKey(coachStep);
+  const copy = tourCopy(locale).steps[coachStep];
+  if (!copy) return null;
   const isLast = coachStep === STEP_COUNT - 1;
   const coachStyle = dockTop !== null ? ({ '--coach-top': `${dockTop}px` } as CSSProperties) : undefined;
   const dockClass = dockTopLeft
@@ -113,8 +110,8 @@ export function DemoCoach() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-brand">
           {t('demo.stepCounter', { current: String(coachStep + 1), total: String(STEP_COUNT) })}
         </p>
-        <h2 className="mt-1 text-sm font-semibold text-white">{t(`${key}.title` as MessageKey)}</h2>
-        <p className="mt-1 text-xs leading-relaxed text-white/70">{t(`${key}.body` as MessageKey)}</p>
+        <h2 className="mt-1 text-sm font-semibold text-white">{copy.title}</h2>
+        <p className="mt-1 text-xs leading-relaxed text-white/70">{copy.body}</p>
       </div>
       <div className="mt-3 flex items-center justify-between gap-2">
         <button

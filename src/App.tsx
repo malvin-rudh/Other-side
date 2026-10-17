@@ -9,7 +9,6 @@ import { StocksScreen } from './screens/StocksScreen';
 import { PortfolioScreen } from './screens/PortfolioScreen';
 import { MethodScreen } from './screens/MethodScreen';
 import { ResearchScreen } from './screens/ResearchScreen';
-import { ImportScreen } from './screens/ImportScreen';
 import { GuidedTourScreen } from './screens/GuidedTourScreen';
 
 export default function App() {
@@ -45,7 +44,6 @@ export default function App() {
           <Route path="method" element={<MethodScreen />} />
           <Route path="research" element={<ResearchScreen />} />
           <Route path="tour" element={<GuidedTourScreen />} />
-          <Route path="import" element={<ImportScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

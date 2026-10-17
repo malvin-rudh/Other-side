@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { usePublicData } from '../data/publicData';
 import { useContextStore } from '../store/contextStore';
 import { formatSessionDate, useTranslation } from '../i18n';
 import { DemoCoach } from './DemoCoach';
@@ -32,6 +33,9 @@ export function AppShell() {
     (pathname === '/' || pathname === '/research') && viewSnapshot?.route === pathname
       ? viewSnapshot.date
       : undefined;
+  // A stock's analysis page belongs under Stocks in the navigation.
+  const isPrimaryActive = (to: string, isActive: boolean) =>
+    to === '/stocks' ? isActive || pathname.startsWith('/stock/') : isActive;
   const pinnedDate = pinnedSnapshot !== undefined ? pinnedSnapshot : selectedSessionDate;
 
   const primaryRoutes: { to: string; end: boolean; label: string; icon: IconName }[] = [
@@ -47,7 +51,6 @@ export function AppShell() {
     { to: '/research', end: false, label: t('nav.research'), icon: 'thesis' },
     { to: '/method', end: false, label: t('nav.howItWorks'), icon: 'how' },
     { to: '/tour', end: false, label: t('nav.tour'), icon: 'tour' },
-    { to: '/import', end: false, label: t('nav.advanced'), icon: 'advanced' },
   ];
 
   // Both overflow menus share this dismiss logic; only one is ever on screen
@@ -71,6 +74,20 @@ export function AppShell() {
   }, [moreOpen]);
   useEffect(() => setMoreOpen(false), [location.pathname]);
 
+  // The replay covers the verified case's window, up to the session on screen.
+  const calendar = usePublicData('SINI');
+  const rangeStart = calendar.status === 'ready' ? calendar.data.defaultWindow.start : null;
+  const rangeEnd = pinnedDate ?? dataThrough;
+  const rangeText =
+    rangeEnd === null
+      ? t('badge.dataThroughPending')
+      : rangeStart !== null && rangeStart <= rangeEnd
+        ? t('badge.dataRange', {
+            from: formatSessionDate(rangeStart, locale),
+            to: formatSessionDate(rangeEnd, locale),
+          })
+        : t('badge.dataThrough', { date: formatSessionDate(rangeEnd, locale) });
+
   const replayBadge = (
     <>
       {pinnedDate ? (
@@ -78,7 +95,7 @@ export function AppShell() {
           <span className="hidden min-[480px]:inline">
             {t('badge.historical')}
             {' · '}
-            {t('badge.dataThrough', { date: formatSessionDate(pinnedDate, locale) })}
+            {rangeText}
           </span>
           <span className="min-[480px]:hidden">{t('badge.replayShort', { date: formatSessionDate(pinnedDate, locale) })}</span>
         </>
@@ -86,9 +103,7 @@ export function AppShell() {
         <span className="hidden min-[480px]:inline">
           {t('badge.historical')}
           {' · '}
-          {dataThrough
-            ? t('badge.dataThrough', { date: formatSessionDate(dataThrough, locale) })
-            : t('badge.dataThroughPending')}
+          {rangeText}
         </span>
       )}
     </>
@@ -127,10 +142,10 @@ export function AppShell() {
 
         <nav aria-label="Primary" className="flex flex-col gap-1">
           {primaryRoutes.map((route) => (
-            <NavLink key={route.to} to={route.to} end={route.end} className={railLinkClass}>
+            <NavLink key={route.to} to={route.to} end={route.end} className={({ isActive }) => railLinkClass({ isActive: isPrimaryActive(route.to, isActive) })}>
               {({ isActive }) => (
                 <>
-                  {isActive ? (
+                  {isPrimaryActive(route.to, isActive) ? (
                     <span aria-hidden="true" className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-brand" />
                   ) : null}
                   <span className="mr-2 text-white/45">
@@ -167,21 +182,9 @@ export function AppShell() {
         <div className="mt-auto space-y-3">
           {localeSwitch('rail')}
           <p className="text-[11px] leading-snug text-white/55">
-            {pinnedDate ? (
-              <>
-                {t('badge.historical')}
-                <br />
-                {t('badge.dataThrough', { date: formatSessionDate(pinnedDate, locale) })}
-              </>
-            ) : (
-              <>
-                {t('badge.historical')}
-                <br />
-                {dataThrough
-                  ? t('badge.dataThrough', { date: formatSessionDate(dataThrough, locale) })
-                  : t('badge.dataThroughPending')}
-              </>
-            )}
+            {t('badge.historical')}
+            <br />
+            {rangeText}
           </p>
           <p className="text-[11px] leading-snug text-white/40">{t('footer.line')}</p>
         </div>
@@ -199,17 +202,9 @@ export function AppShell() {
                 <span aria-hidden="true">◷</span>
                 {t('badge.historical')}
               </span>
-              {pinnedDate ? (
-                <span className="truncate text-sm font-semibold text-ink">
-                  {t('badge.dataThrough', { date: formatSessionDate(pinnedDate, locale) })}
-                </span>
-              ) : (
-                <span className="truncate text-sm text-muted">
-                  {dataThrough
-                    ? t('badge.dataThrough', { date: formatSessionDate(dataThrough, locale) })
-                    : t('badge.dataThroughPending')}
-                </span>
-              )}
+              <span className={`truncate text-sm ${pinnedDate ? 'font-semibold text-ink' : 'text-muted'}`}>
+                {rangeText}
+              </span>
             </div>
             <span className="text-xs text-muted lg:hidden">{replayBadge}</span>
             <div className="ml-auto flex items-center gap-3">
@@ -219,9 +214,9 @@ export function AppShell() {
                     key={route.to}
                     to={route.to}
                     end={route.end}
-                    className={({ isActive }) =>
+                    className={({ isActive: linkActive }) =>
                       `rounded-lg px-3 py-1.5 text-sm transition-colors ${
-                        isActive ? 'bg-brand/10 font-semibold text-brandDeep' : 'text-muted hover:bg-canvas hover:text-ink'
+                        isPrimaryActive(route.to, linkActive) ? 'bg-brand/10 font-semibold text-brandDeep' : 'text-muted hover:bg-canvas hover:text-ink'
                       }`
                     }
                   >
@@ -307,10 +302,10 @@ export function AppShell() {
           className="grid h-16 grid-cols-4 border-t border-line bg-surface"
         >
           {primaryRoutes.map((route) => (
-            <NavLink key={route.to} to={route.to} end={route.end} className={mobileNavLinkClass}>
+            <NavLink key={route.to} to={route.to} end={route.end} className={({ isActive }) => mobileNavLinkClass({ isActive: isPrimaryActive(route.to, isActive) })}>
               {({ isActive }) => (
                 <>
-                  {isActive ? (
+                  {isPrimaryActive(route.to, isActive) ? (
                     <span aria-hidden="true" className="absolute inset-x-6 top-0 h-0.5 rounded-b bg-brand" />
                   ) : null}
                   <Icon name={route.icon} className="h-[18px] w-[18px]" />

@@ -11,6 +11,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { findInstrument } from './instruments';
+import { staticCloses } from './staticCloses';
 import { fetchProviderHistory, type HistoryRange } from './providerClient';
 import { validatePricesDocument, type PricesDocument } from './schemas';
 import {
@@ -26,9 +27,9 @@ import { useContextStore } from '../store/contextStore';
 export const SAMPLE_BENCHMARK_SYMBOL = 'SMPLIDX';
 export const REAL_BENCHMARK_SYMBOL = '^JKSE';
 
-// 3/5/7-session changes need at most 8 aligned closes; one month of daily bars
-// covers that plus the value chart without pulling a year of provider data.
-const HISTORY_RANGE: HistoryRange = '1mo';
+// 5/10/20-session changes need at most 21 aligned closes; three months of daily
+// bars covers that plus the value chart without pulling a year of provider data.
+const HISTORY_RANGE: HistoryRange = '3mo';
 
 export interface PortfolioPriceFailure {
   symbol: string;
@@ -60,7 +61,7 @@ type PriceSource =
   | { kind: 'provider'; symbol: string; providerSymbol: string }
   | { kind: 'none'; symbol: string };
 
-// SMPA, SMPB and SMPC are fictional: they resolve to their fixture and have no
+// The SMP sample stocks are fictional: they resolve to their fixture and have no
 // provider symbol in the registry, so this function can never route them to the
 // provider adapter.
 function priceSource(symbol: string, providerSymbols: ReadonlySet<string>): PriceSource {
@@ -277,7 +278,9 @@ export interface PortfolioAnalyticsState {
   result: PortfolioAnalyticsResult | null;
 }
 
-export function usePortfolioAnalytics(sessions: number, cutoffMs: number | null = null): PortfolioAnalyticsState {
+// A whole number of sessions, or 'all' for every common close the holdings
+// share up to the cutoff.
+export function usePortfolioAnalytics(sessions: number | 'all', cutoffMs: number | null = null): PortfolioAnalyticsState {
   const prices = usePortfolioPrices(cutoffMs);
   const portfolio = useContextStore((state) => state.portfolio);
 
@@ -286,14 +289,97 @@ export function usePortfolioAnalytics(sessions: number, cutoffMs: number | null 
     const holdings = portfolio
       .filter((entry) => entry.list === 'owned')
       .map((entry) => ({ symbol: entry.ticker, quantityShares: entry.quantityShares }));
-    return buildPortfolioAnalytics({
-      holdings,
-      seriesBySymbol: prices.seriesBySymbol,
-      benchmark: prices.benchmark,
-      sessions,
-      cutoffMs: prices.cutoffMs,
-    });
+    const build = (count: number) =>
+      buildPortfolioAnalytics({
+        holdings,
+        seriesBySymbol: prices.seriesBySymbol,
+        benchmark: prices.benchmark,
+        sessions: count,
+        cutoffMs: prices.cutoffMs,
+      });
+    if (sessions !== 'all') return build(sessions);
+    // Ask for more closes than exist, then rebuild on exactly the ones found.
+    const probe = build(Number.MAX_SAFE_INTEGER - 1);
+    if (probe.kind === 'unavailable' && probe.reason.code === 'insufficient-common-closes') {
+      const found = probe.reason.found ?? 0;
+      if (found >= 2) return build(found - 1);
+    }
+    return probe;
   }, [prices, portfolio, sessions]);
 
   return { prices, result };
+}
+
+export interface SessionClose {
+  date: string;
+  close: number;
+  basis: PriceSeries['priceBasis'] | 'yahoo-adjusted-close';
+  // The close the session before, and the first close on or after the window
+  // start; null when the history does not reach that far.
+  previousClose: number | null;
+  windowStartClose: number | null;
+}
+
+export type SessionCloseState =
+  | { status: 'loading' }
+  | { status: 'ready'; close: SessionClose }
+  | { status: 'unavailable' };
+
+// The latest close on or before `date` for one instrument: the fixture for a
+// sample stock, the provider adapter for a listed one. Unavailable when neither
+// answers; no broker implied price is ever used in its place.
+export function useSessionClose(ticker: string, date: string | null, windowStart: string | null = null): SessionCloseState {
+  const liveEndpoint = useContextStore((state) => state.liveEndpoint);
+  const demoToken = useContextStore((state) => state.demoToken);
+  const [series, setSeries] = useState<PriceSeries | null | undefined>(undefined);
+
+  useEffect(() => {
+    let cancelled = false;
+    setSeries(undefined);
+    if (staticCloses(ticker) !== null) return;
+    const source = priceSource(ticker, new Set());
+    const load = async (): Promise<PriceSeries | null> => {
+      if (source.kind === 'sample-fixture') return loadFixtureSeries(source.symbol);
+      if (source.kind === 'provider') {
+        const result = await fetchProviderHistory(liveEndpoint, demoToken, source.providerSymbol, '3mo');
+        return result.ok ? providerSeries(result.history) : null;
+      }
+      return null;
+    };
+    load()
+      .catch(() => null)
+      .then((loaded) => {
+        if (!cancelled) setSeries(loaded);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [ticker, liveEndpoint, demoToken]);
+
+  return useMemo<SessionCloseState>(() => {
+    // Closes copied into the repo win over any live source.
+    const copied = staticCloses(ticker);
+    const basis: SessionClose['basis'] = copied !== null ? 'yahoo-adjusted-close' : (series?.priceBasis ?? 'sample-fixture-daily');
+    const bars =
+      copied !== null
+        ? copied.map((entry) => ({ date: entry.date, close: entry.close }))
+        : series === undefined || series === null
+          ? null
+          : series.bars.flatMap((bar) => (bar.close === null ? [] : [{ date: bar.date, close: bar.close }]));
+    if (copied === null && series === undefined) return { status: 'loading' };
+    if (bars === null || date === null) return { status: 'unavailable' };
+    const index = bars.reduce((found, bar, position) => (bar.date <= date ? position : found), -1);
+    if (index < 0) return { status: 'unavailable' };
+    const start = windowStart === null ? undefined : bars.find((bar) => bar.date >= windowStart);
+    return {
+      status: 'ready',
+      close: {
+        date: bars[index]!.date,
+        close: bars[index]!.close,
+        basis,
+        previousClose: index > 0 ? bars[index - 1]!.close : null,
+        windowStartClose: start !== undefined && start.date <= bars[index]!.date ? start.close : null,
+      },
+    };
+  }, [series, date, ticker, windowStart]);
 }

@@ -565,8 +565,8 @@ function buildC02(
     ),
     coverage_note: {
       en: 'Captured sessions only; holidays, weekends and the missing 8 Sep are not counted.',
-      id: 'Hanya sesi yang tertangkap; hari libur, akhir pekan, dan 8 Sep yang hilang tidak dihitung.',
-      zh: '仅统计已捕获时段；节假日、周末以及缺失的 9 月 8 日不计入。',
+      id: 'Hanya sesi yang terekam; hari libur, akhir pekan, dan 8 Sep yang hilang tidak dihitung.',
+      zh: '仅统计已采集时段；节假日、周末以及缺失的 9 月 8 日不计入。',
     },
     available_at: sessionAvailableAt(lastDate),
     evidence: {
@@ -660,8 +660,8 @@ const FOCUS_LABEL: Record<GroupFocus, BilingualText> = {
   app_facing: { en: 'retail app brokers', id: 'broker aplikasi ritel', zh: '零售App券商' },
   institution_facing: { en: 'institutional brokers', id: 'broker institusional', zh: '机构券商' },
   other_mixed: { en: 'other / mixed brokers', id: 'broker lain / campuran', zh: '其他/混合券商' },
-  unknown: { en: 'unclassified brokers', id: 'broker tak terklasifikasi', zh: '未分类券商' },
-  combined_other: { en: 'other / mixed and unclassified brokers', id: 'broker lain / campuran dan tak terklasifikasi', zh: '其他/混合及未分类券商' },
+  unknown: { en: 'unclassified brokers', id: 'broker tidak terklasifikasi', zh: '未分类券商' },
+  combined_other: { en: 'other / mixed and unclassified brokers', id: 'broker lain / campuran dan tidak terklasifikasi', zh: '其他/混合及未分类券商' },
   residual: { en: 'the visible sample', id: 'sampel yang terlihat', zh: '可见样本' },
 };
 
@@ -690,7 +690,7 @@ function buildGroupNet(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   if (windowRows.length === 0) {
@@ -778,7 +778,7 @@ function buildC07(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   if (windowRows.length === 0) {
@@ -838,7 +838,7 @@ function buildRanking(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   if (windowRows.length === 0) {
@@ -904,7 +904,7 @@ function buildC10(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   const buyRows = windowRows.filter((row) => row.side === 'buy');
@@ -971,7 +971,7 @@ function buildC11(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   const lastTwo = lastActualMarketSessions(eligibleSessions, base.period.end, 2).filter((session) => session.status === 'captured' && session.date >= base.period.start);
@@ -980,7 +980,7 @@ function buildC11(
   if (!fromSession || !toSession) {
     return unavailable(
       { ...base, source_row_ids: [], source_event_ids: [], source_sessions: [], unit: 'IDR-per-share-implied', available_at: context.cutoffAt },
-      { en: 'Fewer than two captured sessions are visible in the window.', id: 'Kurang dari dua sesi tertangkap yang terlihat di jendela.', zh: '窗口内可见的已捕获时段不足两个。' },
+      { en: 'Fewer than two captured sessions are visible in the window.', id: 'Kurang dari dua sesi terekam yang terlihat di jendela.', zh: '窗口内可见的已采集时段不足两个。' },
     );
   }
   const fromRef = impliedPriceReference(windowRows, brokers, 'buy', { type: 'all' }, { start: fromSession.date, end: fromSession.date }, scenario);
@@ -1065,7 +1065,7 @@ function buildStreak(
       base,
       {
         en: 'Five consecutive actual market sessions are not all captured at this cutoff.',
-        id: 'Lima sesi pasar aktif berurutan tidak semuanya tertangkap pada titik potong ini.',
+        id: 'Lima sesi pasar aktif berurutan tidak semuanya terekam pada titik potong ini.',
         zh: '在此截点下，五个连续的实际市场时段并未全部被捕获。',
       },
       'insufficient-captured-sessions',
@@ -1181,7 +1181,7 @@ function buildC14(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   const days = dailyGroupNet(windowRows, brokers, base.period, scenario);
@@ -1197,8 +1197,8 @@ function buildC14(
     ),
     coverage_note: {
       en: 'Per-session group nets for captured sessions only; missing or excluded dates are absent.',
-      id: 'Lot bersih grup per sesi hanya untuk sesi tertangkap; tanggal yang hilang atau dikeluarkan tidak ada.',
-      zh: '仅针对已捕获时段的每组每时段净手数；缺失或被排除的日期不出现。',
+      id: 'Lot bersih grup per sesi hanya untuk sesi terekam; tanggal yang hilang atau dikeluarkan tidak ada.',
+      zh: '仅针对已采集时段的每组每时段净手数；缺失或被排除的日期不出现。',
     },
     available_at: sessionAvailableAt(base.period.end),
     evidence: {
@@ -1234,7 +1234,7 @@ function buildC15(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   const esRows = windowRows.filter((row) => row.brokerCode === 'ES');
@@ -1308,7 +1308,7 @@ function buildReversal(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   const rows = rowsInWindow(eligibleRows, base.period).filter((row) => row.brokerCode === brokerCode);
@@ -1341,7 +1341,7 @@ function buildReversal(
     ),
     coverage_note: {
       en: `${brokerCode} observed net lots on the most recent pair of consecutive market sessions with opposite visible signs; a missing or excluded session breaks adjacency.`,
-      id: `Lot bersih terobservasi ${brokerCode} pada pasangan sesi pasar berurutan terbaru dengan tanda berlawanan yang terlihat; sesi yang hilang atau dikeluarkan memutus keberurutan.`,
+      id: `Lot bersih teramati ${brokerCode} pada pasangan sesi pasar berurutan terbaru dengan tanda berlawanan yang terlihat; sesi yang hilang atau dikeluarkan memutus keberurutan.`,
       zh: `${brokerCode} 在最近一对可见符号相反的连续市场时段上的净手数；缺失或被排除的时段会打断相邻关系。`,
     },
     available_at: sessionAvailableAt(reversal.toDate),
@@ -1380,7 +1380,7 @@ function buildC18(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已捕获时段。' },
+      { en: 'No captured sessions are visible in the window at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat di jendela pada titik potong ini.', zh: '当前截点下，窗口内没有可见的已采集时段。' },
     );
   }
   if (windowRows.length === 0) {
@@ -1608,8 +1608,8 @@ function buildC25(
   if (!validSelected || !previous) {
     return unavailable(base, {
       en: 'The selected session and its previous captured session are not both visible at this cutoff.',
-      id: 'Sesi yang dipilih dan sesi tertangkap sebelumnya tidak keduanya terlihat pada titik potong ini.',
-      zh: '所选时段与其前一个已捕获时段在此截点下并非都可见。',
+      id: 'Sesi yang dipilih dan sesi terekam sebelumnya tidak keduanya terlihat pada titik potong ini.',
+      zh: '所选时段与其前一个已采集时段在此截点下并非都可见。',
     });
   }
   const days = dailyGroupNet(rows, brokers, { start: previous.date, end: selected }, scenario).filter(
@@ -1670,7 +1670,7 @@ function buildReference(
         available_at: context.cutoffAt,
         versions,
       },
-      { en: 'No captured sessions are visible for this reference at this cutoff.', id: 'Tidak ada sesi tertangkap yang terlihat untuk referensi ini pada titik potong ini.', zh: '此截点下没有可见的已捕获时段来支持该参考。' },
+      { en: 'No captured sessions are visible for this reference at this cutoff.', id: 'Tidak ada sesi terekam yang terlihat untuk referensi ini pada titik potong ini.', zh: '此截点下没有可见的已采集时段来支持该参考。' },
     );
   }
   if (fixedEnd && Date.parse(context.cutoffAt) < Date.parse(sessionAvailableAt(fixedEnd))) {

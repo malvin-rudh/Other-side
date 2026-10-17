@@ -17,16 +17,22 @@ import {
   type SiniEvent,
 } from '../src/data/schemas';
 
-// Deterministic fictional fixtures for SMPA and SMPB. Every value is a pure
-// arithmetic formula of the session index so the output never drifts between
-// runs, and the raw CSVs are written first so row sources point at real
-// in-repo files.
+// Deterministic fictional fixtures for the sample instruments. Each stock is a
+// scripted scenario (accumulation, distribution, a news spike, a calm large cap,
+// a reversal) drawn with a seeded generator whose shape follows the verified SINI
+// capture: nine visible brokers per side with a steep rank fall-off (each rank
+// about 0.6 of the one above), visible flow that grows with the size of the
+// price move, institution-facing brokers leaning with the move and app-facing
+// brokers leaning against it, persistent per-broker side habits, and broker
+// average prices within a few percent of the close. The same seed always gives
+// the same files, and the raw CSVs are written first so row sources point at
+// real in-repo files.
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const START = '2026-08-14';
 const END = '2026-09-23';
 const HOLIDAYS = new Set(['2026-08-17', '2026-08-25']);
-const ROWS_PER_SIDE = 5;
+const ROWS_PER_SIDE = 9;
 const CSV_HEADER = 'date,ticker,side,rank,broker,lots,value_idr,avg_price,frequency,source_id';
 
 interface BrokerSpec {
@@ -41,12 +47,13 @@ interface DayPlan {
   sell: BrokerSpec[];
 }
 interface FixtureSpec {
-  ticker: 'SMPA' | 'SMPB';
+  ticker: string;
   dataVersion: string;
   eventsVersion: string;
   csvPath: string;
   missingDates: ReadonlySet<string>;
   dayPlans: DayPlan[];
+  bars: SamplePriceBar[];
   events: SiniEvent[];
   expected: { capturedSessions: number; rowsPerSide: number };
 }
@@ -77,128 +84,355 @@ interface ValidationDocument {
   rejected: Array<{ reason: string; row: DiagnosticRef }>;
 }
 
-function smpaDayPlans(capturedDates: string[]): DayPlan[] {
-  return capturedDates.map((date, i) => {
-    // Sessions 0-17: app-facing brokers accumulate while institution and other
-    // brokers sell. From session 18 the pattern flips, so the transaction lens
-    // has a genuine reversal to describe.
-    const flip = i >= 18;
-    const accumulateSide = ['XL', 'XC', 'YP', 'XA', 'CC'];
-    const counterSide = ['AZ', 'AK', 'BK', 'ZP', 'TP'];
-    const buyCodes = flip ? counterSide : accumulateSide;
-    const sellCodes = flip ? accumulateSide : counterSide;
-    const base = flip ? 90 + 6 * (i - 18) : 120 + 12 * i;
-    const lotsDec = flip ? 8 : 14;
-    const priceBase = 5000 + 25 * i;
-    const priceStep = flip ? 3 : 14;
-    const spec = (code: string, rank: number): BrokerSpec => ({
-      code,
-      lots: Math.max(1, base - lotsDec * (rank - 1)),
-      price: priceBase + priceStep * (rank - 1),
-      frequency: 7 - rank,
-    });
-    return {
-      date,
-      buy: buyCodes.map((code, idx) => spec(code, idx + 1)),
-      sell: sellCodes.map((code, idx) => spec(code, idx + 1)),
-    };
-  });
+type Group = 'app_facing' | 'institution_facing' | 'other_mixed';
+
+interface EventSpec {
+  layer: 'story' | 'health';
+  date: string;
+  en: string;
+  id: string;
+  zh: string;
 }
 
-function smpbDayPlans(capturedDates: string[]): DayPlan[] {
-  return capturedDates.map((date, i) => {
-    // Institution-facing brokers accumulate every session; one app-facing
-    // broker alternates sides so its group flow oscillates. TP spikes once on
-    // 2026-09-01, which the five-session checks must read as a real change.
-    const odd = i % 2 === 1;
-    const buyCodes = odd ? ['AK', 'TP', 'XL', 'BK', 'YU'] : ['AK', 'TP', 'BK', 'YU', 'AI'];
-    const sellCodes = odd ? ['AI', 'DP', 'ZP', 'XA', 'CC'] : ['XL', 'DP', 'ZP', 'XA', 'CC'];
-    const spike = date === '2026-09-01';
-    const priceBase = 2000 + 8 * i;
-    const instBase = 200 + 5 * i;
-    const otherBase = 80 + 4 * i;
-    const spec = (code: string, rank: number): BrokerSpec => {
-      const isInstitution = code === 'AK' || code === 'TP';
-      const base = isInstitution ? instBase : otherBase;
-      const lotsDec = isInstitution ? 20 : 10;
-      let lots = Math.max(1, base - lotsDec * (rank - 1));
-      if (spike && code === 'TP') lots *= 6;
-      return { code, lots, price: priceBase + 5 * (rank - 1), frequency: 7 - rank };
-    };
-    return {
-      date,
-      buy: buyCodes.map((code, idx) => spec(code, idx + 1)),
-      sell: sellCodes.map((code, idx) => spec(code, idx + 1)),
-    };
-  });
+interface Scenario {
+  ticker: string;
+  seed: number;
+  startClose: number;
+  // Daily noise and the expected move on market day i of n.
+  sigma: number;
+  drift: (i: number, n: number) => number;
+  // One-day jumps on a market date: the move, how much busier the day is and,
+  // optionally, how each group leans that day in place of the usual tilt.
+  shocks: Record<string, { move: number; volume: number; lean?: Record<Group, number> }>;
+  // How strongly each group leans to net buying (+) or selling (-) on day i.
+  tilt: (i: number, n: number) => Record<Group, number>;
+  baseVolumeLots: number;
+  missingDates: ReadonlySet<string>;
+  events: EventSpec[];
 }
 
-function fixtureEvents(ticker: 'SMPA' | 'SMPB'): SiniEvent[] {
-  const source = (ref: string) => ({
-    name: 'Sample fixture (fictional, not a real announcement)',
-    url: `sample://fixture/${ticker.toLowerCase()}/${ref}`,
-  });
-  const story: SiniEvent = {
-    id: `E-${ticker}-FIXTURE-01`,
-    layer: 'story',
-    eventDate: ticker === 'SMPA' ? '2026-08-20' : '2026-08-28',
-    publicationDate: ticker === 'SMPA' ? '2026-08-21' : '2026-08-29',
-    availableAt: `${ticker === 'SMPA' ? '2026-08-21' : '2026-08-29'}T00:00:00+07:00`,
-    source: source('event-01'),
-    text: {
-      en: 'Fictional sample event: the fictional issuer announced a mock expansion plan. This text exists only inside the sample fixture.',
-      id: 'Peristiwa contoh fiksi: penerbit fiktif mengumumkan rencana ekspansi pura-pura. Teks ini hanya ada di dalam fixture contoh.',
-      zh: '虚构样本事件：该虚构发行人宣布了一项模拟扩张计划。此文本仅存在于样本数据集中。',
-    },
-  };
-  const health: SiniEvent = {
-    id: `E-${ticker}-FIXTURE-02`,
-    layer: 'health',
-    reportingDate: ticker === 'SMPA' ? '2026-09-10' : '2026-09-14',
-    publicationDate: ticker === 'SMPA' ? '2026-09-11' : '2026-09-15',
-    availableAt: `${ticker === 'SMPA' ? '2026-09-11' : '2026-09-15'}T00:00:00+07:00`,
-    source: source('event-02'),
-    text: {
-      en: 'Fictional sample report: the fictional issuer filed a mock quarterly result. This text exists only inside the sample fixture.',
-      id: 'Laporan contoh fiksi: penerbit fiktif melaporkan hasil kuartal pura-pura. Teks ini hanya ada di dalam fixture contoh.',
-      zh: '虚构样本报告：该虚构发行人提交了模拟的季度业绩。此文本仅存在于样本数据集中。',
-    },
-  };
-  return [story, health];
-}
+const STORY_SOURCE = 'Sample fixture (fictional, not a real announcement)';
 
-const FIXTURES: FixtureSpec[] = [
+const SCENARIOS: Scenario[] = [
   {
+    // Quiet accumulation: institution-facing brokers buy most days while app
+    // clients sell into a slow climb.
     ticker: 'SMPA',
-    dataVersion: 'sample-fixture-smpa-2026-08-14_2026-09-23-v1',
-    eventsVersion: 'sample-fixture-smpa-events-v1',
-    csvPath: 'data/raw/samples/smpa_broker_summary.csv',
+    seed: 11,
+    startClose: 5200,
+    sigma: 0.011,
+    drift: () => 0.0042,
+    shocks: { '2026-08-21': { move: 0.031, volume: 2.2 } },
+    tilt: (i, n) => ({ institution_facing: 0.45 + 0.35 * (i / n), app_facing: -0.55, other_mixed: 0.05 }),
+    baseVolumeLots: 9_000,
     missingDates: new Set(),
-    dayPlans: [],
-    events: fixtureEvents('SMPA'),
-    expected: { capturedSessions: 27, rowsPerSide: 135 },
+    events: [
+      {
+        layer: 'story',
+        date: '2026-08-21',
+        en: 'Fictional sample event: the fictional issuer announced a mock long-term supply contract with a state utility.',
+        id: 'Peristiwa contoh fiksi: penerbit fiktif mengumumkan kontrak pasokan jangka panjang pura-pura dengan BUMN utilitas.',
+        zh: '虚构样本事件：该虚构发行人宣布与一家国有公用事业公司签订模拟长期供货合同。',
+      },
+      {
+        layer: 'health',
+        date: '2026-09-11',
+        en: 'Fictional sample report: the fictional issuer filed a mock half-year result with revenue up and net debt down.',
+        id: 'Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura dengan pendapatan naik dan utang bersih turun.',
+        zh: '虚构样本报告：该虚构发行人提交模拟半年业绩，收入上升、净负债下降。',
+      },
+    ],
   },
   {
+    // Distribution: institutions buy early, then hand shares to app clients who
+    // keep buying while the price stalls and fades.
     ticker: 'SMPB',
-    dataVersion: 'sample-fixture-smpb-2026-08-14_2026-09-23-v1',
-    eventsVersion: 'sample-fixture-smpb-events-v1',
-    csvPath: 'data/raw/samples/smpb_broker_summary.csv',
+    seed: 23,
+    startClose: 2000,
+    sigma: 0.014,
+    drift: (i) => (i < 12 ? 0.0075 : -0.0075),
+    shocks: { '2026-08-31': { move: 0.04, volume: 2.6 } },
+    tilt: (i) =>
+      i < 9
+        ? { institution_facing: 0.5, app_facing: -0.2, other_mixed: -0.1 }
+        : { institution_facing: -0.85, app_facing: 0.85, other_mixed: 0.05 },
+    baseVolumeLots: 14_000,
     missingDates: new Set(['2026-09-08']),
-    dayPlans: [],
-    events: fixtureEvents('SMPB'),
-    expected: { capturedSessions: 26, rowsPerSide: 130 },
+    events: [
+      {
+        layer: 'story',
+        date: '2026-08-31',
+        en: 'Fictional sample event: the fictional issuer announced a mock plan to enter the data-centre business.',
+        id: 'Peristiwa contoh fiksi: penerbit fiktif mengumumkan rencana pura-pura masuk ke bisnis pusat data.',
+        zh: '虚构样本事件：该虚构发行人宣布进军数据中心业务的模拟计划。',
+      },
+      {
+        layer: 'health',
+        date: '2026-09-15',
+        en: 'Fictional sample report: the fictional issuer filed a mock result showing margins narrowing.',
+        id: 'Laporan contoh fiksi: penerbit fiktif melaporkan hasil pura-pura dengan margin menyempit.',
+        zh: '虚构样本报告：该虚构发行人提交模拟业绩，利润率收窄。',
+      },
+    ],
+  },
+  {
+    // A news spike: a mock resource find sends the price up hard on heavy
+    // volume, app clients chase it, institutions and mixed desks sell into it.
+    ticker: 'SMPC',
+    seed: 37,
+    startClose: 1500,
+    sigma: 0.017,
+    drift: (i) => (i > 13 && i < 17 ? 0.035 : i >= 17 ? -0.0075 : 0.0005),
+    shocks: {
+      '2026-09-02': {
+        move: 0.17,
+        volume: 6,
+        lean: { institution_facing: -1.6, app_facing: 1.6, other_mixed: -0.3 },
+      },
+    },
+    // Market day 11 is the 2 Sep news day.
+    tilt: (i) =>
+      i < 11
+        ? { institution_facing: 0.25, app_facing: -0.1, other_mixed: 0.05 }
+        : { institution_facing: -0.75, app_facing: 0.95, other_mixed: -0.35 },
+    baseVolumeLots: 20_000,
+    missingDates: new Set(),
+    events: [
+      {
+        layer: 'story',
+        date: '2026-09-02',
+        en: 'Fictional sample event: the fictional issuer reported a mock nickel find at its exploration site.',
+        id: 'Peristiwa contoh fiksi: penerbit fiktif melaporkan temuan nikel pura-pura di lokasi eksplorasinya.',
+        zh: '虚构样本事件：该虚构发行人报告其勘探区发现模拟镍矿。',
+      },
+      {
+        layer: 'story',
+        date: '2026-09-14',
+        en: 'Fictional sample event: the fictional exchange flagged unusual price and volume moves in the stock.',
+        id: 'Peristiwa contoh fiksi: bursa fiktif menandai pergerakan harga dan volume yang tidak wajar pada saham ini.',
+        zh: '虚构样本事件：虚构交易所提示该股价格和成交量出现异常波动。',
+      },
+    ],
+  },
+  {
+    // A calm large cap: flows roughly balance and the price barely moves.
+    ticker: 'SMPD',
+    seed: 41,
+    startClose: 9000,
+    sigma: 0.007,
+    drift: () => 0.0006,
+    shocks: {},
+    tilt: () => ({ institution_facing: 0.1, app_facing: -0.05, other_mixed: 0 }),
+    baseVolumeLots: 30_000,
+    missingDates: new Set(),
+    events: [
+      {
+        layer: 'health',
+        date: '2026-08-28',
+        en: 'Fictional sample report: the fictional issuer filed a mock half-year result in line with last year.',
+        id: 'Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura yang sejalan dengan tahun lalu.',
+        zh: '虚构样本报告：该虚构发行人提交与去年持平的模拟半年业绩。',
+      },
+    ],
+  },
+  {
+    // A reversal: app clients buy the slide, then institutions step in after a
+    // mock refinancing and the price turns.
+    ticker: 'SMPE',
+    seed: 53,
+    startClose: 3200,
+    sigma: 0.015,
+    drift: (i) => (i < 13 ? -0.008 : 0.0095),
+    shocks: { '2026-09-03': { move: 0.055, volume: 3 } },
+    tilt: (i) =>
+      i < 13
+        ? { institution_facing: -0.5, app_facing: 0.55, other_mixed: -0.05 }
+        : { institution_facing: 0.9, app_facing: -0.55, other_mixed: -0.1 },
+    baseVolumeLots: 16_000,
+    missingDates: new Set(),
+    events: [
+      {
+        layer: 'health',
+        date: '2026-09-03',
+        en: 'Fictional sample event: the fictional issuer announced a mock refinancing that pushes its loan maturities out to 2031.',
+        id: 'Peristiwa contoh fiksi: penerbit fiktif mengumumkan refinancing pura-pura yang memundurkan jatuh tempo pinjaman ke 2031.',
+        zh: '虚构样本事件：该虚构发行人宣布模拟再融资，将贷款到期日延至 2031 年。',
+      },
+      {
+        layer: 'story',
+        date: '2026-09-16',
+        en: 'Fictional sample event: the fictional issuer named a mock new chief executive from a regional energy group.',
+        id: 'Peristiwa contoh fiksi: penerbit fiktif menunjuk CEO baru pura-pura dari grup energi regional.',
+        zh: '虚构样本事件：该虚构发行人任命一位来自地区能源集团的模拟新任首席执行官。',
+      },
+    ],
   },
 ];
 
+// Median lots at each rank relative to rank 1 in the SINI capture.
+const RANK_SHAPE = [1, 0.61, 0.36, 0.29, 0.2, 0.14, 0.1, 0.1, 0.06] as const;
+
+// Small deterministic generator (mulberry32) and a normal draw on top of it.
+function rng(seed: number) {
+  let state = seed >>> 0;
+  const next = () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const normal = () => {
+    const u = Math.max(next(), 1e-12);
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * next());
+  };
+  return { next, normal };
+}
+
+// IDX price fractions.
+function tickSize(price: number): number {
+  if (price < 200) return 1;
+  if (price < 500) return 2;
+  if (price < 2000) return 5;
+  if (price < 5000) return 10;
+  return 25;
+}
+
+function toTick(price: number): number {
+  const tick = tickSize(price);
+  return Math.max(tick, Math.round(price / tick) * tick);
+}
+
+interface BrokerProfileLite {
+  code: string;
+  group: Group;
+}
+
+interface GeneratedStock {
+  bars: SamplePriceBar[];
+  dayPlans: DayPlan[];
+}
+
+function generateStock(scenario: Scenario, marketDates: readonly string[], universe: readonly BrokerProfileLite[]): GeneratedStock {
+  const random = rng(scenario.seed);
+  const n = marketDates.length;
+
+  // Prices: drift plus noise plus scripted shocks, on the IDX tick grid.
+  const bars: SamplePriceBar[] = [];
+  const moves: number[] = [];
+  const volumes: number[] = [];
+  let previous = scenario.startClose;
+  marketDates.forEach((date, i) => {
+    const shock = scenario.shocks[date];
+    const move = i === 0 ? 0 : scenario.drift(i, n) + scenario.sigma * random.normal() + (shock?.move ?? 0);
+    const close = i === 0 ? scenario.startClose : toTick(previous * (1 + move));
+    const realised = i === 0 ? 0 : close / previous - 1;
+    const range = Math.max(Math.abs(realised), scenario.sigma * 0.6);
+    const open = toTick(previous * (1 + (random.next() - 0.5) * scenario.sigma));
+    const high = toTick(Math.max(open, close) * (1 + range * (0.3 + 0.4 * random.next())));
+    const low = toTick(Math.min(open, close) * (1 - range * (0.3 + 0.4 * random.next())));
+    // Busier days are the big-move days, as in the SINI capture.
+    const busy = 1 + 9 * Math.abs(realised) + (shock ? shock.volume - 1 : 0);
+    const volumeLots = Math.round(scenario.baseVolumeLots * (0.7 + 0.6 * random.next()) * busy);
+    bars.push({ date, open, high, low: Math.min(low, close, open), close, volume: volumeLots * 100 });
+    moves.push(realised);
+    volumes.push(volumeLots);
+    previous = close;
+  });
+
+  // Each broker keeps a side habit and a size for the whole window.
+  const habits = universe.map((broker) => ({
+    ...broker,
+    habit: Math.max(-1, Math.min(1, random.normal() * 0.45)),
+    size: Math.exp(random.normal() * 0.8),
+  }));
+
+  const dayPlans: DayPlan[] = [];
+  marketDates.forEach((date, i) => {
+    if (scenario.missingDates.has(date)) return;
+    const close = bars[i]!.close;
+    // Capped, so one shock day cannot flip a group's habit on its own.
+    const z = Math.max(-2.5, Math.min(2.5, moves[i]! / scenario.sigma));
+    const tilt = scenario.tilt(i, n);
+    // Institutions lean with the day's move, app clients against it.
+    const lean: Record<Group, number> = scenario.shocks[date]?.lean ?? {
+      institution_facing: tilt.institution_facing + 0.12 * z,
+      app_facing: tilt.app_facing - 0.1 * z,
+      other_mixed: tilt.other_mixed,
+    };
+    const nets = habits.map((broker) => ({
+      code: broker.code,
+      net: (broker.habit + 1.3 * lean[broker.group] + 0.85 * random.normal()) * broker.size * Math.exp(random.normal() * 0.5),
+    }));
+    const buyers = nets.filter((entry) => entry.net > 0).sort((a, b) => b.net - a.net).slice(0, ROWS_PER_SIDE);
+    const sellers = nets.filter((entry) => entry.net < 0).sort((a, b) => a.net - b.net).slice(0, ROWS_PER_SIDE);
+    if (buyers.length < ROWS_PER_SIDE || sellers.length < ROWS_PER_SIDE) {
+      throw new Error(`${scenario.ticker} ${date}: fewer than ${ROWS_PER_SIDE} brokers on a side`);
+    }
+    // The visible top nine carry a quarter to a half of the day's volume.
+    const buyTotal = volumes[i]! * (0.25 + 0.25 * random.next());
+    const sellTotal = buyTotal * (0.9 + 0.25 * random.next());
+    // Sizes follow the SINI rank fall-off, with some day-to-day noise.
+    const toSpecs = (list: { code: string; net: number }[], total: number, sideBias: number): BrokerSpec[] => {
+      const shares = RANK_SHAPE.map((share) => share * Math.exp(0.18 * random.normal()));
+      const weight = shares.reduce((sum, share) => sum + share, 0);
+      let ceiling = Number.POSITIVE_INFINITY;
+      return list.map((entry, rank) => {
+        const lots = Math.max(1, Math.min(ceiling, Math.round((shares[rank]! / weight) * total)));
+        ceiling = lots;
+        return {
+          code: entry.code,
+          lots,
+          price: toTick(close * (1 + sideBias + 0.015 * random.normal())),
+          frequency: Math.max(1, Math.round(lots / (8 + 12 * random.next()))),
+        };
+      });
+    };
+    dayPlans.push({ date, buy: toSpecs(buyers, buyTotal, 0.003), sell: toSpecs(sellers, sellTotal, -0.003) });
+  });
+
+  return { bars, dayPlans };
+}
+
+function scenarioEvents(scenario: Scenario): SiniEvent[] {
+  return scenario.events.map((event, index) => ({
+    id: `E-${scenario.ticker}-FIXTURE-${String(index + 1).padStart(2, '0')}`,
+    layer: event.layer,
+    ...(event.layer === 'story' ? { eventDate: event.date } : { reportingDate: event.date }),
+    publicationDate: event.date,
+    availableAt: `${event.date}T00:00:00+07:00`,
+    source: { name: STORY_SOURCE, url: `sample://fixture/${scenario.ticker.toLowerCase()}/event-${String(index + 1).padStart(2, '0')}` },
+    text: { en: event.en, id: event.id, zh: event.zh },
+  }));
+}
+
+async function readUniverse(): Promise<BrokerProfileLite[]> {
+  const document = JSON.parse(await readFile(path.join(ROOT, 'public/data/brokers.json'), 'utf8')) as {
+    brokers: { code: string; group: string }[];
+  };
+  return document.brokers
+    .filter((broker): broker is BrokerProfileLite => broker.group !== 'unknown')
+    .map((broker) => ({ code: broker.code, group: broker.group as Group }));
+}
+
 async function main() {
   const marketDates = [...dateRange(START, END)].filter((date) => !HOLIDAYS.has(date) && !isWeekend(date));
-  for (const spec of FIXTURES) {
-    const capturedDates = marketDates.filter((date) => !spec.missingDates.has(date));
-    if (capturedDates.length !== spec.expected.capturedSessions) {
-      throw new Error(`${spec.ticker}: expected ${spec.expected.capturedSessions} captured sessions, calendar gives ${capturedDates.length}`);
-    }
-    spec.dayPlans = spec.ticker === 'SMPA' ? smpaDayPlans(capturedDates) : smpbDayPlans(capturedDates);
-    await buildFixture(spec, marketDates);
+  const universe = await readUniverse();
+  for (const scenario of SCENARIOS) {
+    const capturedSessions = marketDates.filter((date) => !scenario.missingDates.has(date)).length;
+    const generated = generateStock(scenario, marketDates, universe);
+    const spec: FixtureSpec = {
+      ticker: scenario.ticker,
+      dataVersion: `sample-fixture-${scenario.ticker.toLowerCase()}-${START}_${END}-v2`,
+      eventsVersion: `sample-fixture-${scenario.ticker.toLowerCase()}-events-v2`,
+      csvPath: `data/raw/samples/${scenario.ticker.toLowerCase()}_broker_summary.csv`,
+      missingDates: scenario.missingDates,
+      dayPlans: generated.dayPlans,
+      bars: generated.bars,
+      events: scenarioEvents(scenario),
+      expected: { capturedSessions, rowsPerSide: capturedSessions * ROWS_PER_SIDE },
+    };
+    await buildFixture(spec);
   }
   await buildBenchmark(marketDates);
 }
@@ -265,7 +499,7 @@ async function buildBenchmark(marketDates: readonly string[]) {
   console.log(`${symbol}: ${bars.length} fictional benchmark bars`);
 }
 
-async function buildFixture(spec: FixtureSpec, marketDates: readonly string[]) {
+async function buildFixture(spec: FixtureSpec) {
   const rawRecords = spec.dayPlans.flatMap(({ date, buy, sell }) => [
     ...buy.map((broker, idx) => toRawRecord(spec.ticker, date, 'buy', idx + 1, broker)),
     ...sell.map((broker, idx) => toRawRecord(spec.ticker, date, 'sell', idx + 1, broker)),
@@ -294,20 +528,7 @@ async function buildFixture(spec: FixtureSpec, marketDates: readonly string[]) {
   await writeJson(`${base}/events.json`, eventsDocument);
   await writeJson(`${base}/validation.json`, validationDocument);
 
-  const bars =
-    spec.ticker === 'SMPA'
-      ? samplePriceBars(
-          marketDates,
-          (index) => 5200 + 18 * index + ((index * index) % 7) * 10,
-          { open: 15, high: 25, low: 25 },
-          (index) => 1_200_000 + 80_000 * index,
-        )
-      : samplePriceBars(
-          marketDates,
-          (index) => 2000 + 12 * index + ((index * index) % 5) * 8,
-          { open: 8, high: 12, low: 12 },
-          (index) => 900_000 + 60_000 * index,
-        );
+  const bars = spec.bars;
   const pricesDocument = buildPricesDocument(
     spec.ticker,
     pricesVersion('prices', spec.ticker),

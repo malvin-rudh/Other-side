@@ -76,6 +76,147 @@
   box-shadow: 0 10px 30px #0b122015;
 }
 
+/* Brief hero: the label and briefing date on the left, the calendar on the right. */
+.brief-hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 24px;
+}
+
+/* The date calendar (Brief and stock page): month bar, weekday row, a week jump column on the left
+   and one button per day. Only briefing mornings are enabled. */
+.date-calendar {
+  width: 252px;
+  flex-shrink: 0;
+  border: 1px solid #e3e8f0;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+.date-calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: #f5f7fa;
+  border-bottom: 1px solid #e3e8f0;
+}
+
+.date-calendar-month {
+  font-weight: 600;
+  color: #0b1220;
+}
+
+.date-calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: #5a6b84;
+}
+
+.date-calendar-nav:hover:not(:disabled) {
+  background: #fff;
+  color: #0b1220;
+}
+
+.date-calendar-nav:disabled {
+  opacity: 0.3;
+}
+
+.date-calendar-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.date-calendar-grid th {
+  padding: 5px 0 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8494ab;
+  text-align: center;
+}
+
+.date-calendar-grid td {
+  padding: 1px;
+  text-align: center;
+}
+
+.date-calendar-grid .date-calendar-weekcol {
+  width: 24px;
+  padding: 1px 0;
+  background: #1b2740;
+}
+
+.date-calendar-grid thead .date-calendar-weekcol {
+  background: #1b2740;
+}
+
+.date-calendar-week {
+  width: 100%;
+  height: 28px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.date-calendar-week:hover:not(:disabled) {
+  color: #f58220;
+}
+
+.date-calendar-week:disabled {
+  color: #ffffff40;
+}
+
+.date-calendar-day {
+  width: 100%;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #0b1220;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 120ms, background-color 120ms;
+}
+
+.date-calendar-day:hover:not(:disabled) {
+  border-color: #f58220;
+}
+
+.date-calendar-day:disabled {
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+.date-calendar-day.is-outside {
+  font-style: italic;
+  color: #8494ab;
+}
+
+.date-calendar-day.is-outside:disabled {
+  color: #dce3ed;
+}
+
+.date-calendar-day[aria-pressed='true'] {
+  background: #0b1220;
+  border-color: #0b1220;
+  color: #fff;
+}
+
+.page-summary-card > ul:last-child {
+  margin-bottom: 0;
+}
+
+.page-summary-card:has(> ul:last-child) {
+  padding-bottom: 8px;
+}
+
 .page-section {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -222,4 +363,28 @@
     flex-basis: 100%;
     order: 3;
   }
+}
+
+/* One stock in a list (Brief and Stocks): details on the left, the analysis
+   button on the right. */
+.stock-headline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .stock-headline {
+    flex-wrap: wrap;
+  }
+}
+
+/* A stock row on the Portfolio screen: identity on the left, actions on the right. */
+.portfolio-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 12px 0;
 }
