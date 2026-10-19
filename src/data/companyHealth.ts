@@ -4,6 +4,7 @@
 // SINI: FinancialStatement-2026-II-SINI.xlsx, the IDX XBRL workbook for the
 // Q2 2026 report (results for 1 Jan to 30 Jun 2026, limited review), sheets 1210000
 // (financial position), 1311000 (profit or loss) and 1510000 (cash flows).
+// The Q1 2026 comparison comes from FinancialStatement-2026-I-SINI.xlsx.
 
 export interface HealthBalance {
   totalAssets: number;
@@ -43,6 +44,20 @@ export interface CompanyHealthReport {
   priorBalance: HealthBalance;
   results: HealthResults;
   priorResults: HealthResults;
+  // The financial report before this one (the previous quarter), when it is
+  // on file. Revenue is that report's own year-to-date figure. SINI's real Q1
+  // 2026 report is not in the repo yet, so SINI has none and the card falls
+  // back to the December balance and the H1 2025 results.
+  previousReport?: PreviousReport;
+}
+
+export interface PreviousReport {
+  label: string;
+  periodEnd: string;
+  revenue: number;
+  totalAssets: number;
+  totalLiabilities: number;
+  cash: number;
 }
 
 const REPORTS: Record<string, CompanyHealthReport> = {
@@ -57,6 +72,16 @@ const REPORTS: Record<string, CompanyHealthReport> = {
     availableFrom: '2026-08-20',
     reviewType: 'limited-review',
     fictional: false,
+    // FinancialStatement-2026-I-SINI.xlsx, the Q1 2026 report (31 Mar 2026),
+    // sheets 1210000 and 1311000.
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 273_935_715_267,
+      totalAssets: 1_647_768_740_947,
+      totalLiabilities: 2_323_810_134_709,
+      cash: 74_429_360_209,
+    },
     balance: {
       totalAssets: 5_423_537_074_611,
       totalLiabilities: 5_476_776_544_261,
@@ -139,6 +164,15 @@ const FICTIONAL_REPORTS: Record<string, CompanyHealthReport> = {
       netProfit: 134_000_000_000,
       operatingCashFlow: 140_000_000_000,
     },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 690_000_000_000,
+      totalAssets: 4_120_000_000_000,
+      totalLiabilities: 2_130_000_000_000,
+      cash: 540_000_000_000,
+    },
   },
   SMPB: {
     // Fictional. Distribution story: margins narrowing, debt up, a one-off asset sale props up profit.
@@ -183,6 +217,15 @@ const FICTIONAL_REPORTS: Record<string, CompanyHealthReport> = {
       oneOffGain: 0,
       netProfit: 31_000_000_000,
       operatingCashFlow: 35_000_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 300_000_000_000,
+      totalAssets: 1_920_000_000_000,
+      totalLiabilities: 1_000_000_000_000,
+      cash: 120_000_000_000,
     },
   },
   SMPC: {
@@ -229,6 +272,15 @@ const FICTIONAL_REPORTS: Record<string, CompanyHealthReport> = {
       netProfit: -26_000_000_000,
       operatingCashFlow: -29_000_000_000,
     },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 5_000_000_000,
+      totalAssets: 615_000_000_000,
+      totalLiabilities: 295_000_000_000,
+      cash: 35_000_000_000,
+    },
   },
   SMPD: {
     // Fictional. Calm large-cap story: steady results, little change.
@@ -274,6 +326,15 @@ const FICTIONAL_REPORTS: Record<string, CompanyHealthReport> = {
       netProfit: 2_160_000_000_000,
       operatingCashFlow: 2_800_000_000_000,
     },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 10_700_000_000_000,
+      totalAssets: 31_400_000_000_000,
+      totalLiabilities: 13_100_000_000_000,
+      cash: 3_900_000_000_000,
+    },
   },
   SMPE: {
     // Fictional. Reversal story: a weak half and rising debt before the September refinancing.
@@ -318,6 +379,339 @@ const FICTIONAL_REPORTS: Record<string, CompanyHealthReport> = {
       oneOffGain: 0,
       netProfit: 37_000_000_000,
       operatingCashFlow: 160_000_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 1_020_000_000_000,
+      totalAssets: 5_450_000_000_000,
+      totalLiabilities: 4_190_000_000_000,
+      cash: 360_000_000_000,
+    },
+  },
+  SHKA: {
+    // Fictional. Hong Kong, HKD. Southbound accumulation story: growing, borrowings down.
+    ticker: 'SHKA',
+    label: 'Q2 2026',
+    periodEnd: '2026-06-30',
+    priorBalanceDate: '2025-12-31',
+    priorResultsEnd: '2025-06-30',
+    availableFrom: '2026-09-10',
+    reviewType: 'unaudited',
+    fictional: true,
+    balance: {
+      totalAssets: 18_400_000_000,
+      totalLiabilities: 9_100_000_000,
+      totalEquity: 9_300_000_000,
+      cash: 2_600_000_000,
+      currentAssets: 5_200_000_000,
+      currentLiabilities: 3_900_000_000,
+      bankLoans: 3_200_000_000,
+      relatedPartyBorrowings: 150_000_000,
+    },
+    priorBalance: {
+      totalAssets: 17_600_000_000,
+      totalLiabilities: 9_000_000_000,
+      totalEquity: 8_600_000_000,
+      cash: 2_100_000_000,
+      currentAssets: 4_800_000_000,
+      currentLiabilities: 3_800_000_000,
+      bankLoans: 3_500_000_000,
+      relatedPartyBorrowings: 200_000_000,
+    },
+    results: {
+      revenue: 5_600_000_000,
+      profitBeforeTax: 780_000_000,
+      oneOffGain: 0,
+      netProfit: 640_000_000,
+      operatingCashFlow: 820_000_000,
+    },
+    priorResults: {
+      revenue: 5_000_000_000,
+      profitBeforeTax: 640_000_000,
+      oneOffGain: 0,
+      netProfit: 520_000_000,
+      operatingCashFlow: 600_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 2_700_000_000,
+      totalAssets: 18_000_000_000,
+      totalLiabilities: 9_050_000_000,
+      cash: 2_350_000_000,
+    },
+  },
+  SHKB: {
+    // Fictional. Hong Kong, HKD. Placement story: a widening loss and thinning cash before a share placement.
+    ticker: 'SHKB',
+    label: 'Q2 2026',
+    periodEnd: '2026-06-30',
+    priorBalanceDate: '2025-12-31',
+    priorResultsEnd: '2025-06-30',
+    availableFrom: '2026-09-14',
+    reviewType: 'unaudited',
+    fictional: true,
+    balance: {
+      totalAssets: 4_600_000_000,
+      totalLiabilities: 2_700_000_000,
+      totalEquity: 1_900_000_000,
+      cash: 1_100_000_000,
+      currentAssets: 1_700_000_000,
+      currentLiabilities: 1_500_000_000,
+      bankLoans: 1_100_000_000,
+      relatedPartyBorrowings: 300_000_000,
+    },
+    priorBalance: {
+      totalAssets: 4_900_000_000,
+      totalLiabilities: 2_500_000_000,
+      totalEquity: 2_400_000_000,
+      cash: 1_600_000_000,
+      currentAssets: 2_200_000_000,
+      currentLiabilities: 1_300_000_000,
+      bankLoans: 900_000_000,
+      relatedPartyBorrowings: 250_000_000,
+    },
+    results: {
+      revenue: 380_000_000,
+      profitBeforeTax: -310_000_000,
+      oneOffGain: 0,
+      netProfit: -295_000_000,
+      operatingCashFlow: -260_000_000,
+    },
+    priorResults: {
+      revenue: 340_000_000,
+      profitBeforeTax: -220_000_000,
+      oneOffGain: 0,
+      netProfit: -210_000_000,
+      operatingCashFlow: -190_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 185_000_000,
+      totalAssets: 4_750_000_000,
+      totalLiabilities: 2_600_000_000,
+      cash: 1_350_000_000,
+    },
+  },
+  SKRA: {
+    // Fictional. Korea, KRW. Retail frenzy story: thin margins, current liabilities above current assets, cash burn.
+    ticker: 'SKRA',
+    label: 'Q2 2026',
+    periodEnd: '2026-06-30',
+    priorBalanceDate: '2025-12-31',
+    priorResultsEnd: '2025-06-30',
+    availableFrom: '2026-09-17',
+    reviewType: 'unaudited',
+    fictional: true,
+    balance: {
+      totalAssets: 1_840_000_000_000,
+      totalLiabilities: 1_220_000_000_000,
+      totalEquity: 620_000_000_000,
+      cash: 140_000_000_000,
+      currentAssets: 620_000_000_000,
+      currentLiabilities: 710_000_000_000,
+      bankLoans: 580_000_000_000,
+      relatedPartyBorrowings: 50_000_000_000,
+    },
+    priorBalance: {
+      totalAssets: 1_660_000_000_000,
+      totalLiabilities: 1_050_000_000_000,
+      totalEquity: 610_000_000_000,
+      cash: 200_000_000_000,
+      currentAssets: 600_000_000_000,
+      currentLiabilities: 580_000_000_000,
+      bankLoans: 460_000_000_000,
+      relatedPartyBorrowings: 40_000_000_000,
+    },
+    results: {
+      revenue: 520_000_000_000,
+      profitBeforeTax: 18_000_000_000,
+      oneOffGain: 0,
+      netProfit: 11_000_000_000,
+      operatingCashFlow: -22_000_000_000,
+    },
+    priorResults: {
+      revenue: 410_000_000_000,
+      profitBeforeTax: 29_000_000_000,
+      oneOffGain: 0,
+      netProfit: 22_000_000_000,
+      operatingCashFlow: 15_000_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 240_000_000_000,
+      totalAssets: 1_750_000_000_000,
+      totalLiabilities: 1_130_000_000_000,
+      cash: 170_000_000_000,
+    },
+  },
+  SKRB: {
+    // Fictional. Korea, KRW. Steady accumulation story: growing profit, loan balance down.
+    ticker: 'SKRB',
+    label: 'Q2 2026',
+    periodEnd: '2026-06-30',
+    priorBalanceDate: '2025-12-31',
+    priorResultsEnd: '2025-06-30',
+    availableFrom: '2026-09-10',
+    reviewType: 'unaudited',
+    fictional: true,
+    balance: {
+      totalAssets: 6_900_000_000_000,
+      totalLiabilities: 2_400_000_000_000,
+      totalEquity: 4_500_000_000_000,
+      cash: 1_300_000_000_000,
+      currentAssets: 3_100_000_000_000,
+      currentLiabilities: 1_500_000_000_000,
+      bankLoans: 800_000_000_000,
+      relatedPartyBorrowings: 0,
+    },
+    priorBalance: {
+      totalAssets: 6_400_000_000_000,
+      totalLiabilities: 2_400_000_000_000,
+      totalEquity: 4_000_000_000_000,
+      cash: 1_000_000_000_000,
+      currentAssets: 2_800_000_000_000,
+      currentLiabilities: 1_500_000_000_000,
+      bankLoans: 900_000_000_000,
+      relatedPartyBorrowings: 0,
+    },
+    results: {
+      revenue: 2_350_000_000_000,
+      profitBeforeTax: 410_000_000_000,
+      oneOffGain: 0,
+      netProfit: 320_000_000_000,
+      operatingCashFlow: 470_000_000_000,
+    },
+    priorResults: {
+      revenue: 1_900_000_000_000,
+      profitBeforeTax: 290_000_000_000,
+      oneOffGain: 0,
+      netProfit: 225_000_000_000,
+      operatingCashFlow: 330_000_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 1_130_000_000_000,
+      totalAssets: 6_650_000_000_000,
+      totalLiabilities: 2_400_000_000_000,
+      cash: 1_150_000_000_000,
+    },
+  },
+  SCNA: {
+    // Fictional. China, CNY. Squeeze story: thin profit propped by a one-off subsidy, cash flow negative, short-term debt heavy.
+    ticker: 'SCNA',
+    label: 'Q2 2026',
+    periodEnd: '2026-06-30',
+    priorBalanceDate: '2025-12-31',
+    priorResultsEnd: '2025-06-30',
+    availableFrom: '2026-09-16',
+    reviewType: 'unaudited',
+    fictional: true,
+    balance: {
+      totalAssets: 3_600_000_000,
+      totalLiabilities: 2_300_000_000,
+      totalEquity: 1_300_000_000,
+      cash: 350_000_000,
+      currentAssets: 1_900_000_000,
+      currentLiabilities: 1_700_000_000,
+      bankLoans: 900_000_000,
+      relatedPartyBorrowings: 120_000_000,
+    },
+    priorBalance: {
+      totalAssets: 3_300_000_000,
+      totalLiabilities: 2_000_000_000,
+      totalEquity: 1_300_000_000,
+      cash: 500_000_000,
+      currentAssets: 1_800_000_000,
+      currentLiabilities: 1_400_000_000,
+      bankLoans: 700_000_000,
+      relatedPartyBorrowings: 80_000_000,
+    },
+    results: {
+      revenue: 640_000_000,
+      profitBeforeTax: 38_000_000,
+      oneOffGain: 22_000_000,
+      netProfit: 31_000_000,
+      operatingCashFlow: -45_000_000,
+    },
+    priorResults: {
+      revenue: 560_000_000,
+      profitBeforeTax: 61_000_000,
+      oneOffGain: 0,
+      netProfit: 52_000_000,
+      operatingCashFlow: 20_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 305_000_000,
+      totalAssets: 3_450_000_000,
+      totalLiabilities: 2_150_000_000,
+      cash: 420_000_000,
+    },
+  },
+  SCNB: {
+    // Fictional. China, CNY. Institutional accumulation story: growing revenue and profit, low debt.
+    ticker: 'SCNB',
+    label: 'Q2 2026',
+    periodEnd: '2026-06-30',
+    priorBalanceDate: '2025-12-31',
+    priorResultsEnd: '2025-06-30',
+    availableFrom: '2026-09-14',
+    reviewType: 'unaudited',
+    fictional: true,
+    balance: {
+      totalAssets: 5_900_000_000,
+      totalLiabilities: 1_900_000_000,
+      totalEquity: 4_000_000_000,
+      cash: 1_400_000_000,
+      currentAssets: 3_000_000_000,
+      currentLiabilities: 1_100_000_000,
+      bankLoans: 500_000_000,
+      relatedPartyBorrowings: 0,
+    },
+    priorBalance: {
+      totalAssets: 5_500_000_000,
+      totalLiabilities: 1_900_000_000,
+      totalEquity: 3_600_000_000,
+      cash: 1_100_000_000,
+      currentAssets: 2_700_000_000,
+      currentLiabilities: 1_100_000_000,
+      bankLoans: 600_000_000,
+      relatedPartyBorrowings: 0,
+    },
+    results: {
+      revenue: 1_250_000_000,
+      profitBeforeTax: 290_000_000,
+      oneOffGain: 0,
+      netProfit: 245_000_000,
+      operatingCashFlow: 310_000_000,
+    },
+    priorResults: {
+      revenue: 1_050_000_000,
+      profitBeforeTax: 220_000_000,
+      oneOffGain: 0,
+      netProfit: 185_000_000,
+      operatingCashFlow: 205_000_000,
+    },
+    // Q1 2026 report: revenue is its own year-to-date figure (1 Jan to 31 Mar).
+    previousReport: {
+      label: 'Q1 2026',
+      periodEnd: '2026-03-31',
+      revenue: 590_000_000,
+      totalAssets: 5_700_000_000,
+      totalLiabilities: 1_900_000_000,
+      cash: 1_250_000_000,
     },
   },
 };

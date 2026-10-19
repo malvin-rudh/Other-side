@@ -58,7 +58,7 @@ export interface SamplePriceBar {
 export interface PricesDocument {
   symbol: string;
   version: string;
-  currency: 'IDR';
+  currency: 'IDR' | 'HKD' | 'KRW' | 'CNY';
   exchangeTimezone: string;
   exchangeName: string;
   source: string;
@@ -361,7 +361,7 @@ export const pricesDocumentSchema = {
   properties: {
     symbol: { type: 'string', pattern: '^[A-Z0-9.\\-^]{1,24}$' },
     version: { type: 'string', minLength: 1 },
-    currency: { type: 'string', enum: ['IDR'] },
+    currency: { type: 'string', enum: ['IDR', 'HKD', 'KRW', 'CNY'] },
     exchangeTimezone: { type: 'string', minLength: 1 },
     exchangeName: { type: 'string', minLength: 1 },
     source: { type: 'string', minLength: 1 },

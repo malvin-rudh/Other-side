@@ -4,6 +4,7 @@ export type IconName =
   | 'brief'
   | 'stock'
   | 'stocks'
+  | 'radar'
   | 'portfolio'
   | 'how'
   | 'advanced'
@@ -112,6 +113,13 @@ const PATHS: Record<IconName, ReactNode> = {
     <>
       <path d="M2.8 3.4h10.4M2.8 8h10.4M2.8 12.6h6.4" />
       <path d="M11.4 11.2 12.8 12.6l-1.4 1.4" />
+    </>
+  ),
+  radar: (
+    <>
+      <circle cx="8" cy="8" r="5.4" />
+      <circle cx="8" cy="8" r="2.3" />
+      <path d="M8 8 12 4.2" />
     </>
   ),
   portfolio: (

@@ -9,7 +9,6 @@
 
 import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { usePortfolioAnalytics } from '../data/portfolioPrices';
-import { briefCutoffMs } from '../engine/brief';
 import { buildPortfolioEvidenceView, type EvidenceView } from '../engine/evidence';
 import type { FactsContext, FactKey, Fact } from '../engine/facts';
 import { portfolioAnalyticsContext, buildPortfolioFacts } from '../engine/portfolioFacts';
@@ -58,12 +57,12 @@ type OpenEvidence = (factId: string, trigger: HTMLButtonElement) => void;
 // The portfolio model over every common close up to the cutoff, its facts for
 // the evidence drawer, and that drawer's state. Shared by the Portfolio card and
 // the Brief summary so both show the same window.
-function usePortfolioModel(cutoffMs: number | null, resetKey: string) {
+function usePortfolioModel(cutoffMs: number | null, resetKey: string, since: string | null = null) {
   const { locale } = useTranslation();
   const taxonomyVersion = useContextStore((state) => state.taxonomyVersion);
   const claimVersion = useContextStore((state) => state.claimVersion);
   const [evidenceRequest, setEvidenceRequest] = useState<{ factId: string; trigger: HTMLButtonElement } | null>(null);
-  const { prices, result } = usePortfolioAnalytics('all', cutoffMs);
+  const { prices, result } = usePortfolioAnalytics(since !== null ? { since } : 'all', cutoffMs);
 
   // A changed morning or language is a different context, so an open drawer
   // closes rather than showing numbers the card no longer states.
@@ -206,13 +205,17 @@ export function PortfolioAnalyticsCard() {
 
 // The Brief's portfolio summary: today's value, the change over the window and
 // one chart of the portfolio against the index, with a legend.
-export function BriefPortfolioValue({ morning }: { morning: string | null }) {
+export function BriefPortfolioValue() {
   const { t, locale } = useTranslation();
-  // The selected morning decides which sessions a price may come from, so an
-  // August Brief can never expose a September value in the visible UI, the DOM, a
-  // tooltip, the evidence or the explanation.
-  const cutoffMs = useMemo(() => (morning !== null ? briefCutoffMs(morning) : null), [morning]);
-  const { prices, result, analytics, factId, openEvidence, drawer } = usePortfolioModel(cutoffMs, morning ?? '');
+  // From the earliest purchase among the holdings to the latest close, so the
+  // value shows how the portfolio has done since the user first bought.
+  const since = useContextStore((state) =>
+    state.portfolio
+      .filter((entry) => entry.list === 'owned' && entry.purchaseDate !== null)
+      .map((entry) => entry.purchaseDate as string)
+      .sort()[0] ?? null,
+  );
+  const { prices, result, analytics, factId, openEvidence, drawer } = usePortfolioModel(null, since ?? '', since);
 
   if (prices.status === 'loading' || result === null) {
     return <p className="text-sm text-muted">{t('analytics.loading')}</p>;

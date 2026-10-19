@@ -1,0 +1,420 @@
+{
+  "ticker": "SKRB",
+  "dataVersion": "sample-fixture-skrb-2026-08-14_2026-09-23-v2",
+  "defaultWindow": {
+    "start": "2026-08-14",
+    "end": "2026-09-23"
+  },
+  "sessions": [
+    {
+      "date": "2026-08-14",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-15",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-16",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-17",
+      "ticker": "SKRB",
+      "status": "holiday",
+      "reason": "market holiday",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-18",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-19",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-20",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-21",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-22",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-23",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-24",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-25",
+      "ticker": "SKRB",
+      "status": "holiday",
+      "reason": "market holiday",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-26",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-27",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-28",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-08-29",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-30",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-31",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-01",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-03",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-04",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-05",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-06",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-07",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-08",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-09",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-10",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-12",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-13",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-14",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-16",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-18",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-19",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-20",
+      "ticker": "SKRB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-21",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-22",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    },
+    {
+      "date": "2026-09-23",
+      "ticker": "SKRB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 5,
+        "sell": 5
+      }
+    }
+  ]
+}

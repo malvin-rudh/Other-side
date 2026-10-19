@@ -23,6 +23,7 @@
     "mobileNavAria": "Primary mobile navigation",
     "more": "More",
     "moreAria": "More destinations",
+    "back": "Back",
     "secondaryAria": "Secondary destinations",
     "research": "Research method"
   },
@@ -124,7 +125,8 @@
     "noDataHoliday": "The market was closed for a holiday, so there was no trading session.",
     "noDataMissing": "This session was not captured, so its broker flows are unknown, not zero.",
     "noDataExcluded": "This session was excluded from the dataset because its capture was unreliable, so its broker flows are unknown.",
-    "closeVsPrevious": "vs previous close"
+    "closeVsPrevious": "vs previous close",
+    "noDataDragonTiger": "This stock was not on the Dragon Tiger List that day, so no broker rows were published. China lists broker branches only on big-move days."
   },
   "thesis": {
     "title": "Thesis check",
@@ -613,7 +615,7 @@
     "lotsLabel": "Lots bought",
     "lotsLabelShort": "Lots",
     "lotsHint": "1 lot = 100 shares · {shares} shares",
-    "priceLabel": "Buy price per share (Rp)",
+    "priceLabel": "Buy price per share ({currency})",
     "dateLabel": "Buy date",
     "lotsError": "Enter a whole number of lots, 1 or more.",
     "priceError": "Enter a price above zero.",

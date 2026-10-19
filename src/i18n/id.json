@@ -23,6 +23,7 @@
     "mobileNavAria": "Navigasi utama seluler",
     "more": "Lainnya",
     "moreAria": "Tujuan lainnya",
+    "back": "Kembali",
     "secondaryAria": "Tujuan sekunder",
     "research": "Metode riset"
   },
@@ -124,7 +125,8 @@
     "noDataHoliday": "Bursa tutup karena hari libur, jadi tidak ada sesi perdagangan.",
     "noDataMissing": "Sesi ini tidak terekam, jadi arus brokernya tidak diketahui, bukan nol.",
     "noDataExcluded": "Sesi ini dikeluarkan dari dataset karena tangkapannya tidak andal, jadi arus brokernya tidak diketahui.",
-    "closeVsPrevious": "vs penutupan sebelumnya"
+    "closeVsPrevious": "vs penutupan sebelumnya",
+    "noDataDragonTiger": "Saham ini tidak masuk Dragon Tiger List hari itu, jadi tidak ada data broker yang terbit. China hanya mencantumkan cabang broker pada hari dengan pergerakan besar."
   },
   "thesis": {
     "title": "Pemeriksaan tesis",
@@ -613,7 +615,7 @@
     "lotsLabel": "Lot yang dibeli",
     "lotsLabelShort": "Lot",
     "lotsHint": "1 lot = 100 lembar · {shares} lembar",
-    "priceLabel": "Harga beli per lembar (Rp)",
+    "priceLabel": "Harga beli per lembar ({currency})",
     "dateLabel": "Tanggal beli",
     "lotsError": "Masukkan jumlah lot bulat, minimal 1.",
     "priceError": "Masukkan harga di atas nol.",

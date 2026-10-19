@@ -1,4 +1,5 @@
 import type { BrokerGroup } from '../data/schemas';
+import { currencyOf, formatPrice as formatMoney } from '../data/money';
 import { computeContextKey } from '../engine/context';
 import type { Locale } from '../engine/context';
 import type { BilingualText, Fact, FactKey, FactValue, FactsContext, FactsDocument, GroupFocus } from '../engine/facts';
@@ -585,7 +586,9 @@ function resolveSlot(
       if (value.kind === 'ratio') amount = value.display;
       if (value.kind === 'ratio-delta') amount = claimSlot.which === 'to' ? value.to.display : value.from.display;
       if (amount === null) return null;
-      return { text: formatPrice(amount, locale), tone: 'neutral' };
+      // Fact ids carry the ticker (F-<TICKER>-...), so a price reads in that
+      // instrument's own currency.
+      return { text: formatMoney(amount, currencyOf(fact.fact_id.split('-')[1] ?? ''), locale), tone: 'neutral' };
     }
     case 'count': {
       let amount: number | null = null;

@@ -1,4 +1,5 @@
-// Copy for the "How it works" screen, in the three supported locales.
+// Copy for the "How it works" part of the Research method page, in the three
+// supported locales.
 
 import type { Locale } from '../engine/context';
 
@@ -21,9 +22,7 @@ export interface MethodBrokerType {
 }
 
 export interface MethodCopy {
-  eyebrow: string;
   title: string;
-  intro: string;
   flowTitle: string;
   flow: MethodFlowStep[];
   brokersTitle: string;
@@ -36,28 +35,24 @@ export interface MethodCopy {
   replayLater: string;
   rulesTitle: string;
   rules: MethodRule[];
-  footnote: string;
 }
 
 const en: MethodCopy = {
-  eyebrow: 'Proposed Mirae feature',
   title: 'How it works',
-  intro:
-    'Other Side shows who is buying and selling a stock, by broker type, from the daily broker summary. No advice.',
   flowTitle: 'From data to screen',
   flow: [
     { icon: 'calendar', title: 'Daily broker data', line: 'One summary per session' },
     { icon: 'search', title: 'Code counts flows', line: 'Net buy and sell' },
     { icon: 'check', title: 'Checked facts', line: 'Each one has a source' },
     { icon: 'thesis', title: 'Plain reading', line: 'Short sentences' },
-    { icon: 'stocks', title: 'Your screens', line: 'Brief, Stocks, Analysis, Portfolio' },
+    { icon: 'stocks', title: 'Your screens', line: 'Brief, Live Radar, Analysis, Portfolio' },
   ],
   brokersTitle: 'Four broker types',
   brokers: [
     { title: 'Retail app brokers', codes: 'XL, XC, YP' },
     { title: 'Institutional brokers', codes: 'AK, BK, ZP' },
     { title: 'Other / mixed brokers', codes: 'CC, MG, PD' },
-    { title: 'Unclassified', codes: 'none' },
+    { title: 'Unclassified', codes: 'Lots outside the visible list' },
   ],
   brokersNote: 'Grouping is a team mapping, not client identity.',
   replayTitle: 'Looking back at a past date',
@@ -71,28 +66,24 @@ const en: MethodCopy = {
     { icon: 'search', text: 'Every number opens its source.' },
     { icon: 'how', text: 'Never a buy or sell call.' },
   ],
-  footnote: 'SINI is real data. SMPA to SMPE are fictional samples.',
 };
 
 const id: MethodCopy = {
-  eyebrow: 'Fitur usulan Mirae Asset',
   title: 'Cara kerja',
-  intro:
-    'Other Side menunjukkan siapa yang membeli dan menjual sebuah saham, menurut jenis broker, dari ringkasan broker harian. Tanpa saran.',
   flowTitle: 'Dari data ke layar',
   flow: [
     { icon: 'calendar', title: 'Data broker harian', line: 'Satu ringkasan per sesi' },
     { icon: 'search', title: 'Kode menghitung arus', line: 'Beli bersih dan jual bersih' },
     { icon: 'check', title: 'Fakta terverifikasi', line: 'Setiap fakta ada sumbernya' },
     { icon: 'thesis', title: 'Bacaan sederhana', line: 'Kalimat pendek' },
-    { icon: 'stocks', title: 'Layar Anda', line: 'Brief, Saham, Analisis, Portofolio' },
+    { icon: 'stocks', title: 'Layar Anda', line: 'Brief, Radar Langsung, Analisis, Portofolio' },
   ],
   brokersTitle: 'Empat jenis broker',
   brokers: [
     { title: 'Broker aplikasi ritel', codes: 'XL, XC, YP' },
     { title: 'Broker institusional', codes: 'AK, BK, ZP' },
     { title: 'Broker lain / campuran', codes: 'CC, MG, PD' },
-    { title: 'Tidak terklasifikasi', codes: 'tidak ada' },
+    { title: 'Tidak diketahui', codes: 'Lot di luar daftar yang terlihat' },
   ],
   brokersNote: 'Pengelompokan adalah pemetaan tim, bukan identitas nasabah.',
   replayTitle: 'Melihat tanggal lampau',
@@ -106,27 +97,24 @@ const id: MethodCopy = {
     { icon: 'search', text: 'Setiap angka membuka sumbernya.' },
     { icon: 'how', text: 'Tidak pernah ada ajakan beli atau jual.' },
   ],
-  footnote: 'SINI adalah data nyata. SMPA sampai SMPE adalah contoh fiktif.',
 };
 
 const zh: MethodCopy = {
-  eyebrow: 'Mirae 提案功能',
   title: '运作方式',
-  intro: 'Other Side 根据每日券商汇总，按券商类型显示谁在买入和卖出某只股票。不提供建议。',
   flowTitle: '从数据到页面',
   flow: [
     { icon: 'calendar', title: '每日券商数据', line: '每个交易日一份汇总' },
     { icon: 'search', title: '代码统计资金流', line: '净买入与净卖出' },
     { icon: 'check', title: '核实的事实', line: '每条都有来源' },
     { icon: 'thesis', title: '通俗解读', line: '简短句子' },
-    { icon: 'stocks', title: '您的页面', line: '简报、股票、分析、投资组合' },
+    { icon: 'stocks', title: '您的页面', line: '简报、实时雷达、分析、投资组合' },
   ],
   brokersTitle: '四类券商',
   brokers: [
     { title: '零售App券商', codes: 'XL, XC, YP' },
     { title: '机构券商', codes: 'AK, BK, ZP' },
     { title: '其他/混合券商', codes: 'CC, MG, PD' },
-    { title: '未分类', codes: '无' },
+    { title: '未知', codes: '公开名单之外的手数' },
   ],
   brokersNote: '分组是团队的映射，不代表客户身份。',
   replayTitle: '查看过去的日期',
@@ -140,7 +128,6 @@ const zh: MethodCopy = {
     { icon: 'search', text: '每个数字都可查看来源。' },
     { icon: 'how', text: '绝不给出买入或卖出建议。' },
   ],
-  footnote: 'SINI 是真实数据。SMPA 至 SMPE 是虚构样本。',
 };
 
 export const methodCopy: Record<Locale, MethodCopy> = { en, id, 'zh-CN': zh };

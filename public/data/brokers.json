@@ -1250,6 +1250,1406 @@
         "id": "Profil tidak menetapkan identitas nasabah.",
         "zh": "该画像不能确认任何客户的身份。"
       }
+    },
+    {
+      "code": "HA",
+      "name": "Harbour Pacific Global Bank (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HB",
+      "name": "Victoria International Securities (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HC",
+      "name": "Kowloon Custody and Clearing (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HD",
+      "name": "Peak Global Markets (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HE",
+      "name": "Central Capital Bank (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HF",
+      "name": "Admiralty Prime Brokerage (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HG",
+      "name": "Lantau Asset Custody (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HH",
+      "name": "Tsim Sha Tsui Global Securities (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HJ",
+      "name": "Quick Trade Online (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HK",
+      "name": "TapInvest Hong Kong (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HL",
+      "name": "Mobile Equity Direct (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HM",
+      "name": "Easy Stock App (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HN",
+      "name": "Pocket Securities (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HQ",
+      "name": "ClickTrade Asia (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HR",
+      "name": "Wanchai Local Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HS",
+      "name": "Sheung Wan Brokerage (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HT",
+      "name": "Mong Kok Finance House (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HU",
+      "name": "Causeway Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HV",
+      "name": "Aberdeen Trading House (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HW",
+      "name": "Stanley Street Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HX",
+      "name": "Lamma Capital Partners (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "HY",
+      "name": "Happy Valley Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KA",
+      "name": "Hanseong Investment and Securities (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KB",
+      "name": "Seoul Global Securities (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KC",
+      "name": "Gangnam Institutional Securities (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KD",
+      "name": "Namsan Capital Markets (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KE",
+      "name": "Jongno Asset Securities (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KF",
+      "name": "Tap Stock Korea (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KG",
+      "name": "One-Touch Securities (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KH",
+      "name": "Chat Mobile Securities (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KJ",
+      "name": "Daily Trade App Securities (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KL",
+      "name": "Bit Equity Direct (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KM",
+      "name": "Hangang Online Securities (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KN",
+      "name": "Busan Local Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KQ",
+      "name": "Incheon Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KR",
+      "name": "Daegu Brokerage House (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KS",
+      "name": "Gwangju Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "KT",
+      "name": "Jeju Capital Securities (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CA",
+      "name": "Institutional Seat Shanghai Pudong 1 (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CB",
+      "name": "Institutional Seat Shenzhen Futian 1 (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CD",
+      "name": "Institutional Seat Beijing Financial Street 1 (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CE",
+      "name": "Institutional Seat Shanghai Lujiazui 2 (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CF",
+      "name": "Institutional Seat Shenzhen Nanshan 2 (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CG",
+      "name": "Institutional Seat Hangzhou Qianjiang 1 (fictional)",
+      "group": "institution_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional global-bank or institutional-seat profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif bank global atau kursi institusi; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的全球银行或机构席位画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CH",
+      "name": "Retail Branch Shanghai Xujiahui (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CJ",
+      "name": "Retail Branch Shenzhen Luohu (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CK",
+      "name": "Retail Branch Chengdu Tianfu Avenue (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CL",
+      "name": "Retail Branch Guangzhou Tianhe (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CM",
+      "name": "Retail Branch Wuhan Optics Valley (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CN",
+      "name": "Retail Branch Nanjing Xinjiekou (fictional)",
+      "group": "app_facing",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional online or retail-heavy profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif daring atau dominan ritel; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的线上或散户为主画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CQ",
+      "name": "Securities Branch Suzhou Industrial Park (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CR",
+      "name": "Securities Branch Tianjin Binhai (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CS",
+      "name": "Securities Branch Xi'an Gaoxin (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CT",
+      "name": "Securities Branch Chongqing Jiefangbei (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CU",
+      "name": "Securities Branch Qingdao Shinan (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
+    },
+    {
+      "code": "CV",
+      "name": "Securities Branch Xiamen Siming (fictional)",
+      "group": "other_mixed",
+      "identityEvidence": {
+        "strength": "Strong",
+        "reason": "Fictional sample participant; the code and name are invented for this demo.",
+        "basis": "sample fixture (fictional)"
+      },
+      "profileEvidence": {
+        "strength": "Weak",
+        "reason": {
+          "en": "Sample mapping: fictional local mixed-house profile; client mix is invented for the demo.",
+          "id": "Pemetaan contoh: profil fiktif rumah efek lokal campuran; campuran nasabah dikarang untuk demo.",
+          "zh": "示例映射：虚构的本地综合券商画像；客户构成为演示而虚构。"
+        },
+        "basis": "sample fixture mapping (fictional)",
+        "sourceReference": "none (fictional)"
+      },
+      "note": {
+        "en": "Profile does not establish customer identity.",
+        "id": "Profil tidak menetapkan identitas nasabah.",
+        "zh": "该画像不能确认任何客户的身份。"
+      }
     }
   ]
 }

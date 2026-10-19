@@ -1,18 +1,28 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { BrokersAndReplay, HowItWorksFlow, MethodRules, ThreeLayers } from '../components/HowItWorks';
 import { Tabs, type TabSpec } from '../components/TabList';
+import { methodCopy } from '../i18n/methodCopy';
 import { useTranslation } from '../i18n';
 import { researchContent } from '../i18n/research';
+import { radarCopy } from '../i18n/radarCopy';
+import { HEALTH_CHECK_POINTS, RADAR_WEIGHTS, TRANSACTION_CHECK_POINTS } from '../engine/radarScore';
 import '../research.css';
 
 const PROPOSAL_PDF = '/review/round1-proposal.pdf';
 const PROPOSAL_DOWNLOAD_NAME = 'Other-Side-Round1-Proposal.pdf';
 
-const LAYER_GLYPH: Record<string, string> = { story: '1', flow: '2', health: '3' };
-
 export function ResearchScreen() {
   const { t, locale } = useTranslation();
   const content = useMemo(() => researchContent(locale), [locale]);
+  const radar = content.radar;
+  const radarText = radarCopy(locale);
+  const radarGroups = [
+    { id: 'transactions' as const, rows: TRANSACTION_CHECK_POINTS.map((c) => ({ text: radarText.checks[c.id] ?? c.id, grade: radarText.grades[c.id] ?? '', points: `0-${c.max}` })) },
+    { id: 'health' as const, rows: HEALTH_CHECK_POINTS.map((c) => ({ text: radarText.checks[c.id] ?? c.id, grade: radarText.grades[c.id] ?? '', points: `0-${c.max}` })) },
+    { id: 'events' as const, rows: radar.eventRows },
+  ];
+
 
   const layerTabs: TabSpec[] = content.layers.map((layer) => ({
     id: layer.id,
@@ -54,40 +64,93 @@ export function ResearchScreen() {
         <p className="research-intro">{content.intro}</p>
       </header>
 
-      <section className="research-section" aria-labelledby="research-framework">
+      <section className="research-section" aria-labelledby="research-how">
         <div className="research-section-heading">
-          <h2 id="research-framework">{content.framework}</h2>
+          <h2 id="research-how">{methodCopy[locale].title}</h2>
         </div>
-        <div className="research-framework">
-          {content.layers.map((layer) => (
-            <div key={layer.id}>
-              <span className="research-layer-node" aria-hidden="true">
-                {LAYER_GLYPH[layer.id] ?? ''}
-              </span>
-              <h3>{layer.label}</h3>
-              <p>{layer.question}</p>
-            </div>
-          ))}
-        </div>
-        <Tabs tabs={layerTabs} ariaLabel={content.framework} idPrefix="research-layer" initialTab="story" />
-        <div className="research-scope">
-          <h3>{content.scopeTitle}</h3>
-          <p>{content.scope}</p>
-        </div>
+        <HowItWorksFlow locale={locale} />
+        <ThreeLayers title={content.framework} line={content.frameworkLine} layers={content.layers}>
+          <div className="mt-4">
+            <Tabs tabs={layerTabs} ariaLabel={content.framework} idPrefix="research-layer" initialTab="story" />
+          </div>
+          <div className="research-scope">
+            <h3>{content.scopeTitle}</h3>
+            <p>{content.scope}</p>
+          </div>
+        </ThreeLayers>
+        <BrokersAndReplay locale={locale} />
+        <MethodRules locale={locale} />
       </section>
 
-      <section className="research-section" aria-labelledby="research-where">
+      <section className="research-section" aria-labelledby="research-radar">
         <div className="research-section-heading">
-          <h2 id="research-where">{content.whereTitle}</h2>
+          <h2 id="research-radar">{radar.title}</h2>
         </div>
-        <ul className="research-journey">
-          {content.where.map((item) => (
-            <li key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="card card-pad space-y-5">
+          <p className="text-sm text-muted">{radar.intro}</p>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {radarGroups.map((group) => (
+              <div key={group.id} className="rounded-xl border border-line bg-surfaceAlt p-4">
+                <div className="flex items-baseline justify-between gap-2">
+                  <h3 className="text-sm font-semibold">{radarText.pillars[group.id]}</h3>
+                  <span className="chip chip-line">
+                    {RADAR_WEIGHTS[group.id]}% {radar.weightWord}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-muted">{radar.notes[group.id]}</p>
+                <table className="mt-3 w-full text-left text-xs">
+                  <thead>
+                    <tr className="text-muted">
+                      <th className="pb-1 font-semibold">{radar.checkCol}</th>
+                      <th className="pb-1 text-right font-semibold">{radar.pointsCol}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {group.rows.map((row) => (
+                      <tr key={row.text} className="border-t border-line align-top">
+                        <td className="py-1.5 pr-3">
+                          {row.text}
+                          <span className="mt-0.5 block text-[11px] text-muted">{row.grade}</span>
+                        </td>
+                        <td className="whitespace-nowrap py-1.5 text-right font-semibold tabular-nums">{row.points}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+          <p className="text-sm">{radar.scoreRule}</p>
+          <div>
+            <h3 className="text-sm font-semibold">{radar.labelsTitle}</h3>
+            <dl className="mt-2 grid gap-2 sm:grid-cols-2">
+              {radar.labels.map((item) => (
+                <div key={item.name} className="rounded-lg border border-line p-3">
+                  <dt className="text-sm font-semibold">{item.name}</dt>
+                  <dd className="mt-0.5 text-xs text-muted">{item.rule}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold">{radar.replayTitle}</h3>
+            <p className="mt-1 text-sm text-muted">{radar.replay}</p>
+          </div>
+          <p className="text-xs text-muted">{radar.limits}</p>
+          <div>
+            <h3 className="text-sm font-semibold">{radar.sourcesTitle}</h3>
+            <ul className="mt-2 space-y-1 text-xs">
+              {radar.sources.map((source) => (
+                <li key={source.url}>
+                  <a className="text-brandDeep underline" href={source.url} target="_blank" rel="noreferrer">
+                    {source.title}
+                  </a>
+                  <span className="text-muted">{' · '}{source.used}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section className="research-section" aria-labelledby="research-data">
@@ -128,16 +191,11 @@ export function ResearchScreen() {
 
       <div className="research-source">
         <h3>{content.source}</h3>
-        <p>{content.sourceNote}</p>
         <div>
           <a className="btn btn-quiet" href={PROPOSAL_PDF} download={PROPOSAL_DOWNLOAD_NAME}>
             <span aria-hidden="true">↓</span>
             {content.proposal}
           </a>
-          <Link className="btn btn-quiet" to="/method">
-            {content.engine}
-            <span aria-hidden="true">↗</span>
-          </Link>
           <Link className="btn btn-ghost" to="/stocks">
             {content.stocks}
             <span aria-hidden="true">↗</span>

@@ -1,0 +1,38 @@
+{
+  "ticker": "SCNA",
+  "version": "sample-fixture-scna-events-v2",
+  "events": [
+    {
+      "id": "E-SCNA-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-09-02",
+      "publicationDate": "2026-09-02",
+      "availableAt": "2026-09-02T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/scna/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer announced a mock robot-arm order from an unnamed carmaker.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif mengumumkan pesanan lengan robot pura-pura dari produsen mobil yang tidak disebutkan.",
+        "zh": "虚构样本事件：该虚构发行人宣布获得一家未具名车企的模拟机械臂订单。"
+      }
+    },
+    {
+      "id": "E-SCNA-FIXTURE-02",
+      "layer": "health",
+      "reportingDate": "2026-09-16",
+      "publicationDate": "2026-09-16",
+      "availableAt": "2026-09-16T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/scna/event-02"
+      },
+      "text": {
+        "en": "Fictional sample report: the fictional issuer filed a mock half-year result with profit propped up by a one-off subsidy.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura dengan laba ditopang subsidi satu kali.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟半年业绩，利润由一次性补贴支撑。"
+      }
+    }
+  ]
+}

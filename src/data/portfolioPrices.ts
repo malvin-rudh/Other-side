@@ -278,9 +278,12 @@ export interface PortfolioAnalyticsState {
   result: PortfolioAnalyticsResult | null;
 }
 
-// A whole number of sessions, or 'all' for every common close the holdings
-// share up to the cutoff.
-export function usePortfolioAnalytics(sessions: number | 'all', cutoffMs: number | null = null): PortfolioAnalyticsState {
+// A whole number of sessions, 'all' for every common close the holdings share
+// up to the cutoff, or every close since a start date.
+export function usePortfolioAnalytics(
+  sessions: number | 'all' | { since: string },
+  cutoffMs: number | null = null,
+): PortfolioAnalyticsState {
   const prices = usePortfolioPrices(cutoffMs);
   const portfolio = useContextStore((state) => state.portfolio);
 
@@ -297,7 +300,21 @@ export function usePortfolioAnalytics(sessions: number | 'all', cutoffMs: number
         sessions: count,
         cutoffMs: prices.cutoffMs,
       });
-    if (sessions !== 'all') return build(sessions);
+    if (typeof sessions === 'number') return build(sessions);
+    if (typeof sessions === 'object') {
+      // Common closes on or after the start date, across every owned holding.
+      const dateSets = holdings.map(
+        (holding) =>
+          new Set(
+            (prices.seriesBySymbol.get(holding.symbol)?.bars ?? [])
+              .filter((bar) => bar.close !== null && bar.date >= sessions.since)
+              .map((bar) => bar.date),
+          ),
+      );
+      const first = dateSets[0];
+      const common = first === undefined ? 0 : [...first].filter((date) => dateSets.every((set) => set.has(date))).length;
+      if (common >= 2) return build(common - 1);
+    }
     // Ask for more closes than exist, then rebuild on exactly the ones found.
     const probe = build(Number.MAX_SAFE_INTEGER - 1);
     if (probe.kind === 'unavailable' && probe.reason.code === 'insufficient-common-closes') {

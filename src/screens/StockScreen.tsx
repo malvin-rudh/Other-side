@@ -1,20 +1,25 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
-import type { RenderedPart } from '../ai/claims';
 import { CompanyHealth } from '../components/CompanyHealth';
+import { CompanyLogo } from '../components/CompanyLogo';
 import { DataModeChip } from '../components/DataModeChip';
 import { DateCalendar } from '../components/DateCalendar';
 import { Disclaimer } from '../components/Disclaimer';
 import { EvidenceButton } from '../components/EvidenceButton';
 import { EvidenceDrawer } from '../components/EvidenceDrawer';
-import { BrokerTrends, SessionFlowChart } from '../components/InstrumentCard';
+import { groupColour, groupDotStyle } from '../components/groupColours';
+import { BrokerTrends, SessionSankeyCard } from '../components/InstrumentCard';
+import { buildSessionFlow, type SessionFlow } from '../components/charts/SessionSankey';
+import { PurchaseDialog } from '../components/PortfolioDialogs';
 import { StateBlock } from '../components/StateBlock';
 import { findInstrument, instrumentExchange, instrumentName, instrumentNameText } from '../data/instruments';
 import { useSessionClose } from '../data/portfolioPrices';
 import { usePublicData, type PublicData } from '../data/publicData';
 import { findHealthReport } from '../data/companyHealth';
 import { summarizeFlows } from '../engine/insights';
-import { interpretation } from '../i18n/insightCopy';
+import { conclusion, implications, observedBullets, ui, type AnalysisInput, type Seg } from '../i18n/analysisCopy';
+import { currencyOf, formatPrice } from '../data/money';
+import type { BrokerGroup } from '../data/schemas';
 import { briefMorningDates } from '../engine/brief';
 import type { Locale } from '../engine/context';
 import { buildEvidenceView, type EvidenceView } from '../engine/evidence';
@@ -22,9 +27,9 @@ import type { FactsContext } from '../engine/facts';
 import { sessionAvailableAt } from '../engine/predicates';
 import { buildStockView, type EventView, type RankingEntryView, type StockView } from '../engine/stockView';
 import { formatSessionDate, intlLocale, useTranslation } from '../i18n';
-import { useContextStore } from '../store/contextStore';
+import { useContextStore, type PortfolioEntry } from '../store/contextStore';
 
-type FlowGroupKey = StockView['flow']['groups'][number]['group'];
+type FlowGroupKey = BrokerGroup;
 
 type EvidenceLayer = { factId: string; trigger: HTMLButtonElement | null };
 
@@ -41,8 +46,6 @@ const NO_DATA_KEY: Record<NoDataDay['status'], 'stock.noDataHoliday' | 'stock.no
 // Brokers listed per side. Early in the window fewer than ten brokers have net
 // bought or sold, so five keeps the lists full on every date.
 const RANKING_SIZE = 5;
-// Observed claims shown as bullets; the rest of the registry stays behind evidence.
-const MAX_OBSERVED = 10;
 // Events published in this many days up to the selected session.
 const EVENT_WINDOW_DAYS = 30;
 const DAY_MS = 86_400_000;
@@ -86,6 +89,19 @@ export function StockScreen() {
     setNoDataDay(null);
   }, [ticker]);
   const close = useSessionClose(ticker, noDataDay?.date ?? selectedSessionDate, periodStart);
+
+  // The shared date can land on a day this stock has no broker rows for (a
+  // China stock is only listed on big-move days), so show the no-data card
+  // then too, with the dataset's own reason.
+  const sharedSession =
+    state.status === 'ready' && selectedSessionDate !== null
+      ? state.data.sessions.find((session) => session.date === selectedSessionDate)
+      : undefined;
+  const shownNoData: (NoDataDay & { reason?: string }) | null =
+    noDataDay ??
+    (sharedSession !== undefined && sharedSession.status !== 'captured' && sharedSession.status !== 'weekend'
+      ? { date: sharedSession.date, status: sharedSession.status, reason: sharedSession.reason }
+      : null);
 
   useEffect(() => {
     if (state.status === 'ready' && (periodStart === null || periodEnd === null)) {
@@ -180,6 +196,7 @@ export function StockScreen() {
       <section aria-labelledby="stock-title" className="space-y-3">
         <header id="stock-header" className="card px-4 py-4 sm:px-5">
           <StockIdentity
+            logo={<CompanyLogo ticker={instrument.ticker} name={instrumentNameText(instrument.name, locale)} />}
             title={`${instrument.ticker} · ${instrumentNameText(instrument.name, locale)}`}
             chip={<DataModeChip mode={instrument.dataMode} />}
             subline={instrumentExchange(instrument, locale)}
@@ -220,35 +237,53 @@ export function StockScreen() {
   }
 
   const recentEvents = recentEventsFor(view);
-  const interpretationLines = readFlows(view, state.data, close, locale);
+  const currency = currencyOf(view.ticker);
+  const companyName = instrumentName(view.ticker, locale, t('stock.companyName'));
+  const analysis = buildAnalysisInput(view, state.data, close, locale, currency);
+  const observed = analysis !== null ? observedBullets(analysis, locale) : [];
+  const implicationText = analysis !== null ? implications(analysis, locale) : '';
+  const dayFlow = buildSessionFlow(state.data, view.selectedSessionDate);
 
   return (
     <section aria-labelledby="stock-title" className="space-y-3">
       <header id="stock-header" className="card flex flex-wrap items-start justify-between gap-4 px-4 py-4 sm:px-5">
         <StockIdentity
-          title={`${view.ticker} · ${instrumentName(view.ticker, locale, t('stock.companyName'))}`}
+          logo={<CompanyLogo ticker={view.ticker} name={companyName} />}
+          title={`${view.ticker} · ${companyName}`}
           chip={<DataModeChip mode={instrument?.dataMode ?? 'verified'} />}
-          subline={<CloseBlock close={close} />}
+          subline={
+            <>
+              <CloseBlock close={close} currency={currency} />
+              {analysis !== null ? (
+                <p data-testid="stock-conclusion" className="mt-3 max-w-xl text-sm leading-relaxed text-ink">
+                  {conclusion(analysis, locale)}
+                </p>
+              ) : null}
+              <WatchActions ticker={view.ticker} currency={currency} />
+            </>
+          }
         />
         <DateCalendar
           dates={calendarDays}
-          selected={noDataDay?.date ?? view.selectedSessionDate}
+          selected={shownNoData?.date ?? view.selectedSessionDate}
           onSelect={pickSession}
           label={t('stock.calendarLabel')}
         />
       </header>
 
-      {noDataDay !== null ? (
+      {shownNoData !== null ? (
         <article className="card px-4 py-4 sm:px-5">
           <h2 className="text-sm font-semibold tracking-tight">
-            {t('stock.noDataTitle', { date: formatSessionDate(noDataDay.date, locale) })}
+            {t('stock.noDataTitle', { date: formatSessionDate(shownNoData.date, locale) })}
           </h2>
-          <p className="mt-1.5 text-sm leading-relaxed text-muted">{t(NO_DATA_KEY[noDataDay.status])}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
+            {shownNoData.reason?.includes('Dragon Tiger') ? t('stock.noDataDragonTiger') : t(NO_DATA_KEY[shownNoData.status])}
+          </p>
         </article>
       ) : (
         <>
           {factsContext !== null && state.status === 'ready' ? (
-            <Panel title={t('stock.brokerFlowTitle')}>
+            <Panel id="stock-broker-flow" title={t('stock.brokerFlowTitle')}>
               <BrokerTrends
                 key={`${ticker}-${view.selectedSessionDate}`}
                 context={factsContext}
@@ -262,38 +297,34 @@ export function StockScreen() {
           {/* Both columns end on the same line: the grid stretches the shorter
               side, and on the right the observations card takes up the slack. */}
           <div className="grid items-stretch gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-            <Panel title={t('stock.flowTitle')}>
-              <FlowPanel view={view} onOpenEvidence={openEvidence} />
+            <Panel title={ui(locale).flowTitle(formatSessionDate(view.selectedSessionDate, locale))}>
+              <FlowPanel flow={dayFlow} />
             </Panel>
 
             <div className="flex flex-col gap-3">
               <Panel title={t('stock.sessionFlowTitle')}>
-                <SessionFlowChart view={view} locale={locale} onOpenEvidence={openEvidence} />
+                <SessionSankeyCard data={state.data} date={view.selectedSessionDate} locale={locale} />
               </Panel>
 
               <Panel title={t('stock.observedTitle')} className="flex-1">
-                {view.card.observed.length > 0 ? (
+                {analysis !== null && observed.length > 0 ? (
                   <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink marker:text-mutedSoft">
-                    {view.card.observed.slice(0, MAX_OBSERVED).map((claim) => (
-                      <li key={claim.claimId}>
-                        <ClaimParts parts={claim.parts} onOpenEvidence={openEvidence} />
+                    {observed.map((bullet, index) => (
+                      <li key={index}>
+                        <SegParts parts={bullet} onOpenEvidence={openEvidence} />
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <p className="text-sm text-muted">{t('states.empty')}</p>
                 )}
-                <h2 className="mt-5 text-sm font-semibold tracking-tight">{t('stock.interpretedTitle')}</h2>
-                <div className="mt-2 space-y-2 text-sm leading-relaxed text-ink">
-                  {interpretationLines.map((line) => (
-                    <p key={line}>{line}</p>
-                  ))}
-                </div>
+                <h2 className="mt-5 text-sm font-semibold tracking-tight">{ui(locale).implicationsTitle}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-ink">{implicationText}</p>
               </Panel>
             </div>
           </div>
 
-          <Panel title={t('health.title')}>
+          <Panel id="stock-health" title={t('health.title')}>
             <CompanyHealth ticker={view.ticker} sessionDate={view.selectedSessionDate} healthEvents={view.health} />
           </Panel>
 
@@ -315,17 +346,29 @@ export function StockScreen() {
   );
 }
 
-// The "What could be interpreted?" reading: broker-group totals up to the
-// selected session, the price move over the window, and the latest report once
-// it was public.
-function readFlows(
+// What the text on the page is built from: group totals up to the selected
+// session, the biggest broker on each side, the price move over the window and
+// the latest report once it was public.
+function buildAnalysisInput(
   view: StockView,
   data: PublicData,
   close: ReturnType<typeof useSessionClose>,
   locale: Locale,
-): string[] {
+  currency: string,
+): AnalysisInput | null {
   const summary = summarizeFlows(data, view.selectedSessionDate);
-  if (summary === null) return [];
+  if (summary === null || !view.flow.available) return null;
+  const lotsOf = (group: BrokerGroup) => view.flow.groups.find((entry) => entry.group === group);
+  const nets = {
+    app_facing: lotsOf('app_facing')?.lots ?? summary.nets.app_facing,
+    institution_facing: lotsOf('institution_facing')?.lots ?? summary.nets.institution_facing,
+    other_mixed: lotsOf('other_mixed')?.lots ?? summary.nets.other_mixed,
+  };
+  const netFacts = {
+    app_facing: lotsOf('app_facing')?.factId ?? '',
+    institution_facing: lotsOf('institution_facing')?.factId ?? '',
+    other_mixed: lotsOf('other_mixed')?.factId ?? '',
+  };
   const priceChange =
     close.status === 'ready' && close.close.windowStartClose !== null
       ? close.close.close / close.close.windowStartClose - 1
@@ -340,7 +383,19 @@ function readFlows(
           oneOff: report.results.oneOffGain !== 0,
         }
       : null;
-  return interpretation({ summary, priceChange, health }, locale);
+  const top = (entry: RankingEntryView | undefined) =>
+    entry ? { code: entry.brokerCode, lots: entry.netLots, factId: entry.factId } : null;
+  return {
+    since: summary.start,
+    nets,
+    netFacts,
+    recentNets: summary.recentNets,
+    topBuyer: top(view.flow.topBuyers[0]),
+    topSeller: top(view.flow.topSellers[0]),
+    priceChange,
+    closeText: close.status === 'ready' ? formatPrice(close.close.close, currency, locale) : null,
+    health,
+  };
 }
 
 // Story and health events published in the window up to the selected session,
@@ -353,23 +408,95 @@ function recentEventsFor(view: StockView): EventView[] {
     .sort((a, b) => b.publicationDate.localeCompare(a.publicationDate));
 }
 
-function StockIdentity({ title, chip, subline }: { title: string; chip: ReactNode; subline: ReactNode }) {
+function StockIdentity({
+  logo,
+  title,
+  chip,
+  subline,
+}: {
+  logo: ReactNode;
+  title: string;
+  chip: ReactNode;
+  subline: ReactNode;
+}) {
   return (
-    <div className="min-w-0">
-      <div className="flex flex-wrap items-center gap-2">
-        <span aria-hidden="true" className="h-5 w-1 shrink-0 rounded-full bg-brand" />
-        <h1 id="stock-title" className="text-lg font-semibold tracking-tight lg:text-xl">
-          {title}
-        </h1>
-        {chip}
+    <div className="min-w-0 flex-1 basis-[20rem]">
+      <div className="flex items-center gap-3">
+        {logo}
+        <div className="min-w-0">
+          <h1 id="stock-title" className="text-lg font-semibold tracking-tight lg:text-xl">
+            {title}
+          </h1>
+          <div className="mt-1 flex flex-wrap items-center gap-2">{chip}</div>
+        </div>
       </div>
       <div className="mt-4">{subline}</div>
     </div>
   );
 }
 
+// Add to Watchlist / Add to Portfolio. A held stock shows only the portfolio
+// chip; a watchlisted one still offers the portfolio button.
+function WatchActions({ ticker, currency }: { ticker: string; currency: string }) {
+  const { locale } = useTranslation();
+  const copy = ui(locale);
+  const portfolio = useContextStore((state) => state.portfolio) as PortfolioEntry[] | undefined;
+  const addHolding = useContextStore((state) => state.addHolding);
+  const recordPurchase = useContextStore((state) => state.recordPurchase);
+  const entry = portfolio?.find((item) => item.ticker === ticker) ?? null;
+  const [buying, setBuying] = useState(false);
+  const buyRef = useRef<HTMLButtonElement>(null);
+  const owned = entry?.list === 'owned';
+  const watched = entry?.list === 'watchlist';
+
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2" data-currency={currency}>
+      {owned ? (
+        <span className="chip chip-line gap-1.5 text-ink">
+          <span aria-hidden="true" className="font-bold text-buy">✓</span>
+          {copy.addedPortfolio}
+        </span>
+      ) : (
+        <>
+          {watched ? (
+            <span className="chip chip-line gap-1.5 text-ink">
+              <span aria-hidden="true" className="font-bold text-buy">✓</span>
+              {copy.addedWatchlist}
+            </span>
+          ) : (
+            <button type="button" onClick={() => addHolding(ticker, 'watchlist')} className="btn btn-quiet px-3 py-1.5 text-xs">
+              {copy.addWatchlist}
+            </button>
+          )}
+          <button
+            ref={buyRef}
+            type="button"
+            onClick={() => setBuying(true)}
+            aria-haspopup="dialog"
+            className="btn btn-primary px-3 py-1.5 text-xs"
+          >
+            {copy.addPortfolio}
+          </button>
+        </>
+      )}
+      {buying ? (
+        <PurchaseDialog
+          ticker={ticker}
+          entry={entry}
+          trigger={buyRef.current}
+          onCancel={() => setBuying(false)}
+          onSave={(purchase) => {
+            recordPurchase(ticker, purchase);
+            setBuying(false);
+          }}
+        />
+      ) : null}
+    </div>
+  );
+}
+
 // The last close in large type, with the move against the session before.
-function CloseBlock({ close }: { close: ReturnType<typeof useSessionClose> }) {
+function CloseBlock({ close, currency }: { close: ReturnType<typeof useSessionClose>; currency: string }) {
   const { t, locale } = useTranslation();
   if (close.status === 'loading') return <p className="text-sm text-muted">{t('states.loading')}</p>;
   if (close.status === 'unavailable') return <p className="text-sm text-muted">{t('stock.closeUnavailable')}</p>;
@@ -381,10 +508,11 @@ function CloseBlock({ close }: { close: ReturnType<typeof useSessionClose> }) {
         {t('stock.closeLabel')} · {formatSessionDate(date, locale)}
         {basis === 'sample-fixture-daily' ? ` · ${t('stock.closeSample')}` : ''}
       </p>
-      <p className="mt-1 text-4xl font-semibold tracking-tight tabular-nums text-ink">Rp{formatInt(price, locale)}</p>
+      <p className="mt-1 text-4xl font-semibold tracking-tight tabular-nums text-ink">{formatPrice(price, currency, locale)}</p>
       {change !== null && previousClose !== null ? (
         <p className={`mt-1 text-sm font-semibold tabular-nums ${signedClass(change)}`}>
-          {formatSigned(change, locale)} ({change >= 0 ? '+' : '−'}
+          {change >= 0 ? '+' : '−'}
+          {formatPrice(Math.abs(change), currency, locale).replace(/^−/, '')} ({change >= 0 ? '+' : '−'}
           {new Intl.NumberFormat(intlLocale(locale), { maximumFractionDigits: 1 }).format(Math.abs((change / previousClose) * 100))}%)
           <span className="ml-1.5 font-normal text-muted">{t('stock.closeVsPrevious')}</span>
         </p>
@@ -393,71 +521,49 @@ function CloseBlock({ close }: { close: ReturnType<typeof useSessionClose> }) {
   );
 }
 
-function FlowPanel({
-  view,
-  onOpenEvidence,
-}: {
-  view: StockView;
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
-}) {
+// The flow card for the selected day. It reads the same SessionFlow as the
+// Sankey, so the group nets (with the Unclassified remainder) and the top
+// brokers are the same numbers by construction.
+function FlowPanel({ flow }: { flow: SessionFlow | null }) {
   const { t, locale } = useTranslation();
-  const flow = view.flow;
 
-  if (!flow.available) {
+  if (flow === null || flow.total === 0) {
     return <StateBlock title={t('states.unavailable')} />;
   }
 
-  const groups = flow.groups.filter((group) => FLOW_GROUPS.includes(group.group));
-
   return (
     <div className="space-y-5">
+      <p className="note -mt-1">{ui(locale).flowSubtitle}</p>
       <ul className="divide-y divide-line">
-        {groups.map((group) => (
-          <li key={group.group} className="flex items-baseline justify-between gap-3 py-2 text-sm first:pt-0">
-            <span className="font-medium text-ink">{t(GROUP_KEY[group.group])}</span>
-            <EvidenceButton
-              factId={group.factId}
-              className={`shrink-0 tabular-nums ${signedClass(group.lots)}`}
-              onActivate={onOpenEvidence}
-            >
-              {formatSigned(group.lots, locale)} {t('stock.flowLotsUnit')}
-            </EvidenceButton>
+        {FLOW_GROUPS.map((group) => (
+          <li key={group} className="flex items-baseline justify-between gap-3 py-2 text-sm first:pt-0">
+            <span className="flex min-w-0 items-center gap-2 font-medium text-ink">
+              <span aria-hidden="true" data-group-colour={groupColour(group)} style={groupDotStyle(group, 12)} />
+              <span className="truncate">{t(GROUP_KEY[group])}</span>
+            </span>
+            <span className={`shrink-0 tabular-nums ${signedClass(flow.nets[group])}`}>
+              {formatSigned(flow.nets[group], locale)} {t('stock.flowLotsUnit')}
+            </span>
           </li>
         ))}
       </ul>
-      <RankingList
-        title={t('stock.flowTopBuyers')}
-        entries={flow.topBuyers.slice(0, RANKING_SIZE)}
-        onOpenEvidence={onOpenEvidence}
-      />
-      <RankingList
-        title={t('stock.flowTopSellers')}
-        entries={flow.topSellers.slice(0, RANKING_SIZE)}
-        onOpenEvidence={onOpenEvidence}
-      />
+      <RankingList title={t('stock.flowTopBuyers')} entries={flow.topBuyers.slice(0, RANKING_SIZE)} />
+      <RankingList title={t('stock.flowTopSellers')} entries={flow.topSellers.slice(0, RANKING_SIZE)} />
       <Disclaimer>{t('stock.flowLotsNote')}</Disclaimer>
     </div>
   );
 }
 
-const GROUP_KEY: Record<FlowGroupKey, 'stock.groupApp' | 'stock.groupInstitution' | 'stock.groupOther' | 'stock.groupUnknown' | 'stock.groupResidual'> = {
+const GROUP_KEY: Record<FlowGroupKey, 'stock.groupApp' | 'stock.groupInstitution' | 'stock.groupOther' | 'stock.groupUnknown'> = {
   app_facing: 'stock.groupApp',
   institution_facing: 'stock.groupInstitution',
   other_mixed: 'stock.groupOther',
   unknown: 'stock.groupUnknown',
-  residual: 'stock.groupResidual',
 };
 
-function RankingList({
-  title,
-  entries,
-  onOpenEvidence,
-}: {
-  title: string;
-  entries: RankingEntryView[];
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
-}) {
-  const { t, locale } = useTranslation();
+function RankingList({ title, entries }: { title: string; entries: SessionFlow['topBuyers'] }) {
+  const { locale } = useTranslation();
+  const { t } = useTranslation();
 
   if (entries.length === 0) return null;
 
@@ -466,19 +572,15 @@ function RankingList({
       <h3 className="eyebrow">{title}</h3>
       <ol className="mt-2 divide-y divide-line">
         {entries.map((entry, index) => (
-          <li key={entry.brokerCode} className="flex items-baseline justify-between gap-3 py-2 text-sm first:pt-0">
+          <li key={entry.code} className="flex items-baseline justify-between gap-3 py-2 text-sm first:pt-0">
             <span className="flex min-w-0 items-baseline gap-2">
               <span className="w-5 shrink-0 text-right text-xs tabular-nums text-mutedSoft">{index + 1}</span>
-              <span className="font-semibold text-ink">{entry.brokerCode}</span>
+              <span aria-hidden="true" data-group-colour={groupColour(entry.group)} style={groupDotStyle(entry.group, 9)} />
+              <span className="font-semibold text-ink">{entry.code}</span>
             </span>
-            <EvidenceButton
-              factId={entry.factId}
-              className={`shrink-0 tabular-nums ${signedClass(entry.netLots)}`}
-              onActivate={onOpenEvidence}
-            >
-              {entry.netLots > 0 ? '+' : ''}
-              {formatInt(entry.netLots, locale)} {t('stock.flowLotsUnit')}
-            </EvidenceButton>
+            <span className={`shrink-0 tabular-nums ${signedClass(entry.lots)}`}>
+              {formatSigned(entry.lots, locale)} {t('stock.flowLotsUnit')}
+            </span>
           </li>
         ))}
       </ol>
@@ -521,17 +623,17 @@ const TONE_CLASS: Record<string, string> = {
   neutral: '',
 };
 
-function ClaimParts({
+function SegParts({
   parts,
   onOpenEvidence,
 }: {
-  parts: RenderedPart[];
+  parts: Seg[];
   onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
 }) {
   return (
     <>
       {parts.map((part, index) =>
-        part.kind === 'value' && part.factId ? (
+        part.factId ? (
           <EvidenceButton
             key={index}
             factId={part.factId}
@@ -548,9 +650,9 @@ function ClaimParts({
   );
 }
 
-function Panel({ title, children, className = '' }: { title: string; children: ReactNode; className?: string }) {
+function Panel({ id, title, children, className = '' }: { id?: string; title: string; children: ReactNode; className?: string }) {
   return (
-    <article aria-label={title} className={`card px-4 py-4 sm:px-5 ${className}`}>
+    <article id={id} aria-label={title} className={`card scroll-mt-20 px-4 py-4 sm:px-5 ${className}`}>
       <h2 className="text-sm font-semibold tracking-tight">{title}</h2>
       <div className="mt-3">{children}</div>
     </article>

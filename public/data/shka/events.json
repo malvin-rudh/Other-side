@@ -1,0 +1,38 @@
+{
+  "ticker": "SHKA",
+  "version": "sample-fixture-shka-events-v2",
+  "events": [
+    {
+      "id": "E-SHKA-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-09-09",
+      "publicationDate": "2026-09-09",
+      "availableAt": "2026-09-09T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/shka/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer was added to a mock southbound trading list, and mainland-linked holdings rose.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif ditambahkan ke daftar perdagangan southbound pura-pura, dan kepemilikan terkait daratan naik.",
+        "zh": "虚构样本事件：该虚构发行人被纳入模拟南向交易名单，内地关联持仓上升。"
+      }
+    },
+    {
+      "id": "E-SHKA-FIXTURE-02",
+      "layer": "health",
+      "reportingDate": "2026-09-10",
+      "publicationDate": "2026-09-10",
+      "availableAt": "2026-09-10T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/shka/event-02"
+      },
+      "text": {
+        "en": "Fictional sample report: the fictional issuer filed a mock interim result with revenue up and borrowings down.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil interim pura-pura dengan pendapatan naik dan pinjaman turun.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟中期业绩，收入上升、借款下降。"
+      }
+    }
+  ]
+}

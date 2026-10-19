@@ -1,0 +1,420 @@
+{
+  "ticker": "SHKB",
+  "dataVersion": "sample-fixture-shkb-2026-08-14_2026-09-23-v2",
+  "defaultWindow": {
+    "start": "2026-08-14",
+    "end": "2026-09-23"
+  },
+  "sessions": [
+    {
+      "date": "2026-08-14",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-15",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-16",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-17",
+      "ticker": "SHKB",
+      "status": "holiday",
+      "reason": "market holiday",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-18",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-19",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-20",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-21",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-22",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-23",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-24",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-25",
+      "ticker": "SHKB",
+      "status": "holiday",
+      "reason": "market holiday",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-26",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-27",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-28",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-08-29",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-30",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-08-31",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-01",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-03",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-04",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-05",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-06",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-07",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-08",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-09",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-10",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-12",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-13",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-14",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-16",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-18",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-19",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-20",
+      "ticker": "SHKB",
+      "status": "weekend",
+      "reason": "weekend",
+      "rowCounts": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    {
+      "date": "2026-09-21",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-22",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    },
+    {
+      "date": "2026-09-23",
+      "ticker": "SHKB",
+      "status": "captured",
+      "reason": "captured sample rows (fictional fixture)",
+      "rowCounts": {
+        "buy": 6,
+        "sell": 6
+      }
+    }
+  ]
+}

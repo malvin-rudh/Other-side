@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { DateCalendar } from '../components/DateCalendar';
 import { Icon } from '../components/Icon';
 import { BriefPortfolioValue } from '../components/PortfolioAnalyticsCard';
 import { StateBlock } from '../components/StateBlock';
 import { StockHeadline } from '../components/StockHeadline';
+import { WeekStrip } from '../components/WeekStrip';
 import { usePublicData } from '../data/publicData';
 import { briefMorningDates, resolveBrief } from '../engine/brief';
 import { formatSessionDate, stockCountLabel, useTranslation } from '../i18n';
@@ -85,43 +85,46 @@ export function BriefScreen() {
 
   return (
     <section aria-labelledby="brief-title" className="page-stack">
-      <header id="brief-header" className="page-hero">
-        <div className="brief-hero-top">
-          <div className="min-w-0">
-            <p className="eyebrow">{t('brief.morningLabel')}</p>
-            <h1 id="brief-title" className="sr-only">
-              {t('brief.title')}
-            </h1>
-            {selectedMorning !== null ? (
-              <p className="page-date">
-                {t('brief.briefingDate', { date: formatSessionDate(selectedMorning, locale) })}
-              </p>
-            ) : null}
-            {resolution.snapshot === null ? <p className="page-date">{t('brief.noSnapshot')}</p> : null}
-
-            {resolution.marketClosedToday ? (
-              <p className="mt-4 rounded-lg border border-brand/35 bg-brand/10 px-3 py-2 text-sm font-medium text-brandDeep">
-                {t('brief.marketClosed')}
-              </p>
-            ) : null}
-
-            {resolution.gaps.length > 0 && resolution.snapshot !== null ? (
-              <p className="mt-3 rounded-lg border border-dashed border-unknown/50 px-3 py-2 text-xs leading-relaxed text-muted">
-                {t('brief.gapNote', {
-                  gap: resolution.gaps.map((gap) => formatSessionDate(gap, locale)).join(', '),
-                  snapshot: formatSessionDate(resolution.snapshot, locale),
-                })}
-              </p>
-            ) : null}
-          </div>
-          <DateCalendar
-            dates={mornings}
-            selected={selectedMorning}
-            onSelect={setBriefDate}
-            label={t('brief.calendarLabel')}
-          />
-        </div>
+      <header id="brief-header">
+        <p className="eyebrow">{t('brief.morningLabel')}</p>
+        <h1 id="brief-title" className="sr-only">
+          {t('brief.title')}
+        </h1>
       </header>
+
+      {/* The portfolio value runs from the first purchase to the latest close and
+          does not follow the calendar; the calendar below only changes what the
+          holdings and watchlist say. */}
+      {owned.length > 0 ? (
+        <section aria-label={t('brief.valueTitle')} className="card page-summary-card -mt-4">
+          <BriefPortfolioValue />
+        </section>
+      ) : null}
+
+      <section aria-label={t('brief.calendarLabel')} className="page-hero">
+        {selectedMorning !== null ? (
+          <p className="text-sm font-semibold text-ink">
+            {t('brief.briefingDate', { date: formatSessionDate(selectedMorning, locale) })}
+          </p>
+        ) : null}
+        {resolution.snapshot === null ? <p className="page-date">{t('brief.noSnapshot')}</p> : null}
+        {resolution.marketClosedToday ? (
+          <p className="mt-3 rounded-lg border border-brand/35 bg-brand/10 px-3 py-2 text-sm font-medium text-brandDeep">
+            {t('brief.marketClosed')}
+          </p>
+        ) : null}
+        {resolution.gaps.length > 0 && resolution.snapshot !== null ? (
+          <p className="mt-3 rounded-lg border border-dashed border-unknown/50 px-3 py-2 text-xs leading-relaxed text-muted">
+            {t('brief.gapNote', {
+              gap: resolution.gaps.map((gap) => formatSessionDate(gap, locale)).join(', '),
+              snapshot: formatSessionDate(resolution.snapshot, locale),
+            })}
+          </p>
+        ) : null}
+        <div className="mt-3">
+          <WeekStrip dates={mornings} selected={selectedMorning} onSelect={setBriefDate} label={t('brief.calendarLabel')} />
+        </div>
+      </section>
 
       <section aria-labelledby="brief-owned" className="page-section">
         <div className="page-section-heading">
@@ -136,9 +139,6 @@ export function BriefScreen() {
         ) : (
           <div className="card page-summary-card">
             <BriefList entries={owned} snapshot={resolution.snapshot} mode="holding" />
-            <div className="border-t border-line pt-3">
-              <BriefPortfolioValue morning={selectedMorning} />
-            </div>
           </div>
         )}
       </section>

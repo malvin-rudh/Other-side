@@ -23,6 +23,7 @@
     "mobileNavAria": "移动端主导航",
     "more": "更多",
     "moreAria": "更多页面",
+    "back": "返回",
     "secondaryAria": "次级页面",
     "research": "研究方法"
   },
@@ -124,7 +125,8 @@
     "noDataHoliday": "当日为假期休市，没有交易时段。",
     "noDataMissing": "该时段未被捕获，其券商资金流未知，而不是零。",
     "noDataExcluded": "该时段因捕获不可靠已从数据集中排除，其券商资金流未知。",
-    "closeVsPrevious": "较前收盘"
+    "closeVsPrevious": "较前收盘",
+    "noDataDragonTiger": "该股当天未上龙虎榜，因此没有公布券商营业部数据。中国市场只在大幅波动的交易日公布营业部数据。"
   },
   "thesis": {
     "title": "观点检验",
@@ -613,7 +615,7 @@
     "lotsLabel": "买入手数",
     "lotsLabelShort": "手数",
     "lotsHint": "1 手 = 100 股 · 共 {shares} 股",
-    "priceLabel": "每股买入价（印尼盾）",
+    "priceLabel": "每股买入价（{currency}）",
     "dateLabel": "买入日期",
     "lotsError": "请输入 1 或以上的整数手数。",
     "priceError": "请输入大于零的价格。",

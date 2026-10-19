@@ -11,24 +11,23 @@ interface CoachStepSpec {
   path: string;
   sessionDate: string;
   briefDate: string | null;
+  // The card the step talks about; the page scrolls to it once it renders.
+  anchor?: string;
 }
 
 // Order matches the steps in i18n/tourCopy.ts.
 const STEPS: readonly CoachStepSpec[] = [
   { path: '/', sessionDate: '2026-08-24', briefDate: '2026-08-26' },
   { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null },
-  { path: '/stock/SINI', sessionDate: '2026-09-23', briefDate: null },
+  { path: '/stock/SINI', sessionDate: '2026-08-24', briefDate: null, anchor: 'stock-broker-flow' },
+  { path: '/stock/SINI', sessionDate: '2026-09-23', briefDate: null, anchor: 'stock-health' },
   { path: '/stocks', sessionDate: '2026-09-23', briefDate: null },
   { path: '/portfolio', sessionDate: '2026-09-23', briefDate: null },
-  { path: '/', sessionDate: '2026-09-23', briefDate: '2026-09-24' },
 ];
 
 // Steps whose coach panel docks under the screen header instead of the bottom
 // corner, so it never covers the control the step is talking about.
-const TOP_LEFT_STEPS = new Set([1, 7]);
+const TOP_LEFT_STEPS = new Set([1, 5]);
 const TOP_RIGHT_STEPS = new Set([0]);
 
 export function DemoCoach() {
@@ -72,6 +71,33 @@ export function DemoCoach() {
     navigate(spec.path, { replace: true });
     selectSession(spec.sessionDate);
     setBriefDate(spec.briefDate);
+    if (spec.anchor === undefined) return;
+    // The card appears once the stock data loads, and the page can still change
+    // height while it does, so keep the card at the top until it has stayed put
+    // for a few checks (at most 3 seconds).
+    const anchor = spec.anchor;
+    let tries = 0;
+    let settled = 0;
+    let landedAt: number | null = null;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      const element = document.getElementById(anchor);
+      if (element !== null) {
+        const offset = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+        const top = Math.round(element.getBoundingClientRect().top);
+        // Off target and moved since the last scroll (the page changed height):
+        // scroll again. Off target but unmoved means the page cannot scroll further.
+        if (Math.abs(top - offset) > 8 && top !== landedAt) {
+          element.scrollIntoView({ block: 'start' });
+          landedAt = Math.round(element.getBoundingClientRect().top);
+          settled = 0;
+        } else {
+          settled += 1;
+        }
+      }
+      if (settled >= 3 || tries >= 20) window.clearInterval(timer);
+    }, 150);
+    return () => window.clearInterval(timer);
   }, [demoMode, coachStep, navigate, selectSession, setBriefDate]);
 
   useEffect(() => {

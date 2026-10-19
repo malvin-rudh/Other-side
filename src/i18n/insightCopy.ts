@@ -61,30 +61,138 @@ export function flowHeadline(summary: FlowSummary, locale: Locale): string {
   }[locale];
 }
 
-// For a stock the user owns: who is holding it with them, at what average
-// price, and whether that changed in the latest session.
-export function holdingHeadline(summary: FlowSummary, locale: Locale): string {
+const GROUP_FULL: Record<Locale, Record<InsightGroup, string>> = {
+  en: { app_facing: 'Retail app brokers', institution_facing: 'Institutional brokers', other_mixed: 'Other and mixed brokers' },
+  id: { app_facing: 'Broker aplikasi ritel', institution_facing: 'Broker institusional', other_mixed: 'Broker lain dan campuran' },
+  'zh-CN': { app_facing: '零售App券商', institution_facing: '机构券商', other_mixed: '其他及混合券商' },
+};
+
+export interface HeadlinePrice {
+  // Latest close and the formatted price text helpers; null when unknown.
+  close: number | null;
+  windowStartClose: number | null;
+  format: (value: number) => string;
+}
+
+// For a stock the user owns, in plain words: who holds it with you, how many
+// lots, at what average buying price, what that price means against the latest
+// close, and what they did in the latest session.
+export function holdingHeadline(summary: FlowSummary, locale: Locale, price: HeadlinePrice | null = null): string {
   const { buyer } = leadingGroups(summary.nets);
-  const g = GROUP[locale];
+  const g = GROUP_FULL[locale];
   if (buyer === null) {
     return { en: 'No broker group has built up a net position yet.', id: 'Belum ada kelompok broker yang membangun posisi bersih.', 'zh-CN': '尚无券商分组建立净持仓。' }[locale];
   }
   const net = lots(summary.nets[buyer], locale);
   const average = summary.buyAverage[buyer];
-  const at = average === null ? '' : { en: ` at about ${rupiah(average, locale)}`, id: ` di sekitar ${rupiah(average, locale)}`, 'zh-CN': `，均价约 ${rupiah(average, locale)}` }[locale];
   const day = formatSessionDate(summary.end, locale);
   const latest = summary.lastNets[buyer];
-  const trend =
+  const act =
     latest > 0
-      ? { en: `still adding on ${day}`, id: `masih menambah pada ${day}`, 'zh-CN': `${day} 仍在加仓` }
+      ? { en: `kept buying on ${day}`, id: `terus membeli pada ${day}`, 'zh-CN': `${day} 继续买入` }
       : latest < 0
-        ? { en: `trimming on ${day}`, id: `mengurangi pada ${day}`, 'zh-CN': `${day} 开始减仓` }
-        : { en: `unchanged on ${day}`, id: `tidak berubah pada ${day}`, 'zh-CN': `${day} 无变化` };
-  return {
-    en: `${g[buyer]} hold it with you: +${net} lots${at}, ${trend.en}.`,
-    id: `${g[buyer]} ikut memegang: +${net} lot${at}, ${trend.id}.`,
-    'zh-CN': `${g[buyer]}与您同持：净 +${net} 手${at}，${trend['zh-CN']}。`,
+        ? { en: `trimmed on ${day}`, id: `mengurangi pada ${day}`, 'zh-CN': `${day} 减持` }
+        : { en: `held steady on ${day}`, id: `tidak bertransaksi pada ${day}`, 'zh-CN': `${day} 持仓不变` };
+
+  if (average === null) {
+    return {
+      en: `${g[buyer]} still hold about ${net} lots and ${act.en}.`,
+      id: `${g[buyer]} masih memegang sekitar ${net} lot dan ${act.id}.`,
+      'zh-CN': `${g[buyer]}仍持有约 ${net} 手，${act['zh-CN']}。`,
+    }[locale];
+  }
+
+  const avg = price !== null ? price.format(average) : rupiah(average, locale);
+  let state: 'gain' | 'loss' | 'even' | null = null;
+  if (price !== null && price.close !== null && average > 0) {
+    const gap = price.close / average - 1;
+    state = gap > 0.02 ? 'gain' : gap < -0.02 ? 'loss' : 'even';
+  }
+  const implication =
+    state === 'gain'
+      ? { en: 'so they are sitting on a gain with you', id: 'jadi mereka sedang untung bersama Anda', 'zh-CN': '所以他们和您一样处于盈利' }
+      : state === 'loss'
+        ? { en: 'so they are sitting on a loss', id: 'jadi mereka sedang rugi', 'zh-CN': '所以他们目前处于亏损' }
+        : state === 'even'
+          ? { en: 'so they are near break-even', id: 'jadi mereka mendekati titik impas', 'zh-CN': '所以他们接近盈亏平衡' }
+          : null;
+  const first = {
+    en: `${g[buyer]} still hold about ${net} lots, bought at around ${avg}`,
+    id: `${g[buyer]} masih memegang sekitar ${net} lot, dibeli di sekitar ${avg}`,
+    'zh-CN': `${g[buyer]}仍持有约 ${net} 手，买入均价约 ${avg}`,
   }[locale];
+  const mid = implication === null ? '' : { en: `, ${implication.en}`, id: `, ${implication.id}`, 'zh-CN': `，${implication['zh-CN']}` }[locale];
+  const tail = { en: ` and ${act.en}.`, id: ` dan ${act.id}.`, 'zh-CN': `，${act['zh-CN']}。` }[locale];
+  return `${first}${mid}${tail}`;
+}
+
+// For a stock on the watchlist: who bought and sold since the window start,
+// plus a lean read from the last five sessions and the price move. It describes
+// what the flow suggests; it never tells anyone what to do.
+export function watchlistHeadline(summary: FlowSummary, locale: Locale, price: HeadlinePrice | null = null): string {
+  const instRecent = summary.recentNets.institution_facing;
+  const appRecent = summary.recentNets.app_facing;
+  const instLong = summary.nets.institution_facing;
+
+  type Lean = 'up-squeeze' | 'fading' | 'broad-up' | 'broad-down' | 'mixed';
+  const lean: Lean =
+    instRecent > 0 && appRecent < 0 ? 'up-squeeze'
+    : instRecent < 0 && appRecent > 0 ? 'fading'
+    : instRecent > 0 && appRecent >= 0 ? 'broad-up'
+    : instRecent < 0 && appRecent <= 0 ? 'broad-down'
+    : 'mixed';
+
+  const sustained = instLong > 0;
+  const read = {
+    'up-squeeze': {
+      en: sustained
+        ? 'Institutions have kept buying over the last five sessions while retail apps sold: the pressure is building upward.'
+        : 'Institutions turned to buying over the last five sessions while retail apps sold: the pressure may be starting to build upward.',
+      id: sustained
+        ? 'Broker institusional terus membeli dalam lima sesi terakhir saat broker aplikasi ritel menjual: tekanan sedang menguat ke atas.'
+        : 'Broker institusional mulai membeli dalam lima sesi terakhir saat broker aplikasi ritel menjual: tekanan ke atas mungkin mulai terbentuk.',
+      'zh-CN': sustained
+        ? '机构券商近五个时段持续买入，零售App券商在卖出：上行压力正在积聚。'
+        : '机构券商近五个时段转为买入，零售App券商在卖出：上行压力可能正在形成。',
+    },
+    fading: {
+      en: sustained
+        ? 'Big holders are trimming into retail buying: momentum may be fading.'
+        : 'Big holders are selling into retail buying: the lean is downward.',
+      id: sustained
+        ? 'Pemegang besar mulai mengurangi saat ritel membeli: momentum mungkin melemah.'
+        : 'Pemegang besar menjual saat ritel membeli: kecenderungannya ke bawah.',
+      'zh-CN': sustained
+        ? '大户在散户买入时减持：动能可能在减弱。'
+        : '大户在散户买入时卖出：偏向下行。',
+    },
+    'broad-up': {
+      en: 'Institutions and retail apps are both buying lately: demand looks broad, with a lean upward.',
+      id: 'Broker institusional dan broker aplikasi ritel sama-sama membeli belakangan ini: permintaan terlihat luas, cenderung ke atas.',
+      'zh-CN': '近期机构券商与零售App券商都在买入：需求面较广，偏向上行。',
+    },
+    'broad-down': {
+      en: 'Institutions and retail apps are both selling lately: few buyers are stepping in, with a lean downward.',
+      id: 'Broker institusional dan broker aplikasi ritel sama-sama menjual belakangan ini: sedikit pembeli yang masuk, cenderung ke bawah.',
+      'zh-CN': '近期机构券商与零售App券商都在卖出：接盘者少，偏向下行。',
+    },
+    mixed: {
+      en: 'Institutions have been quiet lately, so there is no clear lean yet.',
+      id: 'Broker institusional cenderung diam belakangan ini, jadi belum ada kecenderungan yang jelas.',
+      'zh-CN': '近期机构券商较为平静，暂无明确倾向。',
+    },
+  }[lean][locale];
+
+  let move = '';
+  if (price !== null && price.close !== null && price.windowStartClose !== null && price.windowStartClose > 0) {
+    const change = price.close / price.windowStartClose - 1;
+    const upLean = lean === 'up-squeeze' || lean === 'broad-up';
+    const downLean = lean === 'fading' || lean === 'broad-down';
+    if (upLean && change < -0.02) move = { en: ' The price has not followed yet.', id: ' Harga belum mengikuti.', 'zh-CN': ' 价格尚未跟上。' }[locale];
+    else if (downLean && change > 0.02) move = { en: ' The price has not followed yet.', id: ' Harga belum mengikuti.', 'zh-CN': ' 价格尚未跟上。' }[locale];
+    else if ((upLean && change > 0.02) || (downLean && change < -0.02)) move = { en: ' The price is moving the same way.', id: ' Harga bergerak searah.', 'zh-CN': ' 价格走势与之一致。' }[locale];
+  }
+  return `${read}${move}`;
 }
 
 // The reading under "What could be interpreted?": who absorbed whose shares,

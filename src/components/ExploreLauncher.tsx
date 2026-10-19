@@ -49,7 +49,7 @@ export function ExploreLauncher({ variant = 'full' }: ExploreLauncherProps) {
     setScenario('default');
     selectSession(sessionDate);
     requestControlFocus(selector, 'claim-check');
-    navigate('/method');
+    navigate('/research');
   };
 
   const target = (sessionDate: string) =>

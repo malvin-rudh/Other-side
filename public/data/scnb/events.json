@@ -1,0 +1,38 @@
+{
+  "ticker": "SCNB",
+  "version": "sample-fixture-scnb-events-v2",
+  "events": [
+    {
+      "id": "E-SCNB-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-08-28",
+      "publicationDate": "2026-08-28",
+      "availableAt": "2026-08-28T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/scnb/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer reported a mock approval for a late-stage drug trial.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif melaporkan persetujuan pura-pura untuk uji coba obat tahap akhir.",
+        "zh": "虚构样本事件：该虚构发行人报告一项后期药物试验获得模拟批准。"
+      }
+    },
+    {
+      "id": "E-SCNB-FIXTURE-02",
+      "layer": "health",
+      "reportingDate": "2026-09-14",
+      "publicationDate": "2026-09-14",
+      "availableAt": "2026-09-14T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/scnb/event-02"
+      },
+      "text": {
+        "en": "Fictional sample report: the fictional issuer filed a mock half-year result with higher revenue, profit and operating cash flow.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura dengan pendapatan, laba, dan arus kas operasi naik.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟半年业绩，收入、利润和经营现金流均上升。"
+      }
+    }
+  ]
+}

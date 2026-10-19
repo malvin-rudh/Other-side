@@ -18,6 +18,10 @@ import { SessionComparisonChart as SessionComparisonChartSync } from './charts/S
 import { DataModeChip } from './DataModeChip';
 import { EvidenceButton, EvidenceText } from './EvidenceButton';
 import { Icon } from './Icon';
+import { BROKER_LINE_COLOURS, groupDotStyle } from './groupColours';
+import { SessionSankey, buildSessionFlow } from './charts/SessionSankey';
+import type { PublicData } from '../data/publicData';
+import { ui } from '../i18n/analysisCopy';
 import { Tabs, type TabSpec } from './TabList';
 
 // Same lazy/sync split the stock screen uses, so the charts stay in their own
@@ -200,7 +204,7 @@ export function InstrumentCard({
                   </li>
                 ))}
               </ul>
-              <Link to="/method" className="btn btn-ghost px-3 py-1.5 text-xs">
+              <Link to="/research" className="btn btn-ghost px-3 py-1.5 text-xs">
                 {t('nav.howItWorks')}
               </Link>
             </div>
@@ -209,6 +213,16 @@ export function InstrumentCard({
       )}
     </article>
   );
+}
+
+// The selected session alone: who sold to whom, by broker group, as a Sankey.
+export function SessionSankeyCard({ data, date, locale }: { data: PublicData; date: string; locale: Locale }) {
+  const { t } = useTranslation();
+  const flow = useMemo(() => buildSessionFlow(data, date), [data, date]);
+  if (flow === null || flow.total === 0) {
+    return <p className="py-6 text-center text-sm text-muted">{ui(locale).sankeyEmpty || t('states.empty')}</p>;
+  }
+  return <SessionSankey flow={flow} date={date} locale={locale} />;
 }
 
 // The session comparison chart with a switch to cumulative group flows. Used by
@@ -469,43 +483,88 @@ export function BrokerTrends({
           : [...active, code];
     });
 
+  const copy = ui(locale);
+  const atMax = codes.length >= MAX_VISIBLE_BROKER_LINES;
+
   return (
     <>
-      <div className="mt-2 flex flex-wrap items-center gap-1.5">
-        {codes.map((code) => {
-          const summary = series.summaries.find((entry) => entry.brokerCode === code);
-          if (!summary) return null;
-          return (
-            <EvidenceButton
-              key={code}
-              quiet
-              factId={summary.factId}
-              className="chip chip-line gap-1.5"
-              onActivate={onOpenEvidence}
-            >
-              <span className="font-semibold tabular-nums text-ink">{summary.brokerCode}</span>
-              <span className={`tabular-nums ${signedClass(summary.netLots)}`}>{formatSigned(summary.netLots, locale)}</span>
-            </EvidenceButton>
-          );
-        })}
-        <button
-          ref={pickerTriggerRef}
-          type="button"
-          onClick={() => setPickerOpen(true)}
-          aria-haspopup="dialog"
-          className="btn btn-quiet gap-1.5 px-2.5 py-1 text-xs"
-        >
-          <Icon name="expand" className="h-3.5 w-3.5" />
-          {t('card.brokerChoose')}
-        </button>
-      </div>
+      <p className="mt-1 text-xs leading-relaxed text-muted">{copy.brokerSubtitle}</p>
       {codes.length === 0 ? (
         <p className="py-6 text-center text-sm text-muted">{t('card.brokerNone')}</p>
       ) : (
-        <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
-          <BrokerFlowChart points={series.points} codes={codes} locale={locale} />
-        </Suspense>
+        <div className="mt-2">
+          <Suspense fallback={<div className="h-64 w-full" aria-hidden="true" />}>
+            <BrokerFlowChart points={series.points} codes={codes} locale={locale} />
+          </Suspense>
+          <p className="note mt-1">{copy.brokerCarryNote}</p>
+        </div>
       )}
+      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-stretch">
+        <ul className="grid flex-1 gap-2 sm:grid-cols-3" aria-label={t('stock.brokerFlowTitle')}>
+          {codes.map((code, index) => {
+            const summary = series.summaries.find((entry) => entry.brokerCode === code);
+            if (!summary) return null;
+            return (
+              <li key={code} className="card-inset flex items-start gap-2.5 p-2.5">
+                <span
+                  aria-hidden="true"
+                  className="mt-2 h-1 w-4 shrink-0 rounded-full"
+                  style={{ background: BROKER_LINE_COLOURS[index % BROKER_LINE_COLOURS.length] }}
+                />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm font-semibold tabular-nums text-ink">{summary.brokerCode}</span>
+                    <button
+                      type="button"
+                      onClick={() => toggle(code)}
+                      aria-label={copy.brokerRemove(code)}
+                      className="rounded p-0.5 text-mutedSoft transition-colors hover:text-ink"
+                    >
+                      <Icon name="close" className="h-3 w-3" />
+                    </button>
+                  </div>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-[15px] text-muted">
+                    <span aria-hidden="true" style={groupDotStyle(summary.group, 10)} />
+                    <span className="truncate">{groupText(summary.group, t)}</span>
+                  </p>
+                  <p className="mt-1 text-[15px] text-muted">
+                    {copy.brokerTotal}{' '}
+                    <EvidenceButton
+                      quiet
+                      factId={summary.factId}
+                      className={`tabular-nums ${signedClass(summary.netLots)}`}
+                      onActivate={onOpenEvidence}
+                    >
+                      {formatSigned(summary.netLots, locale)} {t('stock.flowLotsUnit')}
+                    </EvidenceButton>
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="flex flex-col justify-center gap-1 sm:w-44">
+          <button
+            ref={pickerTriggerRef}
+            type="button"
+            onClick={() => setPickerOpen(true)}
+            aria-haspopup="dialog"
+            disabled={atMax}
+            className="btn btn-primary justify-center px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {copy.brokerAdd}
+          </button>
+          <button
+            type="button"
+            onClick={() => setPickerOpen(true)}
+            aria-haspopup="dialog"
+            className="text-xs font-semibold text-brandDeep underline decoration-dotted underline-offset-4 hover:text-brand"
+          >
+            {t('card.brokerChoose')}
+          </button>
+          {atMax ? <p className="note">{copy.brokerMax}</p> : null}
+        </div>
+      </div>
       {pickerOpen ? (
         <BrokerPickerDialog
           summaries={probe.summaries}

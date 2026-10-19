@@ -1,12 +1,10 @@
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatSessionDate, intlLocale, useTranslation } from '../../i18n';
+import { ui } from '../../i18n/analysisCopy';
 import type { Locale } from '../../engine/context';
 import type { BrokerSeriesPoint } from '../../engine/brokerSeries';
+import { BROKER_LINE_COLOURS } from '../groupColours';
 import { tickLabel, xTickLabels, yAxisTicks } from './axisTicks';
-
-// Categorical, not directional: these are individual broker channels, so the
-// palette carries no buy/sell meaning and the legend labels every line.
-const SERIES_COLORS = ['#0B1220', '#B4530A', '#0F766E'] as const;
 
 interface BrokerFlowChartProps {
   points: BrokerSeriesPoint[];
@@ -15,38 +13,51 @@ interface BrokerFlowChartProps {
   presentation?: boolean;
 }
 
-export function BrokerFlowChart({ points, codes, locale, presentation = false }: BrokerFlowChartProps) {
-  const { t } = useTranslation();
-  const intl = new Intl.NumberFormat(intlLocale(locale), { maximumFractionDigits: 0 });
-  const data = points.map((point) => {
-    const row: Record<string, number | string | null> = {
-      date: point.date,
-      label: formatSessionDate(point.date, locale),
-    };
-    for (const code of codes) row[code] = point.nets[code] ?? null;
+// Cumulative net lots per chosen broker. A session where a broker is outside the
+// visible top nine keeps the last cumulative value, so every line is one
+// unbroken path from the broker's first observation. Before it, there is no line.
+export function carryForward(points: readonly BrokerSeriesPoint[], codes: readonly string[]) {
+  const last = new Map<string, number>();
+  return points.map((point) => {
+    const row: Record<string, number | string | null> = { date: point.date };
+    for (const code of codes) {
+      const value = point.nets[code];
+      if (typeof value === 'number') last.set(code, value);
+      row[code] = last.get(code) ?? null;
+    }
     return row;
   });
+}
+
+export function BrokerFlowChart({ points, codes, locale, presentation = false }: BrokerFlowChartProps) {
+  const { t } = useTranslation();
+  const copy = ui(locale);
+  const intl = new Intl.NumberFormat(intlLocale(locale), { maximumFractionDigits: 0 });
+  const data: Record<string, number | string | null>[] = carryForward(points, codes).map((row) => ({
+    ...row,
+    label: formatSessionDate(String(row.date), locale),
+  }));
   const values = data.flatMap((row) =>
     codes.flatMap((code) => {
       const value = row[code];
       return typeof value === 'number' ? [value] : [];
     }),
   );
-  const pad = values.length > 1 ? Math.max((Math.max(...values) - Math.min(...values)) * 0.05, 500) : 500;
-  const yMin = values.length > 0 ? Math.min(...values) - pad : -500;
-  const yMax = values.length > 0 ? Math.max(...values) + pad : 500;
+  // The zero line is always inside the domain.
+  const low = Math.min(0, ...values);
+  const high = Math.max(0, ...values);
+  const pad = Math.max((high - low) * 0.08, 500);
+  const yMin = low - pad;
+  const yMax = high + pad;
 
   return (
     <div
       role="img"
-      aria-label={t('stock.brokerChartAria', {
-        count: String(codes.length),
-        sessions: String(points.length),
-      })}
+      aria-label={copy.brokerChartAria(codes.length, points.length)}
       className={presentation ? 'h-[55vh] min-h-[20rem] w-full' : 'h-64 w-full'}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 8, right: 48, bottom: 0, left: 8 }}>
+        <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
           <CartesianGrid stroke="#E3E8F0" vertical={false} />
           <XAxis
             dataKey="label"
@@ -63,8 +74,9 @@ export function BrokerFlowChart({ points, codes, locale, presentation = false }:
             tickLine={false}
             axisLine={false}
             tickFormatter={tickLabel}
-            width={52}
+            width={44}
           />
+          <ReferenceLine y={0} stroke="#0B1220" strokeOpacity={0.55} strokeWidth={1.25} />
           <Tooltip
             contentStyle={{
               background: '#FFFFFF',
@@ -79,54 +91,21 @@ export function BrokerFlowChart({ points, codes, locale, presentation = false }:
               name,
             ]}
           />
-          <Legend wrapperStyle={{ fontSize: 12, color: '#0B1220', paddingTop: 4 }} />
-          {codes.map((code, index) => {
-            const color: string = SERIES_COLORS[index % SERIES_COLORS.length] ?? SERIES_COLORS[0];
-            return (
-              <Line
-                key={code}
-                type="linear"
-                dataKey={code}
-                stroke={color}
-                strokeWidth={2}
-                dot={(props: { cx?: number; cy?: number; index?: number }) => (
-                  <IsolatedDot key={`${code}-${props.index}`} {...props} data={data} code={code} color={color} />
-                )}
-                connectNulls={false}
-                // Recharts only draws dots after the draw-in animation ends, so
-                // an interrupted animation would hide isolated observations.
-                isAnimationActive={false}
-              />
-            );
-          })}
+          {codes.map((code, index) => (
+            <Line
+              key={code}
+              type="linear"
+              dataKey={code}
+              stroke={BROKER_LINE_COLOURS[index % BROKER_LINE_COLOURS.length]}
+              strokeWidth={2.25}
+              dot={false}
+              activeDot={{ r: 4 }}
+              connectNulls
+              isAnimationActive={false}
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
     </div>
   );
-}
-
-// Lines break wherever a broker is outside the visible sample, so a session
-// observed with no observed neighbour has no segment to draw. Without a dot it
-// would vanish (ES in SINI: seen on 1 and 3 Sept only); joined points keep the
-// plain line.
-function IsolatedDot({
-  cx,
-  cy,
-  index,
-  data,
-  code,
-  color,
-}: {
-  cx?: number;
-  cy?: number;
-  index?: number;
-  data: readonly Record<string, number | string | null>[];
-  code: string;
-  color: string;
-}) {
-  if (cx === undefined || cy === undefined || index === undefined) return <g />;
-  const value = data[index]?.[code];
-  const joined = (offset: number) => typeof data[index + offset]?.[code] === 'number';
-  if (typeof value !== 'number' || joined(-1) || joined(1)) return <g />;
-  return <circle cx={cx} cy={cy} r={3.5} fill={color} stroke="#FFFFFF" strokeWidth={1.5} />;
 }

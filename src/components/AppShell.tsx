@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Link, NavLink, Outlet, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { usePublicData } from '../data/publicData';
 import { useContextStore } from '../store/contextStore';
 import { formatSessionDate, useTranslation } from '../i18n';
+import { radarCopy } from '../i18n/radarCopy';
 import { DemoCoach } from './DemoCoach';
 import { Icon, type IconName } from './Icon';
+
+const PRIMARY_PATHS = new Set(['/', '/stocks', '/portfolio']);
 
 const railLinkClass = ({ isActive }: { isActive: boolean }) =>
   `relative flex items-center rounded-lg px-3 py-2 text-sm transition-colors ${
@@ -19,6 +22,22 @@ const mobileNavLinkClass = ({ isActive }: { isActive: boolean }) =>
 export function AppShell() {
   const { t, locale } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
+  const navigationType = useNavigationType();
+  // The page scrolls as a whole, so without this a new page opens at the scroll
+  // position of the page it was opened from. A new page starts at the top; Back
+  // and Forward return to where that page was left.
+  const scrollByKey = useRef(new Map<string, number>());
+  useEffect(() => {
+    const key = location.key;
+    const remember = () => scrollByKey.current.set(key, window.scrollY);
+    window.addEventListener('scroll', remember, { passive: true });
+    return () => window.removeEventListener('scroll', remember);
+  }, [location.key]);
+  useLayoutEffect(() => {
+    const saved = navigationType === 'POP' ? scrollByKey.current.get(location.key) : undefined;
+    window.scrollTo(0, saved ?? 0);
+  }, [location.key, navigationType]);
   const setLocale = useContextStore((state) => state.setLocale);
   const demoMode = useContextStore((state) => state.demoMode);
   const dataThrough = useContextStore((state) => state.dataThrough);
@@ -33,14 +52,27 @@ export function AppShell() {
     (pathname === '/' || pathname === '/research') && viewSnapshot?.route === pathname
       ? viewSnapshot.date
       : undefined;
-  // A stock's analysis page belongs under Stocks in the navigation.
-  const isPrimaryActive = (to: string, isActive: boolean) =>
-    to === '/stocks' ? isActive || pathname.startsWith('/stock/') : isActive;
+  // A stock's analysis page keeps the section it was opened from highlighted
+  // (Brief, Live Radar or Portfolio). The origin is remembered per history
+  // entry so Back and Forward keep it; a page loaded directly falls under Brief.
+  const lastSection = useRef('/');
+  const originByKey = useRef(new Map<string, string>());
+  if (PRIMARY_PATHS.has(pathname)) lastSection.current = pathname;
+  let stockOrigin: string | null = null;
+  if (pathname.startsWith('/stock/')) {
+    stockOrigin = originByKey.current.get(location.key) ?? lastSection.current;
+    originByKey.current.set(location.key, stockOrigin);
+  }
+  const isPrimaryActive = (to: string, isActive: boolean) => (stockOrigin !== null ? to === stockOrigin : isActive);
   const pinnedDate = pinnedSnapshot !== undefined ? pinnedSnapshot : selectedSessionDate;
+  // Pages opened from Brief, Live Radar or Portfolio (the analysis page) get a
+  // back button. With no earlier page in this tab it goes to the Brief.
+  const showBack = pathname.startsWith('/stock/');
+  const goBack = () => (location.key !== 'default' ? navigate(-1) : navigate('/'));
 
   const primaryRoutes: { to: string; end: boolean; label: string; icon: IconName }[] = [
     { to: '/', end: true, label: t('nav.brief'), icon: 'brief' },
-    { to: '/stocks', end: false, label: t('nav.stocks'), icon: 'stocks' },
+    { to: '/stocks', end: false, label: radarCopy(locale).nav, icon: 'radar' },
     { to: '/portfolio', end: false, label: t('nav.portfolio'), icon: 'portfolio' },
   ];
 
@@ -49,7 +81,6 @@ export function AppShell() {
   // per-ticker nav entry.
   const secondaryRoutes: { to: string; end: boolean; label: string; icon: IconName }[] = [
     { to: '/research', end: false, label: t('nav.research'), icon: 'thesis' },
-    { to: '/method', end: false, label: t('nav.howItWorks'), icon: 'how' },
     { to: '/tour', end: false, label: t('nav.tour'), icon: 'tour' },
   ];
 
@@ -196,6 +227,19 @@ export function AppShell() {
             <Link to="/" className="text-base font-semibold tracking-tight lg:hidden">
               {t('app.wordmark')}
             </Link>
+            {showBack ? (
+              <button
+                type="button"
+                onClick={goBack}
+                aria-label={t('nav.back')}
+                title={t('nav.back')}
+                data-testid="back-button"
+                className="flex shrink-0 items-center gap-1 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-sm font-semibold text-ink transition-colors hover:border-brand hover:text-brandDeep"
+              >
+                <Icon name="prev" className="h-4 w-4" />
+                <span className="hidden sm:inline">{t('nav.back')}</span>
+              </button>
+            ) : null}
             <span className="chip chip-line lg:hidden">{t('app.pill')}</span>
             <div className="hidden min-w-0 items-center gap-2 lg:flex">
               <span className="chip chip-brand">

@@ -1,0 +1,38 @@
+{
+  "ticker": "SKRA",
+  "version": "sample-fixture-skra-events-v2",
+  "events": [
+    {
+      "id": "E-SKRA-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-09-08",
+      "publicationDate": "2026-09-08",
+      "availableAt": "2026-09-08T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/skra/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: online forums spread a mock rumour of a large battery order, and the fictional stock jumped on heavy volume.",
+        "id": "Peristiwa contoh fiksi: forum daring menyebarkan kabar angin pura-pura soal pesanan baterai besar, dan saham fiktif ini melonjak dengan volume besar.",
+        "zh": "虚构样本事件：网络论坛流传一则关于大额电池订单的模拟传闻，该虚构股票放量大涨。"
+      }
+    },
+    {
+      "id": "E-SKRA-FIXTURE-02",
+      "layer": "health",
+      "reportingDate": "2026-09-17",
+      "publicationDate": "2026-09-17",
+      "availableAt": "2026-09-17T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/skra/event-02"
+      },
+      "text": {
+        "en": "Fictional sample report: the fictional issuer filed a mock half-year result with thin margins and negative operating cash flow.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura dengan margin tipis dan arus kas operasi negatif.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟半年业绩，利润率偏薄、经营现金流为负。"
+      }
+    }
+  ]
+}

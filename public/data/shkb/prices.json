@@ -1,0 +1,227 @@
+{
+  "symbol": "SHKB",
+  "version": "sample-prices-shkb-2026_08_14_2026_09_23-v1",
+  "currency": "HKD",
+  "exchangeTimezone": "Asia/Hong_Kong",
+  "exchangeName": "Hong Kong Stock Exchange (sample)",
+  "source": "sample://fixture/shkb/prices",
+  "priceBasis": "sample-fixture-daily",
+  "bars": [
+    {
+      "date": "2026-08-14",
+      "open": 96.75,
+      "high": 97.2,
+      "low": 95.5,
+      "close": 96,
+      "volume": 4382500
+    },
+    {
+      "date": "2026-08-18",
+      "open": 96,
+      "high": 96.75,
+      "low": 95.45,
+      "close": 96.35,
+      "volume": 3647000
+    },
+    {
+      "date": "2026-08-19",
+      "open": 96.85,
+      "high": 97.25,
+      "low": 95.3,
+      "close": 95.65,
+      "volume": 4427500
+    },
+    {
+      "date": "2026-08-20",
+      "open": 95.35,
+      "high": 97.8,
+      "low": 94.6,
+      "close": 97.05,
+      "volume": 4731000
+    },
+    {
+      "date": "2026-08-21",
+      "open": 96.85,
+      "high": 97.9,
+      "low": 91.95,
+      "close": 93.9,
+      "volume": 7102500
+    },
+    {
+      "date": "2026-08-24",
+      "open": 93.55,
+      "high": 95.65,
+      "low": 92.85,
+      "close": 95.05,
+      "volume": 5926000
+    },
+    {
+      "date": "2026-08-26",
+      "open": 94.85,
+      "high": 95.9,
+      "low": 94.2,
+      "close": 95.3,
+      "volume": 5495000
+    },
+    {
+      "date": "2026-08-27",
+      "open": 96.05,
+      "high": 97.05,
+      "low": 95.45,
+      "close": 96.35,
+      "volume": 6129000
+    },
+    {
+      "date": "2026-08-28",
+      "open": 95.9,
+      "high": 101.4,
+      "low": 94.2,
+      "close": 99.7,
+      "volume": 6795000
+    },
+    {
+      "date": "2026-08-31",
+      "open": 99.95,
+      "high": 101.1,
+      "low": 99.4,
+      "close": 100.4,
+      "volume": 4557000
+    },
+    {
+      "date": "2026-09-01",
+      "open": 100.8,
+      "high": 103.4,
+      "low": 88.9,
+      "close": 93.2,
+      "volume": 12472000
+    },
+    {
+      "date": "2026-09-02",
+      "open": 92.75,
+      "high": 93.6,
+      "low": 92.3,
+      "close": 93.35,
+      "volume": 5178000
+    },
+    {
+      "date": "2026-09-03",
+      "open": 92.9,
+      "high": 94.15,
+      "low": 92.3,
+      "close": 93.55,
+      "volume": 3482500
+    },
+    {
+      "date": "2026-09-04",
+      "open": 92.95,
+      "high": 93.45,
+      "low": 92.05,
+      "close": 92.5,
+      "volume": 5503000
+    },
+    {
+      "date": "2026-09-07",
+      "open": 92.85,
+      "high": 98.2,
+      "low": 91.8,
+      "close": 95.85,
+      "volume": 5696000
+    },
+    {
+      "date": "2026-09-08",
+      "open": 95.6,
+      "high": 96.1,
+      "low": 93.75,
+      "close": 94.25,
+      "volume": 6524000
+    },
+    {
+      "date": "2026-09-09",
+      "open": 94.65,
+      "high": 94.95,
+      "low": 93.9,
+      "close": 94.3,
+      "volume": 5309000
+    },
+    {
+      "date": "2026-09-10",
+      "open": 94.7,
+      "high": 99.35,
+      "low": 93.55,
+      "close": 97.35,
+      "volume": 7482500
+    },
+    {
+      "date": "2026-09-11",
+      "open": 98,
+      "high": 99.4,
+      "low": 92.9,
+      "close": 93.95,
+      "volume": 4731500
+    },
+    {
+      "date": "2026-09-14",
+      "open": 94.35,
+      "high": 94.75,
+      "low": 91.95,
+      "close": 92.7,
+      "volume": 4016500
+    },
+    {
+      "date": "2026-09-15",
+      "open": 92.5,
+      "high": 93.05,
+      "low": 91.05,
+      "close": 91.6,
+      "volume": 3994000
+    },
+    {
+      "date": "2026-09-16",
+      "open": 91.2,
+      "high": 91.85,
+      "low": 90.1,
+      "close": 90.5,
+      "volume": 3531500
+    },
+    {
+      "date": "2026-09-17",
+      "open": 89.8,
+      "high": 90.3,
+      "low": 89.15,
+      "close": 89.55,
+      "volume": 6309000
+    },
+    {
+      "date": "2026-09-18",
+      "open": 89.9,
+      "high": 90.3,
+      "low": 88.4,
+      "close": 88.9,
+      "volume": 3524500
+    },
+    {
+      "date": "2026-09-21",
+      "open": 88.25,
+      "high": 90.7,
+      "low": 87.8,
+      "close": 90.05,
+      "volume": 4179500
+    },
+    {
+      "date": "2026-09-22",
+      "open": 89.95,
+      "high": 90.7,
+      "low": 87.1,
+      "close": 88.15,
+      "volume": 5526000
+    },
+    {
+      "date": "2026-09-23",
+      "open": 87.5,
+      "high": 89.05,
+      "low": 87,
+      "close": 88.75,
+      "volume": 4384500
+    }
+  ]
+}

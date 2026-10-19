@@ -1,0 +1,38 @@
+{
+  "ticker": "SHKB",
+  "version": "sample-fixture-shkb-events-v2",
+  "events": [
+    {
+      "id": "E-SHKB-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-09-01",
+      "publicationDate": "2026-09-01",
+      "availableAt": "2026-09-01T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/shkb/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: the fictional issuer announced a mock share placement at a discount to fund a trial.",
+        "id": "Peristiwa contoh fiksi: penerbit fiktif mengumumkan penempatan saham pura-pura dengan diskon untuk membiayai uji klinis.",
+        "zh": "虚构样本事件：该虚构发行人宣布以折价进行模拟股份配售，为临床试验筹资。"
+      }
+    },
+    {
+      "id": "E-SHKB-FIXTURE-02",
+      "layer": "health",
+      "reportingDate": "2026-09-14",
+      "publicationDate": "2026-09-14",
+      "availableAt": "2026-09-14T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/shkb/event-02"
+      },
+      "text": {
+        "en": "Fictional sample report: the fictional issuer filed a mock interim result showing a wider loss and thinner cash.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil interim pura-pura dengan rugi melebar dan kas menipis.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟中期业绩，亏损扩大、现金减少。"
+      }
+    }
+  ]
+}

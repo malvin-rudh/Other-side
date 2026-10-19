@@ -1,0 +1,38 @@
+{
+  "ticker": "SKRB",
+  "version": "sample-fixture-skrb-events-v2",
+  "events": [
+    {
+      "id": "E-SKRB-FIXTURE-01",
+      "layer": "story",
+      "eventDate": "2026-09-03",
+      "publicationDate": "2026-09-03",
+      "availableAt": "2026-09-03T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/skrb/event-01"
+      },
+      "text": {
+        "en": "Fictional sample event: mock reports of a large foreign fund adding to its holding lifted the fictional stock.",
+        "id": "Peristiwa contoh fiksi: laporan pura-pura bahwa dana asing besar menambah kepemilikannya mengangkat saham fiktif ini.",
+        "zh": "虚构样本事件：一则关于大型外资基金增持的模拟报道推高了该虚构股票。"
+      }
+    },
+    {
+      "id": "E-SKRB-FIXTURE-02",
+      "layer": "health",
+      "reportingDate": "2026-09-10",
+      "publicationDate": "2026-09-10",
+      "availableAt": "2026-09-10T00:00:00+07:00",
+      "source": {
+        "name": "Sample fixture (fictional, not a real announcement)",
+        "url": "sample://fixture/skrb/event-02"
+      },
+      "text": {
+        "en": "Fictional sample report: the fictional issuer filed a mock half-year result with higher profit and a lower loan balance.",
+        "id": "Laporan contoh fiksi: penerbit fiktif melaporkan hasil semester pura-pura dengan laba naik dan saldo pinjaman turun.",
+        "zh": "虚构样本报告：该虚构发行人提交模拟半年业绩，利润上升、贷款余额下降。"
+      }
+    }
+  ]
+}

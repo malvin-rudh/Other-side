@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
 import { findInstrument, instrumentNameText } from '../data/instruments';
+import { currencyOf, formatPrice } from '../data/money';
 import { usePublicData } from '../data/publicData';
+import { useSessionClose } from '../data/portfolioPrices';
 import { summarizeFlows } from '../engine/insights';
 import { useTranslation } from '../i18n';
-import { flowHeadline, holdingHeadline } from '../i18n/insightCopy';
+import { holdingHeadline, watchlistHeadline, type HeadlinePrice } from '../i18n/insightCopy';
 import { DataModeChip } from './DataModeChip';
 import { Disclaimer } from './Disclaimer';
 
@@ -26,12 +28,22 @@ export function StockHeadline({
   const { t, locale } = useTranslation();
   const instrument = findInstrument(ticker);
   const state = usePublicData(instrument?.hasBrokerDataset ? ticker : null);
+  const summary = useMemo(
+    () => (state.status === 'ready' ? summarizeFlows(state.data, sessionDate ?? state.data.defaultWindow.end) : null),
+    [state, sessionDate],
+  );
+  const closeState = useSessionClose(ticker, summary?.end ?? null, summary?.start ?? null);
   const headline = useMemo(() => {
-    if (state.status !== 'ready') return null;
-    const summary = summarizeFlows(state.data, sessionDate ?? state.data.defaultWindow.end);
     if (summary === null) return null;
-    return mode === 'holding' ? holdingHeadline(summary, locale) : flowHeadline(summary, locale);
-  }, [state, sessionDate, mode, locale]);
+    const currency = currencyOf(ticker);
+    const close = closeState.status === 'ready' ? closeState.close : null;
+    const price: HeadlinePrice = {
+      close: close?.close ?? null,
+      windowStartClose: close?.windowStartClose ?? null,
+      format: (value) => formatPrice(value, currency, locale),
+    };
+    return mode === 'holding' ? holdingHeadline(summary, locale, price) : watchlistHeadline(summary, locale, price);
+  }, [summary, closeState, ticker, mode, locale]);
   const disclaimer =
     instrument === null
       ? t('portfolio.providerNote')

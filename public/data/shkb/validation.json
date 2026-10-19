@@ -1,0 +1,39 @@
+{
+  "ticker": "SHKB",
+  "dataVersion": "sample-fixture-shkb-2026-08-14_2026-09-23-v2",
+  "verified": true,
+  "issues": [],
+  "counts": {
+    "raw": {
+      "total": 324,
+      "bySide": {
+        "buy": 162,
+        "sell": 162
+      }
+    },
+    "duplicateRankRows": 0,
+    "conflictingBrokerDays": 0,
+    "quarantined": {
+      "total": 0,
+      "bySide": {
+        "buy": 0,
+        "sell": 0
+      }
+    },
+    "rejected": {
+      "total": 0
+    },
+    "accepted": {
+      "total": 324,
+      "bySide": {
+        "buy": 162,
+        "sell": 162
+      },
+      "capturedSessions": 27
+    }
+  },
+  "duplicateRanks": [],
+  "conflictingBrokerDays": [],
+  "quarantined": [],
+  "rejected": []
+}
