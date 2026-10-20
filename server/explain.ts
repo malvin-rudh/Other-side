@@ -85,7 +85,7 @@ function validateInput(body: unknown): ExplainInput | string {
   if (typeof scenario !== 'string' || scenario.trim() === '' || scenario.length > 100) {
     return 'scenario must be a non-empty string of at most 100 chars';
   }
-  if (locale !== 'en' && locale !== 'id' && locale !== 'zh-CN') return 'locale must be "en", "id" or "zh-CN"';
+  if (locale !== 'en' && locale !== 'zh-CN') return 'locale must be "en" or "zh-CN"';
   if (typeof question !== 'string' || question.trim().length === 0) return 'question must be a non-empty string';
   if (question.length > MAX_QUESTION_CHARS) return `question exceeds ${MAX_QUESTION_CHARS} chars`;
   if (thesisId !== undefined && (typeof thesisId !== 'string' || thesisId.length > 32)) {

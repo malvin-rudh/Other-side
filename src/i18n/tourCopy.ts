@@ -1,5 +1,5 @@
 // Guided tour copy: the intro, the list of what the tour covers, and the text
-// of each coach step, in the three supported locales. The step order matches
+// of each coach step, in the two supported locales. The step order matches
 // STEPS in components/DemoCoach.tsx.
 
 import type { Locale } from '../engine/context';
@@ -23,7 +23,7 @@ export interface TourCopy {
 
 const en: TourCopy = {
   label: 'Guided tour',
-  title: 'See how Other Side works in six steps',
+  title: 'See how O-Side works in six steps',
   intro:
     'The tour opens real screens one at a time, with a short note on what to look at.',
   hint: 'Use Back and Next on the panel. Press Hide or Esc to stop.',
@@ -54,52 +54,14 @@ const en: TourCopy = {
     },
     {
       title: 'Your portfolio',
-      body: 'Add a stock with its lots, price and date, then track your value against a sample index. Other Side describes what happened. It never tells you to buy or sell.',
-    },
-  ],
-};
-
-const id: TourCopy = {
-  label: 'Tur terpandu',
-  title: 'Lihat cara kerja Other Side dalam enam langkah',
-  intro:
-    'Tur membuka layar asli satu per satu, dengan catatan singkat tentang apa yang perlu dilihat.',
-  hint: 'Gunakan Kembali dan Lanjut pada panel. Tekan Sembunyikan atau Esc untuk berhenti.',
-  coversTitle: 'Isi tur',
-  start: 'Mulai tur',
-  restart: 'Mulai ulang tur',
-  running: 'Tur sedang berjalan',
-  steps: [
-    {
-      title: 'Brief pagi Anda',
-      body: 'Brief dibuka dengan nilai portofolio Anda. Pilih hari di strip minggu, lalu Kepemilikan Saya dan Watchlist memberi satu baris per saham untuk hari itu. Klik saham untuk membuka analisisnya.',
-    },
-    {
-      title: 'Halaman analisis',
-      body: 'Kartu atas menampilkan harga penutupan, ringkasan singkat, dan tombol untuk menambah saham ke Watchlist atau Portofolio. Kalender menentukan tanggal, dan data sesudahnya tidak terlihat. Kembali membawa Anda ke halaman asal.',
-    },
-    {
-      title: 'Siapa yang bertransaksi',
-      body: 'Arus bersih broker mengikuti hingga 3 broker dari waktu ke waktu. Di bawahnya, kartu Arus dan grafik sesi membagi hari itu menurut jenis broker: aplikasi ritel berwarna oranye, institusi berwarna biru tua. Klik angka yang disorot untuk melihat sumbernya.',
-    },
-    {
-      title: 'Kesehatan perusahaan dan peristiwa',
-      body: 'Sekarang di 23 Sep. Kesehatan Perusahaan membandingkan laporan terbaru dengan laporan sebelumnya: hijau berarti naik, merah berarti turun. Peristiwa memuat berita dan keterbukaan informasi 30 hari terakhir.',
-    },
-    {
-      title: 'Radar Langsung',
-      body: 'Radar menyorot saham yang arus broker, kesehatan perusahaan, dan beritanya sejalan, atau yang pemegang besarnya mulai keluar. Klik satu saham untuk membukanya, atau cari saham apa pun di bawah.',
-    },
-    {
-      title: 'Portofolio Anda',
-      body: 'Tambahkan saham dengan jumlah lot, harga, dan tanggalnya, lalu pantau nilainya dibanding indeks sampel. Other Side menjelaskan apa yang terjadi. Other Side tidak pernah menyuruh Anda membeli atau menjual.',
+      body: 'Add a stock with its lots, price and date, then track your value against a sample index. O-Side describes what happened. It never tells you to buy or sell.',
     },
   ],
 };
 
 const zh: TourCopy = {
   label: '引导导览',
-  title: '六步了解 Other Side 如何运作',
+  title: '六步了解 O-Side 如何运作',
   intro: '导览会逐个打开真实页面，并用一个小面板说明该看什么。',
   hint: '使用面板上的“上一步”和“下一步”。点击“收起”或按 Esc 可停止。',
   coversTitle: '导览内容',
@@ -129,12 +91,12 @@ const zh: TourCopy = {
     },
     {
       title: '您的投资组合',
-      body: '输入手数、价格和日期添加股票，并与示例指数比较您的市值。Other Side 只描述发生了什么，从不告诉您买入或卖出。',
+      body: '输入手数、价格和日期添加股票，并与示例指数比较您的市值。O-Side 只描述发生了什么，从不告诉您买入或卖出。',
     },
   ],
 };
 
-const COPY: Record<Locale, TourCopy> = { en, id, 'zh-CN': zh };
+const COPY: Record<Locale, TourCopy> = { en, 'zh-CN': zh };
 
 export function tourCopy(locale: Locale): TourCopy {
   return COPY[locale] ?? en;

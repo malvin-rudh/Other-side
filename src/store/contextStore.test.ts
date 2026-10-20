@@ -28,15 +28,15 @@ describe('context store', () => {
     const before = useContextStore.getState();
     const keyBefore = before.contextKey;
 
-    before.setLocale('id');
+    before.setLocale('zh-CN');
 
     const after = useContextStore.getState();
-    expect(after.locale).toBe('id');
+    expect(after.locale).toBe('zh-CN');
     expect(after.ticker).toBe('BBCA');
     expect(after.selectedSessionDate).toBe('2026-09-21');
     expect(after.scenario).toBe('alt');
     expect(after.contextKey).not.toBe(keyBefore);
-    expect(after.contextKey).toContain('|id|');
+    expect(after.contextKey).toContain('|zh-CN|');
   });
 
   it('normalises tickers to upper case', () => {

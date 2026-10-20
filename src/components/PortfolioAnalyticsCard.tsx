@@ -1,24 +1,18 @@
 // The portfolio analytics card: an exchange-style summary, then Performance
 // (portfolio against the index) and Allocation tabs, over the current-holdings
-// model and every common close up to the cutoff. Every number on screen opens
-// the same evidence drawer the broker facts use. Unavailable states are honest
+// model and every common close up to the cutoff. Unavailable states are honest
 // and name what is missing instead of hiding holdings.
 //
 // BriefPortfolioValue is the compact summary the Brief screen embeds under the
-// holding rows: the same model and evidence, one chart with a legend.
+// holding rows: the same model, one chart with a legend.
 
-import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { lazy, Suspense, type ReactNode } from 'react';
 import { usePortfolioAnalytics } from '../data/portfolioPrices';
-import { buildPortfolioEvidenceView, type EvidenceView } from '../engine/evidence';
-import type { FactsContext, FactKey, Fact } from '../engine/facts';
-import { portfolioAnalyticsContext, buildPortfolioFacts } from '../engine/portfolioFacts';
-import type { PortfolioAnalytics, PortfolioUnavailable, PortfolioUnavailableCode, PriceSeries } from '../engine/portfolio';
+import type { PortfolioAnalytics, PortfolioUnavailable, PortfolioUnavailableCode } from '../engine/portfolio';
 import type { Locale } from '../engine/context';
 import { formatSessionDate, intlLocale, useTranslation, type MessageKey } from '../i18n';
 import { useContextStore, type PortfolioEntry } from '../store/contextStore';
-import { EvidenceButton } from './EvidenceButton';
 import { Disclaimer } from './Disclaimer';
-import { EvidenceDrawer } from './EvidenceDrawer';
 import { idrCompact, signedPercent } from './PortfolioCharts';
 import {
   PortfolioAllocationPie as PortfolioAllocationPieSync,
@@ -52,71 +46,18 @@ const UNAVAILABLE_KEYS: Record<PortfolioUnavailableCode, MessageKey> = {
 };
 
 
-type OpenEvidence = (factId: string, trigger: HTMLButtonElement) => void;
-
-// The portfolio model over every common close up to the cutoff, its facts for
-// the evidence drawer, and that drawer's state. Shared by the Portfolio card and
-// the Brief summary so both show the same window.
-function usePortfolioModel(cutoffMs: number | null, resetKey: string, since: string | null = null) {
-  const { locale } = useTranslation();
-  const taxonomyVersion = useContextStore((state) => state.taxonomyVersion);
-  const claimVersion = useContextStore((state) => state.claimVersion);
-  const [evidenceRequest, setEvidenceRequest] = useState<{ factId: string; trigger: HTMLButtonElement } | null>(null);
+// The portfolio model over every common close up to the cutoff. Shared by the
+// Portfolio card and the Brief summary so both show the same window.
+function usePortfolioModel(cutoffMs: number | null, since: string | null = null) {
   const { prices, result } = usePortfolioAnalytics(since !== null ? { since } : 'all', cutoffMs);
-
-  // A changed morning or language is a different context, so an open drawer
-  // closes rather than showing numbers the card no longer states.
-  useEffect(() => setEvidenceRequest(null), [resetKey, locale]);
-
   const analytics = result !== null && result.kind === 'ok' ? result.analytics : null;
-
-  const portfolioContext = useMemo<FactsContext | null>(
-    () =>
-      analytics !== null
-        ? portfolioAnalyticsContext({ analytics, locale, taxonomyVersion, claimVersion })
-        : null,
-    [analytics, locale, taxonomyVersion, claimVersion],
-  );
-
-  const factsByKey = useMemo(() => {
-    if (analytics === null || portfolioContext === null) return null;
-    const document = buildPortfolioFacts(portfolioContext, analytics);
-    return new Map(document.facts.map((fact) => [fact.key, fact])) as ReadonlyMap<FactKey, Fact>;
-  }, [analytics, portfolioContext]);
-
-  const factId = (key: FactKey): string => factsByKey?.get(key)?.fact_id ?? '';
-  const openEvidence: OpenEvidence = (id, trigger) => setEvidenceRequest({ factId: id, trigger });
-
-  const evidenceView = useMemo<EvidenceView | null>(() => {
-    if (evidenceRequest === null || analytics === null || portfolioContext === null) return null;
-    const series = analytics.holdings
-      .map((holding) => prices.seriesBySymbol.get(holding.symbol))
-      .filter((entry): entry is PriceSeries => entry !== undefined);
-    return buildPortfolioEvidenceView(
-      evidenceRequest.factId,
-      portfolioContext,
-      { analytics, series, benchmarkSeries: prices.benchmark?.series ?? null },
-      locale,
-    );
-  }, [evidenceRequest, analytics, portfolioContext, prices, locale]);
-
-  const drawer =
-    evidenceRequest && evidenceView ? (
-      <EvidenceDrawer
-        view={evidenceView}
-        cutoffAt={portfolioContext?.cutoffAt ?? ''}
-        trigger={evidenceRequest.trigger}
-        onClose={() => setEvidenceRequest(null)}
-      />
-    ) : null;
-
-  return { prices, result, analytics, factId, openEvidence, drawer };
+  return { prices, result, analytics };
 }
 
 export function PortfolioAnalyticsCard() {
   const { t, locale } = useTranslation();
   const portfolio = useContextStore((state) => state.portfolio);
-  const { prices, result, analytics, factId, openEvidence, drawer } = usePortfolioModel(null, 'portfolio');
+  const { prices, result, analytics } = usePortfolioModel(null);
 
   if (prices.status === 'loading' || result === null || analytics === null) {
     const reason = result !== null && result.kind === 'unavailable' ? result.reason : null;
@@ -161,8 +102,6 @@ export function PortfolioAnalyticsCard() {
             <PortfolioAllocationPie
               analytics={analytics}
               locale={locale}
-              factId={factId('P05')}
-              onOpenEvidence={openEvidence}
             />
           </Suspense>
           <p className="note mt-3">{t('analytics.allocation.note', { date: formatSessionDate(analytics.endDate, locale) })}</p>
@@ -186,8 +125,6 @@ export function PortfolioAnalyticsCard() {
             model={analytics}
             cost={costBasis(portfolio, analytics)}
             locale={locale}
-            factId={factId('P01')}
-            onOpenEvidence={openEvidence}
           />
         </div>
 
@@ -198,7 +135,6 @@ export function PortfolioAnalyticsCard() {
         <Disclaimer className="mt-4">{t('brief.valueNote')}</Disclaimer>
         {prices.failures.length > 0 ? <PriceFailureNotes failures={prices.failures} /> : null}
       </section>
-      {drawer}
     </>
   );
 }
@@ -215,7 +151,7 @@ export function BriefPortfolioValue() {
       .map((entry) => entry.purchaseDate as string)
       .sort()[0] ?? null,
   );
-  const { prices, result, analytics, factId, openEvidence, drawer } = usePortfolioModel(null, since ?? '', since);
+  const { prices, result, analytics } = usePortfolioModel(null, since);
 
   if (prices.status === 'loading' || result === null) {
     return <p className="text-sm text-muted">{t('analytics.loading')}</p>;
@@ -231,7 +167,6 @@ export function BriefPortfolioValue() {
     );
   }
 
-  const p01 = factId('P01');
   return (
     <div>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -241,9 +176,7 @@ export function BriefPortfolioValue() {
         </div>
         <p className="text-right">
           <span className="block text-lg font-semibold tabular-nums">
-            <EvidenceButton factId={p01} onActivate={openEvidence}>
-              {idrCompact(analytics.endValue, locale)}
-            </EvidenceButton>
+            {idrCompact(analytics.endValue, locale)}
           </span>
           <span className={`text-sm font-semibold tabular-nums ${toneClass(analytics.returnFraction)}`}>
             {signedPercent(analytics.returnFraction, locale)}
@@ -261,7 +194,6 @@ export function BriefPortfolioValue() {
       </div>
       <Disclaimer className="mt-2">{t('brief.valueNote')}</Disclaimer>
       {prices.failures.length > 0 ? <PriceFailureNotes failures={prices.failures} /> : null}
-      {drawer}
     </div>
   );
 }
@@ -323,14 +255,10 @@ function PerformanceSummary({
   model,
   cost,
   locale,
-  factId,
-  onOpenEvidence,
 }: {
   model: PortfolioAnalytics;
   cost: number | null;
   locale: Locale;
-  factId: string;
-  onOpenEvidence: OpenEvidence;
 }) {
   const { t } = useTranslation();
   const gain = cost !== null ? model.endValue - cost : null;
@@ -338,9 +266,7 @@ function PerformanceSummary({
   return (
     <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       <Kpi label={t('analytics.marketValue')}>
-        <EvidenceButton factId={factId} onActivate={onOpenEvidence}>
-          {idrCompact(model.endValue, locale)}
-        </EvidenceButton>
+        {idrCompact(model.endValue, locale)}
       </Kpi>
       <Kpi label={t('analytics.totalCost')}>{cost !== null ? idrCompact(cost, locale) : '—'}</Kpi>
       <Kpi label={t('analytics.unrealised')} tone={gain !== null ? toneClass(gain) : ''}>
@@ -355,9 +281,7 @@ function PerformanceSummary({
         )}
       </Kpi>
       <Kpi label={t('analytics.windowReturn', { date: formatSessionDate(model.startDate, locale) })} tone={toneClass(model.returnFraction)}>
-        <EvidenceButton factId={factId} onActivate={onOpenEvidence}>
-          {signedPercent(model.returnFraction, locale)}
-        </EvidenceButton>
+        {signedPercent(model.returnFraction, locale)}
       </Kpi>
       <Kpi
         label={model.benchmark !== null ? benchmarkName(model.benchmark.symbol, t) : t('analytics.indexNone')}

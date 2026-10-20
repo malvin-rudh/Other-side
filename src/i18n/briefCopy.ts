@@ -11,15 +11,6 @@ const COPY = {
     close: 'Close calendar',
     noBrief: 'No brief',
   },
-  id: {
-    weekLabel: 'Pekan pagi pembaruan',
-    prevWeek: 'Pekan sebelumnya',
-    nextWeek: 'Pekan berikutnya',
-    openCalendar: 'Buka kalender',
-    calendarTitle: 'Pilih tanggal',
-    close: 'Tutup kalender',
-    noBrief: 'Tidak ada pembaruan',
-  },
   'zh-CN': {
     weekLabel: '简报日所在周',
     prevWeek: '上一周',

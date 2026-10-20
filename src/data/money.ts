@@ -1,4 +1,4 @@
-import type { Locale } from '../engine/context';
+import type { ContentLocale as Locale } from '../engine/context';
 import { intlLocale } from '../i18n';
 import { findInstrument } from './instruments';
 

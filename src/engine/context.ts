@@ -1,4 +1,8 @@
-export type Locale = 'en' | 'id' | 'zh-CN';
+// The languages the app is offered in.
+export type Locale = 'en' | 'zh-CN';
+// The languages the stored facts, claims and events are written in. The data
+// files keep an Indonesian copy, so the engine still builds it.
+export type ContentLocale = Locale | 'id';
 
 export interface AnalyticalContext {
   ticker: string;

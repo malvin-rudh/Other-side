@@ -21,6 +21,7 @@ import { Icon } from './Icon';
 import { BROKER_LINE_COLOURS, groupDotStyle } from './groupColours';
 import { SessionSankey, buildSessionFlow } from './charts/SessionSankey';
 import type { PublicData } from '../data/publicData';
+import type { EvidenceFocus } from '../engine/evidence';
 import { ui } from '../i18n/analysisCopy';
 import { Tabs, type TabSpec } from './TabList';
 
@@ -454,7 +455,7 @@ export function BrokerTrends({
   context: FactsContext;
   data: FactsData;
   locale: Locale;
-  onOpenEvidence: (factId: string, trigger: HTMLElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLElement, focus?: EvidenceFocus) => void;
 }) {
   const { t } = useTranslation();
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -533,7 +534,7 @@ export function BrokerTrends({
                       quiet
                       factId={summary.factId}
                       className={`tabular-nums ${signedClass(summary.netLots)}`}
-                      onActivate={onOpenEvidence}
+                      onActivate={(id, trigger) => onOpenEvidence(id, trigger, { brokerCode: code })}
                     >
                       {formatSigned(summary.netLots, locale)} {t('stock.flowLotsUnit')}
                     </EvidenceButton>

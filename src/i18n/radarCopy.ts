@@ -26,6 +26,7 @@ export interface RadarCopy {
   sweepLabel: string;
   blipLabel: (ticker: string, label: string, score: number) => string;
   labels: Record<RadarLabel, string>;
+  legend: Record<'accumulating' | 'mixed' | 'leaving', string>;
   pillars: Record<PillarId, string>;
   checks: Record<string, string>;
   grades: Record<string, string>;
@@ -52,6 +53,11 @@ const EN: RadarCopy = {
   sweepLabel: 'Radar animation. Stocks appear as the sweep passes. Select one to open it.',
   blipLabel: (ticker, label, score) => `Open ${ticker}, ${label}, score ${score}`,
   labels: { accumulating: 'Accumulating', leaving: 'Leaving', mixed: 'Mixed', noSignal: 'No signal' },
+  legend: {
+    accumulating: 'Big brokers keep buying, backed by company health and news.',
+    mixed: 'The signals point different ways. No clear side yet.',
+    leaving: 'Big brokers are selling, or handing shares to retail apps.',
+  },
   pillars: { transactions: 'Transactions', health: 'Company health', events: 'Events' },
   checks: {
     windowNet: 'Institution-facing brokers net bought since the window start',
@@ -87,62 +93,6 @@ const EN: RadarCopy = {
   },
 };
 
-const ID: RadarCopy = {
-  nav: 'Radar Langsung',
-  title: 'Radar Langsung',
-  explainer: 'Pembaruan tentang saham yang aliran broker, kesehatan perusahaan, dan beritanya sejalan, atau yang pemegang besarnya mulai keluar.',
-  emptyRadar: 'Hari ini tidak ada saham yang menonjol. Cari di bawah untuk melihat saham mana pun.',
-  pickedTitle: 'Saham yang layak dilihat',
-  searchTitle: 'Cari',
-  searchResults: (count) => `${count} saham cocok`,
-  forDate: (date) => `Radar untuk ${date}`,
-  searchLabel: 'Cari di radar',
-  searchPlaceholder: 'Cari kode saham atau nama perusahaan',
-  noMatch: (query) => `Tidak ada saham yang cocok dengan "${query}".`,
-  loading: 'Membaca data broker...',
-  error: 'Radar tidak dapat memuat sebagian saham.',
-  scoreLabel: 'Skor radar',
-  closeLabel: 'Penutupan',
-  view: 'Lihat analisis',
-  cardLabel: (ticker, name, label, score) => `Lihat analisis ${ticker}, ${name}. ${label}. Skor radar ${score} dari 100.`,
-  sweepLabel: 'Animasi radar. Saham muncul saat sapuan lewat. Pilih satu untuk membukanya.',
-  blipLabel: (ticker, label, score) => `Buka ${ticker}, ${label}, skor ${score}`,
-  labels: { accumulating: 'Akumulasi', leaving: 'Keluar', mixed: 'Campuran', noSignal: 'Tanpa sinyal' },
-  pillars: { transactions: 'Transaksi', health: 'Kesehatan perusahaan', events: 'Peristiwa' },
-  checks: {
-    windowNet: 'Broker sisi institusi net beli sejak awal periode',
-    recentNet: 'Mereka net beli dalam 5 sesi terakhir',
-    persistence: 'Mereka net beli pada beberapa dari 5 sesi terakhir',
-    concentration: 'Net beli tersebar di beberapa broker',
-    roundTrip: 'Pembeli bersih tidak menjual kembali dalam 3 sesi',
-    handover: 'Tidak ada peralihan dari broker sisi institusi ke broker sisi aplikasi',
-    equityPositive: 'Ekuitas adalah porsi yang kokoh dari aset',
-    equityUp: 'Ekuitas naik sejak tanggal neraca sebelumnya',
-    debtDown: 'Pinjaman bank dan utang pihak berelasi turun',
-    coreProfit: 'Laba tanpa pos sekali-jalan, sebagai porsi dari pendapatan',
-    operatingCash: 'Arus kas operasi, sebagai porsi dari pendapatan',
-    shortTermCover: 'Aset lancar menutup liabilitas jangka pendek',
-    story: 'Peristiwa cerita terbaru masih baru',
-    healthEvent: 'Peristiwa kesehatan terbaru masih baru',
-  },
-  grades: {
-    windowNet: 'Lot net beli institusi sebagai porsi dari semua lot yang dibeli dalam periode. 0% dapat 0, 60% atau lebih dapat poin penuh.',
-    recentNet: 'Porsi yang sama dalam 5 sesi terakhir. 0% dapat 0, 50% atau lebih dapat poin penuh.',
-    persistence: 'Jumlah sesi dari 5 terakhir dengan net beli institusi. 0 atau 1 dapat 0, lalu 2 dapat 5, 3 dapat 11, 4 dapat 17, 5 dapat 20.',
-    concentration: 'Pembeli bersih terbesar sebagai porsi dari seluruh net beli. 60% atau lebih dapat 0, 20% atau kurang dapat poin penuh.',
-    roundTrip: 'Porsi net beli dari broker yang menjual kembali lebih dari 80% dalam 3 sesi. 50% atau lebih dapat 0, tidak ada dapat poin penuh.',
-    handover: 'Dapat 0 jika institusi net jual atau beralih ke broker sisi aplikasi. Selain itu turun saat net beli sisi aplikasi membesar dibanding institusi: tidak ada dapat poin penuh, sama atau lebih dapat 0.',
-    equityPositive: 'Ekuitas dibagi total aset. 0% dapat 0, 60% atau lebih dapat poin penuh. Ekuitas negatif dapat 0.',
-    equityUp: 'Pertumbuhan ekuitas sejak tanggal neraca sebelumnya. 0% dapat 0, 15% atau lebih dapat poin penuh.',
-    debtDown: 'Perubahan pinjaman bank dan utang pihak berelasi. Naik 20% dapat 0, tetap dapat 40%, turun 30% atau lebih dapat poin penuh. Tanpa utang dapat poin penuh.',
-    coreProfit: 'Laba tanpa pos sekali-jalan dibagi pendapatan. 0% dapat 0, 15% atau lebih dapat poin penuh.',
-    operatingCash: 'Arus kas operasi dibagi pendapatan. 0% dapat 0, 20% atau lebih dapat poin penuh.',
-    shortTermCover: 'Aset lancar dibagi liabilitas jangka pendek. 0,8 dapat 0, 2,5 atau lebih dapat poin penuh.',
-    story: 'Poin turun lurus menurut usia peristiwa terbaru: terbit hari ini dapat 60, berusia 60 hari dapat 0.',
-    healthEvent: 'Penurunan lurus yang sama: terbit hari ini dapat 40, berusia 60 hari dapat 0.',
-  },
-};
-
 const ZH: RadarCopy = {
   nav: '实时雷达',
   title: '实时雷达',
@@ -164,6 +114,11 @@ const ZH: RadarCopy = {
   sweepLabel: '雷达动画。扫描经过时股票会出现。选择一只即可打开。',
   blipLabel: (ticker, label, score) => `打开 ${ticker}，${label}，分数 ${score}`,
   labels: { accumulating: '吸筹', leaving: '离场', mixed: '混合', noSignal: '无信号' },
+  legend: {
+    accumulating: '大型券商持续买入，并有公司健康和新闻支撑。',
+    mixed: '各项信号方向不一，暂无明确的一方。',
+    leaving: '大型券商在卖出，或把股票转给零售 App。',
+  },
   pillars: { transactions: '交易', health: '公司健康', events: '事件' },
   checks: {
     windowNet: '机构侧券商自窗口起始日起净买入',
@@ -199,7 +154,7 @@ const ZH: RadarCopy = {
   },
 };
 
-const COPY: Record<Locale, RadarCopy> = { en: EN, id: ID, 'zh-CN': ZH };
+const COPY: Record<Locale, RadarCopy> = { en: EN, 'zh-CN': ZH };
 
 export function radarCopy(locale: Locale): RadarCopy {
   return COPY[locale];

@@ -274,6 +274,16 @@ export function StocksScreen() {
         </p>
       ) : (
         <>
+          {/* What the three labels mean, in one line each. */}
+          <ul className="grid gap-2 sm:grid-cols-3" data-testid="radar-legend">
+            {(['accumulating', 'mixed', 'leaving'] as const).map((label) => (
+              <li key={label} className="card flex items-start gap-2.5 px-3 py-2.5">
+                <span className={`${LABEL_CHIP[label]} shrink-0`}>{copy.labels[label]}</span>
+                <span className="text-xs leading-snug text-muted">{copy.legend[label]}</span>
+              </li>
+            ))}
+          </ul>
+
           {/* Section 1: the radar on the left, the stocks it picked up on the right. */}
           {/* On wide screens the row is as tall as the radar, and the list
               scrolls inside that height. On narrow screens it scrolls inside a

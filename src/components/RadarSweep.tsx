@@ -153,7 +153,7 @@ export function RadarSweep({ items, ariaLabel, blipLabel, onOpen }: RadarSweepPr
     <figure className="m-0" data-testid="radar-sweep">
       <style>{CSS}</style>
       <div
-        className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-2xl"
+        className="relative mx-auto aspect-square w-full max-w-[380px] overflow-hidden rounded-2xl"
         style={{ background: FIELD }}
         role="group"
         aria-label={ariaLabel}

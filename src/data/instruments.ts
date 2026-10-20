@@ -16,8 +16,8 @@ export type DataMode = 'verified' | 'sample' | 'provider';
 
 export interface Instrument {
   ticker: string;
-  name: { en: string; id: string; zh: string };
-  exchange: { en: string; id: string; zh: string };
+  name: { en: string; zh: string };
+  exchange: { en: string; zh: string };
   currency: string;
   dataMode: DataMode;
   // Only a verified instrument has reviewed rows, sessions and events to load.
@@ -31,8 +31,8 @@ export interface Instrument {
 export const INSTRUMENTS: readonly Instrument[] = [
   {
     ticker: 'SINI',
-    name: { en: 'PT Singaraja Putra', id: 'PT Singaraja Putra', zh: 'PT Singaraja Putra' },
-    exchange: { en: 'Indonesia Stock Exchange', id: 'Bursa Efek Indonesia', zh: '印度尼西亚证券交易所' },
+    name: { en: 'PT Singaraja Putra', zh: 'PT Singaraja Putra' },
+    exchange: { en: 'Indonesia Stock Exchange', zh: '印度尼西亚证券交易所' },
     currency: 'IDR',
     dataMode: 'verified',
     hasBrokerDataset: true,
@@ -41,8 +41,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SMPA',
-    name: { en: 'Sampel Prima Abadi (fictional)', id: 'Sampel Prima Abadi (fiktif)', zh: 'Sampel Prima Abadi（虚构）' },
-    exchange: { en: 'Indonesia Stock Exchange (sample)', id: 'Bursa Efek Indonesia (sampel)', zh: '印度尼西亚证券交易所（示例）' },
+    name: { en: 'Sampel Prima Abadi (fictional)', zh: 'Sampel Prima Abadi（虚构）' },
+    exchange: { en: 'Indonesia Stock Exchange (sample)', zh: '印度尼西亚证券交易所（示例）' },
     currency: 'IDR',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -51,8 +51,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SMPB',
-    name: { en: 'Sampel Buana Lestari (fictional)', id: 'Sampel Buana Lestari (fiktif)', zh: 'Sampel Buana Lestari（虚构）' },
-    exchange: { en: 'Indonesia Stock Exchange (sample)', id: 'Bursa Efek Indonesia (sampel)', zh: '印度尼西亚证券交易所（示例）' },
+    name: { en: 'Sampel Buana Lestari (fictional)', zh: 'Sampel Buana Lestari（虚构）' },
+    exchange: { en: 'Indonesia Stock Exchange (sample)', zh: '印度尼西亚证券交易所（示例）' },
     currency: 'IDR',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -61,8 +61,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SMPC',
-    name: { en: 'Sampel Cipta Mineral (fictional)', id: 'Sampel Cipta Mineral (fiktif)', zh: 'Sampel Cipta Mineral（虚构）' },
-    exchange: { en: 'Indonesia Stock Exchange (sample)', id: 'Bursa Efek Indonesia (sampel)', zh: '印度尼西亚证券交易所（示例）' },
+    name: { en: 'Sampel Cipta Mineral (fictional)', zh: 'Sampel Cipta Mineral（虚构）' },
+    exchange: { en: 'Indonesia Stock Exchange (sample)', zh: '印度尼西亚证券交易所（示例）' },
     currency: 'IDR',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -71,8 +71,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SMPD',
-    name: { en: 'Sampel Dharma Konsumen (fictional)', id: 'Sampel Dharma Konsumen (fiktif)', zh: 'Sampel Dharma Konsumen（虚构）' },
-    exchange: { en: 'Indonesia Stock Exchange (sample)', id: 'Bursa Efek Indonesia (sampel)', zh: '印度尼西亚证券交易所（示例）' },
+    name: { en: 'Sampel Dharma Konsumen (fictional)', zh: 'Sampel Dharma Konsumen（虚构）' },
+    exchange: { en: 'Indonesia Stock Exchange (sample)', zh: '印度尼西亚证券交易所（示例）' },
     currency: 'IDR',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -81,8 +81,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SMPE',
-    name: { en: 'Sampel Energi Nusantara (fictional)', id: 'Sampel Energi Nusantara (fiktif)', zh: 'Sampel Energi Nusantara（虚构）' },
-    exchange: { en: 'Indonesia Stock Exchange (sample)', id: 'Bursa Efek Indonesia (sampel)', zh: '印度尼西亚证券交易所（示例）' },
+    name: { en: 'Sampel Energi Nusantara (fictional)', zh: 'Sampel Energi Nusantara（虚构）' },
+    exchange: { en: 'Indonesia Stock Exchange (sample)', zh: '印度尼西亚证券交易所（示例）' },
     currency: 'IDR',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -91,8 +91,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SHKA',
-    name: { en: 'Sample Harbour Gate Logistics (fictional)', id: 'Sample Harbour Gate Logistics (fiktif)', zh: 'Sample Harbour Gate Logistics（虚构）' },
-    exchange: { en: 'Hong Kong Stock Exchange (sample)', id: 'Bursa Efek Hong Kong (sampel)', zh: '香港交易所（示例）' },
+    name: { en: 'Sample Harbour Gate Logistics (fictional)', zh: 'Sample Harbour Gate Logistics（虚构）' },
+    exchange: { en: 'Hong Kong Stock Exchange (sample)', zh: '香港交易所（示例）' },
     currency: 'HKD',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -101,8 +101,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SHKB',
-    name: { en: 'Sample Pearl Coast Biotech (fictional)', id: 'Sample Pearl Coast Biotech (fiktif)', zh: 'Sample Pearl Coast Biotech（虚构）' },
-    exchange: { en: 'Hong Kong Stock Exchange (sample)', id: 'Bursa Efek Hong Kong (sampel)', zh: '香港交易所（示例）' },
+    name: { en: 'Sample Pearl Coast Biotech (fictional)', zh: 'Sample Pearl Coast Biotech（虚构）' },
+    exchange: { en: 'Hong Kong Stock Exchange (sample)', zh: '香港交易所（示例）' },
     currency: 'HKD',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -111,8 +111,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SKRA',
-    name: { en: 'Sample Hangang Battery Materials (fictional)', id: 'Sample Hangang Battery Materials (fiktif)', zh: 'Sample Hangang Battery Materials（虚构）' },
-    exchange: { en: 'Korea Exchange (sample)', id: 'Bursa Korea (sampel)', zh: '韩国交易所（示例）' },
+    name: { en: 'Sample Hangang Battery Materials (fictional)', zh: 'Sample Hangang Battery Materials（虚构）' },
+    exchange: { en: 'Korea Exchange (sample)', zh: '韩国交易所（示例）' },
     currency: 'KRW',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -121,8 +121,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SKRB',
-    name: { en: 'Sample Seorak Semiconductor (fictional)', id: 'Sample Seorak Semiconductor (fiktif)', zh: 'Sample Seorak Semiconductor（虚构）' },
-    exchange: { en: 'Korea Exchange (sample)', id: 'Bursa Korea (sampel)', zh: '韩国交易所（示例）' },
+    name: { en: 'Sample Seorak Semiconductor (fictional)', zh: 'Sample Seorak Semiconductor（虚构）' },
+    exchange: { en: 'Korea Exchange (sample)', zh: '韩国交易所（示例）' },
     currency: 'KRW',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -131,8 +131,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SCNA',
-    name: { en: 'Sample Yangtze Robotics (fictional)', id: 'Sample Yangtze Robotics (fiktif)', zh: 'Sample Yangtze Robotics（虚构）' },
-    exchange: { en: 'Shanghai Stock Exchange (sample)', id: 'Bursa Efek Shanghai (sampel)', zh: '上海证券交易所（示例）' },
+    name: { en: 'Sample Yangtze Robotics (fictional)', zh: 'Sample Yangtze Robotics（虚构）' },
+    exchange: { en: 'Shanghai Stock Exchange (sample)', zh: '上海证券交易所（示例）' },
     currency: 'CNY',
     dataMode: 'sample',
     hasBrokerDataset: true,
@@ -141,8 +141,8 @@ export const INSTRUMENTS: readonly Instrument[] = [
   },
   {
     ticker: 'SCNB',
-    name: { en: 'Sample Pearl River Pharma (fictional)', id: 'Sample Pearl River Pharma (fiktif)', zh: 'Sample Pearl River Pharma（虚构）' },
-    exchange: { en: 'Shenzhen Stock Exchange (sample)', id: 'Bursa Efek Shenzhen (sampel)', zh: '深圳证券交易所（示例）' },
+    name: { en: 'Sample Pearl River Pharma (fictional)', zh: 'Sample Pearl River Pharma（虚构）' },
+    exchange: { en: 'Shenzhen Stock Exchange (sample)', zh: '深圳证券交易所（示例）' },
     currency: 'CNY',
     dataMode: 'sample',
     hasBrokerDataset: true,

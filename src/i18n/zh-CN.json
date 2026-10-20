@@ -1,6 +1,6 @@
 {
   "app": {
-    "wordmark": "Other Side",
+    "wordmark": "O-Side",
     "pill": "Mirae 提案功能"
   },
   "badge": {
@@ -30,7 +30,6 @@
   "locale": {
     "label": "语言",
     "en": "EN",
-    "id": "ID",
     "zh-CN": "中文"
   },
   "states": {
@@ -88,7 +87,7 @@
     "groupOther": "其他/混合券商",
     "groupUnknown": "未分类",
     "groupResidual": "可见样本残差（全部券商）",
-    "cardTitle": "Other Side",
+    "cardTitle": "O-Side",
     "ruleBasedBadge": "规则预览",
     "cardEmpty": "此时点没有已批准的论断。",
     "nothingYet": "此时点尚未发布任何内容。",
@@ -155,7 +154,7 @@
     "uncovered": "已保存的题库未覆盖该问题。",
     "suggest": "可以试试：",
     "refusalIdentity": "券商汇总无法识别个人投资者。",
-    "refusalAdvice": "Other Side 解释活动与不确定性，不提供买卖指令。",
+    "refusalAdvice": "O-Side 解释活动与不确定性，不提供买卖指令。",
     "loading": "正在加载已保存的回答…",
     "liveBadge": "实时 Qwen · 历史数据",
     "liveButton": "实时提问",
@@ -263,6 +262,31 @@
     "assumeAria": "如果这家券商的客户画像不明确会怎样？将 {code} 视为未分类"
   },
   "evidence": {
+    "proof": {
+      "title": "这个数字从何而来",
+      "total": "合计",
+      "lots": "{value} 手",
+      "daysOne": "{date} · 1 个交易日",
+      "daysMany": "{start} 至 {end} · {count} 个交易日",
+      "dayTitle": "逐日明细",
+      "dayNote": "每天的净手数相加即为合计。买入计为正，卖出计为负。",
+      "whoTitle": "由哪些券商组成",
+      "whoNote": "同样的手数，按券商拆分。",
+      "more": "其余 {count} 家券商",
+      "sourceTitle": "数据来源",
+      "sourceLine": "该股票的每日券商汇总。每个市场每天只公布买卖双方最大的几家券商。",
+      "cutoffLine": "只使用截至 {cutoff} 已公开的数据。",
+      "missingLine": "未采集：{dates}。",
+      "unknownLine": "名单之外的券商是未知，而不是零。",
+      "rawToggle": "查看原始记录",
+      "rawDate": "日期",
+      "rawBroker": "券商",
+      "rawSide": "方向",
+      "rawLots": "手数",
+      "groupAll": "所有可见券商",
+      "broker": "券商 {code}",
+      "noRows": "这个数字不是由券商记录计算的。"
+    },
     "title": "证据",
     "close": "关闭证据",
     "tabSummary": "摘要",
@@ -484,7 +508,7 @@
     "q13": "机构的观测净额连续五个时段最大？"
   },
   "explore": {
-    "title": "探索 Other Side",
+    "title": "探索 O-Side",
     "intro": "选择一个起点。每个快捷方式都保持在历史回放内。",
     "tour": "引导导览",
     "restartTour": "重新开始导览",
@@ -500,7 +524,7 @@
     "title": "晨报预览",
     "previewOnly": "仅预览。没有发送任何电子邮件。",
     "subjectLabel": "主题",
-    "subject": "Other Side 晨报 · {ticker} · {date}",
+    "subject": "O-Side 晨报 · {ticker} · {date}",
     "morningLabel": "早晨",
     "snapshotLabel": "快照",
     "snapshotValue": "{date} 时段，视为次晨可用（回放规则）",
@@ -584,7 +608,7 @@
   },
   "portfolio": {
     "title": "投资组合",
-    "intro": "选择由 Other Side 解读的股票。数量与均价为选填，仅保存在此浏览器中。",
+    "intro": "选择由 O-Side 解读的股票。数量与均价为选填，仅保存在此浏览器中。",
     "search": "搜索可用标的",
     "noMatch": "注册表中没有匹配该搜索的标的。",
     "remove": "移除",
@@ -753,7 +777,7 @@
     "unavailable": "没有收到报价，或提供商拒绝了查询。",
     "unreachable": "报价端点没有响应。原型仍可配合标注的示例数据使用。",
     "roadmap": "每日券商数据刷新是路线图上的能力，不是本原型中可用的 API。",
-    "noEmail": "Other Side 不发送电子邮件，也没有部署自动晨间扫描。"
+    "noEmail": "O-Side 不发送电子邮件，也没有部署自动晨间扫描。"
   },
   "calendar": {
     "prev": "上个月",

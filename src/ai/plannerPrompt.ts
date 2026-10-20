@@ -34,7 +34,7 @@ export function buildPlannerPrompt(input: PlannerPromptInput): string {
     .join('\n');
   const thesisLine = input.thesisId ? `Thesis under test: ${input.thesisId}.\n` : '';
   return [
-    'You are the answer planner for Other Side, a historical replay feature that explains broker flow.',
+    'You are the answer planner for O-Side, a historical replay feature that explains broker flow.',
     'You receive one bounded question plus the reviewed fact and claim registry for one analytical context.',
     'You return only approved claim IDs, their order and one allowed wording variant. You invent nothing.',
     '',

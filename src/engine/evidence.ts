@@ -1,5 +1,5 @@
 import { buildApprovedClaims, type ApprovedClaim } from '../ai/claims';
-import type { BrokerSide, EvidenceStrength, NormalizedBrokerRow } from '../data/schemas';
+import type { BrokerGroup, BrokerSide, EvidenceStrength, NormalizedBrokerRow } from '../data/schemas';
 import { buildFacts, type Fact, type FactsContext, type FactsData, type FactKey, type FactPeriod, type FactType } from './facts';
 import { pickText } from './facts';
 import type { Locale } from './context';
@@ -13,6 +13,8 @@ export interface EvidenceRowView {
   side: BrokerSide;
   rank: number;
   brokerCode: string;
+  // The broker's group under the baseline mapping.
+  group: BrokerGroup;
   netLots: number;
   netValueIdr: number;
   sourceAveragePrice: number | null;
@@ -54,6 +56,13 @@ export interface EvidencePriceSeries {
   // The full source history those bars came from, kept separate so the drawer can
   // still state what was available without presenting it as calculation evidence.
   sourceHistory: { firstDate: string; lastDate: string; barCount: number } | null;
+}
+
+// What the reader clicked: one broker group's number or one broker's number.
+// The drawer narrows the fact's rows to it, so the proof adds up to that value.
+export interface EvidenceFocus {
+  group?: BrokerGroup;
+  brokerCode?: string;
 }
 
 export interface EvidenceView {
@@ -133,7 +142,8 @@ export function buildEvidenceView(
     const row = rowsById.get(rowId);
     if (row) sourceRows.push(row);
   }
-  const rows = sourceRows.map(toRowView);
+  const groupOf = new Map(data.brokers.map((broker) => [broker.code, broker.group]));
+  const rows = sourceRows.map((row) => toRowView(row, groupOf.get(row.brokerCode) ?? 'unknown'));
 
   const parsedTotals = computeParsedTotals(fact, sourceRows);
 
@@ -287,7 +297,7 @@ function computeParsedTotals(fact: Fact, sourceRows: readonly NormalizedBrokerRo
   return { kind: 'sums', lots: lotsTotal, valueIdr: valueTotal };
 }
 
-function toRowView(row: NormalizedBrokerRow): EvidenceRowView {
+function toRowView(row: NormalizedBrokerRow, group: BrokerGroup): EvidenceRowView {
   const raw = row.source;
   const rawLabel = [raw.rawLots, raw.rawValueIdr, raw.rawAveragePrice].filter((part) => part !== undefined).join(' · ');
   return {
@@ -296,6 +306,7 @@ function toRowView(row: NormalizedBrokerRow): EvidenceRowView {
     side: row.side,
     rank: row.rank,
     brokerCode: row.brokerCode,
+    group,
     netLots: row.netLots,
     netValueIdr: row.netValueIdr,
     sourceAveragePrice: row.sourceAveragePrice ?? null,

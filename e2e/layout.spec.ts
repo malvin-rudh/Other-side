@@ -37,19 +37,3 @@ test('sell sheet traps focus and Esc returns focus to its trigger', async ({ pag
   await expect(dialog).toHaveCount(0);
   await expect(sellButton).toBeFocused();
 });
-
-test('Indonesian locale renders the same screen with translated sheet strings', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/stock/SINI');
-
-  await page.getByRole('group', { name: 'Language' }).getByRole('button', { name: 'ID' }).click();
-
-  await expect(page.getByText('Pratinjau berbasis aturan')).toBeVisible();
-  await expect(page.getByText('Rule-based preview')).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'Pemeriksaan tesis' })).toBeVisible();
-
-  await page.getByRole('button', { name: 'Simulasi jual' }).click();
-  await expect(page.getByRole('dialog', { name: 'Dengan siapa saya bertransaksi?' })).toBeVisible();
-  await page.getByRole('button', { name: 'Tutup simulasi' }).click();
-  await expect(page.getByRole('dialog', { name: 'Dengan siapa saya bertransaksi?' })).toHaveCount(0);
-});

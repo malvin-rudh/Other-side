@@ -6,8 +6,8 @@ import rows from '../../public/data/sini/rows.json';
 import sessions from '../../public/data/sini/sessions.json';
 import type { PublicData } from '../data/publicData';
 import type { BrokerProfile, NormalizedBrokerRow, SessionSummary, SiniEvent } from '../data/schemas';
-import { buildEvidenceView, type EvidenceView } from '../engine/evidence';
-import { buildFacts, factByKey, type FactsContext } from '../engine/facts';
+import { buildEvidenceView, type EvidenceFocus, type EvidenceView } from '../engine/evidence';
+import { buildFacts, type FactsContext } from '../engine/facts';
 import { sessionAvailableAt } from '../engine/predicates';
 import { initialAnalyticalContext } from '../store/contextStore';
 import { EvidenceDrawer } from './EvidenceDrawer';
@@ -64,100 +64,75 @@ const context: FactsContext = {
   claimVersion: events.version,
 };
 
-const c10 = factByKey(buildFacts(context, data), 'C10');
-if (!c10) throw new Error('missing C10');
-const c10View = buildEvidenceView(c10.fact_id, context, data, 'en');
-if (!c10View) throw new Error('missing C10 evidence view');
+// The widest group-net fact: visible rows across the window, all groups together.
+const groupNet = buildFacts(context, data)
+  .facts.filter((fact) => fact.type === 'group-net')
+  .sort((a, b) => b.source_row_ids.length - a.source_row_ids.length)[0];
+if (!groupNet) throw new Error('missing group-net fact');
+const view = buildEvidenceView(groupNet.fact_id, context, data, 'en');
+if (!view) throw new Error('missing group-net evidence view');
+
+const signedSum = (rowsIn: EvidenceView['rows']) =>
+  rowsIn.reduce((sum, row) => sum + (row.side === 'buy' ? row.netLots : -row.netLots), 0);
+const lotsText = (value: number) =>
+  `${value > 0 ? '+' : value < 0 ? '\u2212' : ''}${new Intl.NumberFormat('en-US').format(Math.abs(value))} lots`;
 
 beforeEach(() => {
   mockStore.hook.reset({ ...initialAnalyticalContext, locale: 'en' });
 });
 
-function renderDrawer(view: EvidenceView = c10View!, initialTab?: 'summary' | 'rows' | 'method') {
+function renderDrawer(focus?: EvidenceFocus, target: EvidenceView = view!) {
   return renderToStaticMarkup(
-    <EvidenceDrawer view={view} cutoffAt={context.cutoffAt} trigger={null} onClose={() => {}} initialTab={initialTab} />,
+    <EvidenceDrawer view={target} cutoffAt={context.cutoffAt} trigger={null} onClose={() => {}} focus={focus} />,
   );
 }
 
-describe('EvidenceDrawer summary tab', () => {
-  const html = renderDrawer();
+describe('EvidenceDrawer proof for a group number', () => {
+  const groupRows = view.rows.filter((row) => row.group === 'institution_facing');
+  const html = renderDrawer({ group: 'institution_facing' });
 
-  it('renders claim text, fact ID, strength, approximate display and the parsed total', () => {
-    expect(html).toContain('Parsed source-label total');
-    expect(html).toContain(c10.fact_id);
-    expect(html).toContain('about 8,220');
-    expect(html).toContain('125,601 lots');
-    expect(html).toContain('Rp103,241,500,000');
-    expect(html).toContain('role="dialog"');
-    expect(html).toContain('Summary');
-    expect(html).toContain('Source rows');
-    expect(html).toContain('Method');
+  it('names the group and shows the total of its rows, buying plus and selling minus', () => {
+    expect(html).toContain('How we got this number');
+    expect(html).toContain('Institutional brokers');
+    expect(html).toContain(lotsText(signedSum(groupRows)));
   });
 
-  it('renders Bahasa Indonesia strings for the same fact', () => {
-    mockStore.hook.reset({ ...initialAnalyticalContext, locale: 'id' });
-    const idView = buildEvidenceView(c10.fact_id, { ...context, locale: 'id' }, data, 'id');
-    if (!idView) throw new Error('missing ID view');
-    const idHtml = renderDrawer(idView);
-    expect(idHtml).toContain('Total pasti label sumber terparsing');
-    expect(idHtml).toContain('ID fakta');
+  it('lists one line per trading day plus a total line', () => {
+    const dates = new Set(groupRows.map((row) => row.date));
+    const daysList = html.split('data-testid="proof-days"')[1]!.split('</ul>')[0]!;
+    expect(daysList.match(/<li/g)?.length).toBe(dates.size + 1);
+    expect(daysList).toContain('Total');
   });
-});
 
-describe('EvidenceDrawer source rows tab', () => {
-  const html = renderDrawer(c10View, 'rows');
+  it('splits the same lots by broker', () => {
+    expect(html).toContain('Which brokers make it up');
+    expect(html).toContain('data-testid="proof-who"');
+  });
 
-  it('always shows the unknown-not-zero note with the row table', () => {
-    expect(html).toContain('A broker missing from this table is unknown, not zero.');
-    expect(html).toContain('Date');
-    expect(html).toContain('Side');
-    expect(html).toContain('Rank');
-    expect(html).toContain('Broker');
-    expect(html).toContain('Net lots');
-    expect(html).toContain('Net value (IDR)');
-    expect(html).toContain('Source avg');
-    expect(html).toContain('Raw label');
-    expect(html).toContain('Row ID');
-    expect(html).toContain(c10.source_row_ids[0] ?? '');
-    expect(html).toContain('·');
+  it('names the source, the cut-off and the unknown-not-zero rule, with the rows tucked away', () => {
+    expect(html).toContain('Where it comes from');
+    expect(html).toContain('Only data public by');
+    expect(html).toContain('Brokers outside the list are unknown, not zero.');
+    expect(html).toContain('<details');
+    expect(html).toContain('Show the original rows');
   });
 });
 
-describe('EvidenceDrawer method tab', () => {
-  const html = renderDrawer(c10View, 'method');
+describe('EvidenceDrawer proof for one broker', () => {
+  const code = view.rows[0]!.brokerCode;
+  const html = renderDrawer({ brokerCode: code });
 
-  it('renders formula, period, cutoff, coverage note and exclusions state', () => {
-    expect(html).toContain('Sum of net-buy value IDR');
-    expect(html).toContain('14 Aug 2026');
-    expect(html).toContain('24 Aug 2026');
-    expect(html).toContain('Coverage note');
-    expect(html).toContain(c10.coverage_note.en);
-    expect(html).toContain('No excluded or missing sessions fall inside this period.');
+  it('shows the broker total and skips the broker split', () => {
+    expect(html).toContain(`Broker ${code}`);
+    expect(html).toContain(lotsText(signedSum(view.rows.filter((row) => row.brokerCode === code))));
+    expect(html).not.toContain('data-testid="proof-who"');
   });
 });
 
-describe('EvidenceDrawer what-if entry', () => {
-  it('offers the unclassified-assumption control per broker row when a handler is provided', () => {
-    const html = renderToStaticMarkup(
-      <EvidenceDrawer
-        view={c10View}
-        cutoffAt={context.cutoffAt}
-        trigger={null}
-        onClose={() => {}}
-        initialTab="rows"
-        onAssumeBroker={() => {}}
-      />,
-    );
-    const code = c10View.rows[0]?.brokerCode ?? '';
-    expect(code.length).toBeGreaterThan(0);
-    expect(html).toContain(
-      `What if the client profile of this broker is unclear? Treat ${code} as unclassified`,
-    );
-  });
-
-  it('omits the assume control when no handler is provided', () => {
-    const html = renderDrawer(c10View, 'rows');
-    expect(html).not.toContain('treated as unclassified');
+describe('EvidenceDrawer without broker rows', () => {
+  it('falls back to the stated value and says it is not built from rows', () => {
+    const html = renderDrawer(undefined, { ...view, rows: [] });
+    expect(html).toContain('This number is not built from broker rows.');
+    expect(html).not.toContain('data-testid="proof-days"');
   });
 });
-

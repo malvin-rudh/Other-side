@@ -22,7 +22,7 @@ import { currencyOf, formatPrice } from '../data/money';
 import type { BrokerGroup } from '../data/schemas';
 import { briefMorningDates } from '../engine/brief';
 import type { Locale } from '../engine/context';
-import { buildEvidenceView, type EvidenceView } from '../engine/evidence';
+import { buildEvidenceView, type EvidenceFocus, type EvidenceView } from '../engine/evidence';
 import type { FactsContext } from '../engine/facts';
 import { sessionAvailableAt } from '../engine/predicates';
 import { buildStockView, type EventView, type RankingEntryView, type StockView } from '../engine/stockView';
@@ -31,7 +31,7 @@ import { useContextStore, type PortfolioEntry } from '../store/contextStore';
 
 type FlowGroupKey = BrokerGroup;
 
-type EvidenceLayer = { factId: string; trigger: HTMLButtonElement | null };
+type EvidenceLayer = { factId: string; trigger: HTMLButtonElement | null; focus?: EvidenceFocus };
 
 // A calendar date with no broker rows: a holiday, a session that was not
 // captured, or one excluded from the dataset.
@@ -188,8 +188,8 @@ export function StockScreen() {
     [evidenceFactId, factsContext, state, locale],
   );
 
-  const openEvidence = (factId: string, trigger: HTMLElement) =>
-    setEvidence({ factId, trigger: trigger instanceof HTMLButtonElement ? trigger : null });
+  const openEvidence = (factId: string, trigger: HTMLElement, focus?: EvidenceFocus) =>
+    setEvidence({ factId, trigger: trigger instanceof HTMLButtonElement ? trigger : null, focus });
 
   if (instrument !== null && !instrument.hasBrokerDataset) {
     return (
@@ -339,6 +339,7 @@ export function StockScreen() {
           view={evidenceView}
           cutoffAt={sessionAvailableAt(view.selectedSessionDate)}
           trigger={evidence.trigger}
+          focus={evidence.focus}
           onClose={() => setEvidence(null)}
         />
       ) : null}
@@ -628,7 +629,7 @@ function SegParts({
   onOpenEvidence,
 }: {
   parts: Seg[];
-  onOpenEvidence: (factId: string, trigger: HTMLButtonElement) => void;
+  onOpenEvidence: (factId: string, trigger: HTMLButtonElement, focus?: EvidenceFocus) => void;
 }) {
   return (
     <>
@@ -638,7 +639,7 @@ function SegParts({
             key={index}
             factId={part.factId}
             className={TONE_CLASS[part.tone ?? 'neutral']}
-            onActivate={onOpenEvidence}
+            onActivate={(id, trigger) => onOpenEvidence(id, trigger, part.focus)}
           >
             {part.text}
           </EvidenceButton>

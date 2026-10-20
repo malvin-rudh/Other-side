@@ -6,7 +6,7 @@ import type {
   SessionSummary,
   SiniEvent,
 } from '../data/schemas';
-import type { Locale } from './context';
+import type { ContentLocale as Locale, Locale as UiLocale } from './context';
 import {
   brokerNet,
   cumulativeGroupNet,
@@ -295,7 +295,7 @@ export interface FactsContext {
   periodEnd: string;
   scenario: string;
   unknownBrokerCodes?: readonly string[];
-  locale: Locale;
+  locale: UiLocale;
   dataVersion: string;
   taxonomyVersion: string;
   claimVersion: string;

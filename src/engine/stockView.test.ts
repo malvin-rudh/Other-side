@@ -123,16 +123,16 @@ describe('buildStockView at the 24 Aug replay cutoff', () => {
   });
 
   it('keeps the same claims and availability across locales', () => {
-    const idView = buildStockView(context({ locale: 'id' }), data);
+    const zhView = buildStockView(context({ locale: 'zh-CN' }), data);
     const enClaims = [...view.card.observed, ...view.card.interpretation, ...view.card.unknown].map((claim) => [
       claim.claimId,
       claim.strength,
     ]);
-    const idClaims = [...idView.card.observed, ...idView.card.interpretation, ...idView.card.unknown].map(
+    const idClaims = [...zhView.card.observed, ...zhView.card.interpretation, ...zhView.card.unknown].map(
       (claim) => [claim.claimId, claim.strength],
     );
     expect(idClaims).toEqual(enClaims);
-    expect(idView.card.observed[0]?.wording).not.toBe(view.card.observed[0]?.wording);
+    expect(zhView.card.observed[0]?.wording).not.toBe(view.card.observed[0]?.wording);
   });
 
   it('exposes flow rankings with their fact IDs', () => {
@@ -147,7 +147,7 @@ describe('buildStockView at the 24 Aug replay cutoff', () => {
   });
 });
 
-describe('Other Side card value slots', () => {
+describe('O-Side card value slots', () => {
   const view = buildStockView(context(), data);
 
   function allClaims(cardView: typeof view.card) {
@@ -204,26 +204,26 @@ describe('Other Side card value slots', () => {
   });
 
   it('keeps parts, fact IDs and tones identical across locales while localising the text', () => {
-    const idView = buildStockView(context({ locale: 'id' }), data);
+    const zhView = buildStockView(context({ locale: 'zh-CN' }), data);
     for (const enClaim of allClaims(view.card)) {
-      const idClaim = allClaims(idView.card).find((entry) => entry.claimId === enClaim.claimId);
+      const idClaim = allClaims(zhView.card).find((entry) => entry.claimId === enClaim.claimId);
       expect(idClaim, enClaim.claimId).toBeDefined();
       expect(
         idClaim!.parts.map((part) => [part.kind, part.factId, part.tone]),
         enClaim.claimId,
       ).toEqual(enClaim.parts.map((part) => [part.kind, part.factId, part.tone]));
     }
-    const c04Id = idView.card.observed.find((entry) => entry.claimId === 'CL-OBS-C04')!;
-    expect(c04Id.parts.filter((part) => part.kind === 'value').map((part) => part.text)).toEqual([
-      'penjual bersih',
-      '57,5 rb',
-      '14 Agu',
-      '24 Agu',
+    const c04Zh = zhView.card.observed.find((entry) => entry.claimId === 'CL-OBS-C04')!;
+    expect(c04Zh.parts.filter((part) => part.kind === 'value').map((part) => part.text)).toEqual([
+      '净卖出',
+      '5.75万',
+      '8月14日',
+      '8月24日',
     ]);
-    const c18Id = idView.card.interpretation.find((entry) => entry.claimId === 'CL-INT-C18')!;
-    expect(c18Id.parts.filter((part) => part.kind === 'value').map((part) => part.text)).toEqual(['ZP', '17,6 rb', '8,5 rb']);
-    const c01Id = idView.card.unknown.find((entry) => entry.claimId === 'CL-UNK-C01')!;
-    expect(c01Id.wording).toBe('13 Agu dikeluarkan: tangkapan layar yang tumpang tindih menempatkan broker yang sama di kedua sisi.');
+    const c18Zh = zhView.card.interpretation.find((entry) => entry.claimId === 'CL-INT-C18')!;
+    expect(c18Zh.parts.filter((part) => part.kind === 'value').map((part) => part.text)).toEqual(['ZP', '1.76万', '8,499']);
+    const c01Zh = zhView.card.unknown.find((entry) => entry.claimId === 'CL-UNK-C01')!;
+    expect(c01Zh.wording).toBe('8月13日 被排除：重叠的截图使相同的券商同时出现在两侧。');
   });
 
   it('joins parts back to the plain wording and gives every value a fact ID', () => {
@@ -236,7 +236,7 @@ describe('Other Side card value slots', () => {
   });
 });
 
-describe('Other Side card claim priority', () => {
+describe('O-Side card claim priority', () => {
   const view = buildStockView(context(), data);
 
   it('orders the sections C12, C04, C05 first so the three-claim cap keeps them visible', () => {

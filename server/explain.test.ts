@@ -299,21 +299,6 @@ describe('POST /api/explain success envelope', () => {
     expect(provider.calls).toBe(1);
   });
 
-  it('accepts the Indonesian wording of a curated question', async () => {
-    const provider = makeProvider(async (prompt) => {
-      const echo = echoFromPrompt(prompt);
-      expect(prompt).toContain('Did institution-facing brokers keep buying?');
-      return {
-        content: JSON.stringify({ ...echo, answer_kind: 'unavailable', claims: [], follow_up_ids: [] }),
-      };
-    });
-    const response = await makeHandler(provider)(
-      makeRequest(baseBody({ question: 'Apakah broker institution-facing terus membeli?', locale: 'id' })),
-    );
-    expect(response.status).toBe(200);
-    expect(provider.calls).toBe(1);
-  });
-
   it('adds CORS headers only for the allowed origin', async () => {
     const handler = makeHandler(unavailableProvider(), 'http://localhost:5173');
     const allowed = await handler(makeRequest(baseBody(), { origin: 'http://localhost:5173' }));

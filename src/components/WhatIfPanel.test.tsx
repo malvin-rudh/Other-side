@@ -118,26 +118,3 @@ describe('WhatIfPanel in English', () => {
     expect(html).toContain('Reset to baseline');
   });
 });
-
-describe('WhatIfPanel in Bahasa Indonesia', () => {
-  it('renders the same view with Indonesian strings', () => {
-    mockStore.hook.reset({ ...initialAnalyticalContext, locale: 'id' });
-    const html = renderPanel();
-
-    expect(html).toContain('Asumsi Anda: TP diperlakukan sebagai tidak terklasifikasi');
-    expect(html).toContain('Total kelompok, sebelum vs sesudah');
-    expect(html).toContain('Sebelum');
-    expect(html).toContain('Sesudah');
-    expect(html).toContain('+181.305');
-    expect(html).toContain('+140.122');
-    expect(html).toContain('+41.183');
-    expect(html).toContain('arah tetap positif');
-    expect(html).toContain('Klaim yang berubah');
-    expect(html).toContain('Klaim yang tetap berlaku');
-    expect(html).toMatch(/\d+ pernyataan tetap persis sama\./);
-    expect(html).toContain('Tampilkan');
-    expect(html).toContain('Baris sumber mentah tidak berubah');
-    expect(html).toContain('Kembali ke baseline');
-    expect(html).not.toContain('CL-');
-  });
-});

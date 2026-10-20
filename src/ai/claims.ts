@@ -1,7 +1,7 @@
 import type { BrokerGroup } from '../data/schemas';
 import { currencyOf, formatPrice as formatMoney } from '../data/money';
 import { computeContextKey } from '../engine/context';
-import type { Locale } from '../engine/context';
+import type { ContentLocale as Locale } from '../engine/context';
 import type { BilingualText, Fact, FactKey, FactValue, FactsContext, FactsDocument, GroupFocus } from '../engine/facts';
 import { focusValue, pickText } from '../engine/facts';
 import type { PredicateStatus } from '../engine/predicates';

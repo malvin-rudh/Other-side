@@ -119,7 +119,7 @@ async function fetchJson(url: string, timeoutMs: number): Promise<unknown> {
   try {
     response = await fetch(url, {
       signal: controller.signal,
-      headers: { Accept: 'application/json', 'User-Agent': 'other-side-prototype/1.0' },
+      headers: { Accept: 'application/json', 'User-Agent': 'o-side-prototype/1.0' },
     });
   } catch (error: unknown) {
     const aborted = error instanceof Error && error.name === 'AbortError';

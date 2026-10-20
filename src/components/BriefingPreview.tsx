@@ -188,7 +188,7 @@ export function BriefingPreview({
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = `other-side-brief-${morning}.eml`;
+    anchor.download = `o-side-brief-${morning}.eml`;
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();

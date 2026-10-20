@@ -91,19 +91,6 @@ describe('sell sheet at 24 Aug', () => {
     expect(html).toContain('This does not identify the buyer of your order.');
     expect(html).toContain('Who the end clients are, and whether they still hold the shares, is unknown.');
   });
-
-  it('renders Bahasa Indonesia strings for the same snapshot', () => {
-    mockStore.hook.reset({ ...initialAnalyticalContext, locale: 'id' });
-    const idView = buildTradeContext('sell', { ...aug24, locale: 'id' }, data);
-    const html = renderSheet('sell', idView);
-    expect(html).toContain('Dengan siapa saya bertransaksi?');
-    expect(html).toContain('Simulasi · potongan historis setelah publikasi. Tidak ada pesanan yang dikirim.');
-    expect(html).toContain('Broker institution-facing menjadi pembeli bersih');
-    expect(html).toContain('Lima sesi positif: 18 Agu, 19 Agu, 20 Agu, 21 Agu, 24 Agu');
-    expect(html).toContain('Mata rantai terlemah:');
-    expect(html).toContain('Ini tidak mengidentifikasi pembeli dari pesanan Anda.');
-    expect(html).toContain('Siapa nasabah akhirnya, dan apakah mereka masih memegang sahamnya, tidak diketahui.');
-  });
 });
 
 describe('sell sheet at 23 Sep', () => {
@@ -130,15 +117,5 @@ describe('buy sheet at 23 Sep', () => {
     expect(html).toContain('not official closes, VWAP, cost bases or executable quotes.');
     expect(html).toContain('This does not identify the seller to your order.');
     expect(html).not.toContain('was a market holiday.');
-  });
-
-  it('renders Bahasa Indonesia strings for the same snapshot', () => {
-    mockStore.hook.reset({ ...initialAnalyticalContext, locale: 'id' });
-    const idView = buildTradeContext('buy', { ...sep23, locale: 'id' }, data);
-    const html = renderSheet('buy', idView);
-    expect(html).toContain('Dengan siapa saya bertransaksi?');
-    expect(html).toContain('≈Rp17.873');
-    expect(html).toContain('≈Rp13.317');
-    expect(html).toContain('Ini tidak mengidentifikasi penjual kepada pesanan Anda.');
   });
 });

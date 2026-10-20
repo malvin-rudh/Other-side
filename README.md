@@ -1,69 +1,87 @@
-# Other Side
+# O-Side
 
 ## What it is
 
-Other Side is a proposed feature for Mirae Asset's investing app, built in this repo as an Indonesia-first historical prototype. It replays the daily broker summary for SINI over 14 Aug to 23 Sep 2026 and explains in plain words who has been buying and selling the stock by broker channel, at roughly what net-flow implied price references, and when that starts to change. It is a historical replay of captured data, not an operating brokerage: it sends no trading request, and it never gives trade instructions, price targets, or stock rankings.
+O-Side is a proposed feature for Mirae Asset's investing app, built in this repo as a historical replay prototype. It replays daily broker data from 14 Aug to 23 Sep 2026 and shows, in plain words, who has been buying and selling a stock by broker channel: retail app brokers, institutional brokers, other/mixed brokers and unclassified. A stock is only worth a look when three layers line up: the story (news and filings), the transactions (broker flow) and the health of the company.
+
+SINI (PT Singaraja Putra, Indonesia Stock Exchange) is the one real case. Eleven fictional sample instruments, always labelled as samples, cover four markets: SMPA to SMPE (Indonesia), SHKA and SHKB (Hong Kong), SKRA and SKRB (Korea), SCNA (Shanghai) and SCNB (Shenzhen).
+
+It is a replay of captured data, not an operating brokerage: it sends no trading request and never gives buy or sell advice or price targets. The app is in English and Simplified Chinese.
+
+## Screens
+
+- **Brief** (`/`): portfolio value since the first purchase, a week strip with a "Select a date" calendar, then My Holdings and Watchlist with one headline per stock for the chosen day.
+- **Live Radar** (`/stocks`): a legend for Accumulating, Mixed and Leaving; the radar beside "Stocks worth a look" (a scrollable list of the strongest signals); and a Search section that lists other stocks by score until you type.
+- **Analysis page** (`/stock/:ticker`): company logo, close and a short summary; broker net flow for up to 3 brokers; the Flow card and a Sankey for the selected session; What was observed and Implications; Company Health (latest report against the previous one); and recent events. Clicking a highlighted number opens its proof: the total, each day adding up to it, the brokers behind it and the source. A back button returns to the page you came from.
+- **Portfolio** (`/portfolio`): Portfolio Analytics (Performance against an index, Allocation pie), My Holdings, Watchlist and instrument search. A fresh visit starts on a labelled sample portfolio.
+- **Research method** (`/research`): how it works and the three layers, how the Live Radar score works, data and limits, and what the AI does and does not do.
+- **Guided tour** (`/tour`): six short steps across the Brief, the analysis page, Live Radar and Portfolio.
 
 ## Setup
 
-1. Install Node.js 20 or newer (the repo is developed and verified on Node 24).
+1. Install Node.js 20 or newer (the repo is developed on Node 24).
 2. `npm install`
 3. `npm run dev`
 4. Open http://localhost:5173
-5. Add `?demo=1` to the URL for the guided demo tour (Next, Back, Hide buttons walk through the screens on pinned replay dates).
+5. Add `?demo=1` to the URL, or press Start tour on the Guided tour page, for the guided tour.
 
-The frontend runs fully static from captured data. You only need the server (and a Qwen API key) if you want live Qwen answers; rule-based previews and saved answers work without it.
+The app runs fully static from the data in `public/data/` and the TypeScript data modules. No server or API key is needed to use any screen.
+
+## How the text is written
+
+Every sentence on screen (headlines, What was observed, Implications, the summary under the price) is written by fixed templates from the data, so every number is real and traceable. Qwen does not write any of it today.
+
+The repo also contains a Qwen explain server (`server/`, `POST /api/explain`) that asks Qwen to choose approved claims and checks every answer against the facts before it could be shown. No screen calls it at the moment, so adding a Qwen key alone changes nothing in the app. Connecting it is open work.
+
+## Live Radar score
+
+Each stock gets a score from 0 to 100 from fixed, graded checks: 50% transactions (institutional net buying over the window and the last 5 sessions, persistence, spread across brokers, no quick flips, no handover to retail apps), 30% company health (equity, equity growth, debt, core profit, operating cash, short-term cover) and 20% events (how fresh the latest story and health news are). Labels are Accumulating, Mixed, Leaving and No signal. The full rule is on the Research method page and in `src/engine/radarScore.ts`.
 
 ## Environment
 
-Copy `.env.example` to `.env` at the repo root and fill in the values you need:
+The server reads `.env` from this folder (next to `package.json`); `.env.example` lists every key. Values already set in the environment win.
 
-- `QWEN_API_KEY`: key for the Qwen compatible endpoint, used by the local server and by the saved-answer generator.
-- `QWEN_MODEL`: model name, for example `qwen-plus`.
-- `DEMO_TOKEN`: the token the evaluator types in the app UI; the app keeps it in memory and sends it in the Authorization header.
-- `LIVE_ENABLED`: `true` turns on the live Qwen path; anything else serves an honest LIVE_DISABLED response.
-- `ALLOWED_ORIGIN`: exact frontend origin for CORS headers, for example `http://localhost:5173`; empty sends no CORS headers.
-- `QUOTE_ENABLED`: `true` turns the market-data provider adapter on; anything else answers DISABLED and the UI reports an honest unavailable state.
-- `QUOTE_CHART_BASE_URL`, `QUOTE_SEARCH_BASE_URL`, `QUOTE_TIMEOUT_MS`: provider endpoints and timeout for the adapter; point them at a licensed vendor to replace Yahoo. The adapter runs only on the server; the browser never calls the provider directly.
+- `QWEN_API_KEY`, `QWEN_BASE_URL`, `QWEN_MODEL`, `QWEN_STRUCTURED_MODE`: Qwen settings for the explain server and the saved-answer generator.
+- `DEMO_TOKEN`: the token a client must send to the explain server.
+- `LIVE_ENABLED`: `true` turns on the live Qwen path; anything else returns an honest LIVE_DISABLED response.
+- `ALLOWED_ORIGIN`: exact frontend origin for CORS headers; empty sends none.
+- `QUOTE_ENABLED`, `QUOTE_CHART_BASE_URL`, `QUOTE_SEARCH_BASE_URL`, `QUOTE_TIMEOUT_MS`: the optional server-side market-data adapter (Yahoo by default). The browser never calls a provider directly.
 
-`.env` is git-ignored. Never commit it, and never paste its values into chat, tickets, or any other file. Secrets live only in the server process or your local generation environment, never in `VITE_*` variables, public JSON, or the frontend bundle.
+`.env` is git-ignored. Never commit it or paste its values anywhere. Secrets live only in the server process, never in `VITE_*` variables, public JSON or the frontend bundle.
 
 ## Commands
 
-- `npm run dev`: Vite dev server on http://localhost:5173.
-- `npm run build`: type-checks the app and the server, then builds the production bundle into `dist/`.
+- `npm run dev`: Vite dev server on http://localhost:5173 (the app only).
+- `npm run build`: type-checks the app and the server, then builds `dist/`.
+- `npm run typecheck`: type-checks the app only.
 - `npm test`: runs the Vitest unit suite once.
-- `npm run build:data`: regenerates the public dataset in `public/data/` from the raw capture (sessions, broker rows, events, validation report).
-- `npm run generate:saved-answers`: calls Qwen with reviewed prompts and writes saved answer plans for curated questions (needs `QWEN_API_KEY` in `.env`).
-- `npm run serve`: runs the local explain API, a `POST /api/explain` endpoint on port 8787; it loads `.env` at startup and never prints values.
+- `npm run test:e2e`: runs the Playwright suite.
+- `npm run build:data`: regenerates the SINI dataset in `public/data/` from the raw capture.
+- `npx tsx scripts/build-sample-fixtures.ts`: regenerates the eleven fictional instruments and the SMPLIDX index (deterministic).
+- `npm run generate:saved-answers`: calls Qwen and writes saved answer plans (needs `QWEN_API_KEY`).
+- `npm run serve`: runs the explain and provider server on port 8787.
 
-## Answer modes and badges
+## Prices and portfolio analytics
 
-- **Rule-based preview**: computed locally from the approved claims registry, with the same wording and caveats in English and Bahasa Indonesia. Badge: "Rule-based preview".
-- **Saved Qwen answer**: a curated answer authored by Qwen ahead of time and stored as a plan file. It loads only when the question and the full replay context match exactly, and it still passes the same response validator before rendering. Badge: "Saved Qwen answer · replay".
-- **Live Qwen**: answered at request time by Qwen through the local server, only when `LIVE_ENABLED=true` and the request carries a valid demo token. If live is disabled or the token is missing, the UI shows an honest unavailable message plus suggested questions. Badge: "Live Qwen · historical data".
-
-## Price history and portfolio analytics
-
-The optional provider adapter also serves `GET /api/provider/history` (same demo token, range one of `1mo`, `3mo`, `6mo`, `1y`). It returns dated daily OHLCV bars with the symbol, currency, exchange timezone, source, fetch time and a `provider-daily-unadjusted` price basis: bars are exactly as the provider reports them, with no split or dividend adjustment, dated in the exchange's own timezone, and null fields mean unknown, never zero. The server and the client both validate symbol match, date ordering and finiteness, and refuse any other price basis. Answers are cached in memory for at most 10 minutes with the original fetch time kept, so stale bars are never shown as fresh. Yahoo is an opt-in, server-side adapter behind explicit registry symbols, not a guaranteed public API; the fictional SMPA, SMPB and SMPC never route to it, and no broker implied-price proxy is ever used as a market close.
-
-Portfolio analytics value owned holdings only, as a current-holdings model: quantities are held fixed, so V(t) = sum(quantity x close) with no trades, cash, dividends, fees or rights subscriptions. The first version supports complete IDR portfolios and uses `^JKSE` as the price-return benchmark; mixed currencies need an FX source this prototype does not have, and real provider bars are never summed with the fictional sample fixtures. An N-session change needs N+1 completed common closes. When quantity, price coverage or currency support is incomplete, the card says what is missing instead of silently omitting holdings. The analytics card offers Performance, Allocation and Contribution tabs plus "Explain my portfolio", a rule-based preview over registered portfolio facts and claims; a separate sample analytics preset (SMPA and SMPB with fictional prices, benchmarked against the fictional SMPLIDX index, never labelled IHSG) demonstrates the layer offline and asks for confirmation before replacing saved holdings.
+- **Closes on the analysis page and Live Radar**: SINI uses Yahoo Finance adjusted daily closes copied into `src/data/staticCloses.ts` (no runtime fetch). The samples use their own fictional `prices.json`.
+- **Portfolio Analytics** values owned holdings as a current-holdings model: quantities are fixed, so value = sum(quantity × close) with no trades, cash, dividends or fees. A fully fictional portfolio is compared with the fictional SMPLIDX index; a fully real one with `^JKSE` through the server adapter. A mix of fictional and real, or of currencies (IDR, HKD, KRW, CNY), gets no comparison, because there is no FX source. When something is missing, the card says what instead of hiding holdings.
 
 ## Folder map
 
-- `src/engine`: pure computation over the rows, with no UI: facts, flows, predicates, stock view, timeline, brief, what-if, evidence, context.
-- `src/ai`: claim registry and templates, saved-plan loader, live client, and the single response validator used by every answer path.
-- `src/screens`: routed screens (Brief, Stock, Method, Import).
-- `src/components`: shared UI such as the app shell, evidence drawer, trade-context sheet, demo coach, and charts.
-- `src/i18n`, `src/store`, `src/data`: bilingual strings and `t()` helper, the single Zustand context store, and runtime data loading plus schemas.
-- `server`: the local explain API (config, auth, Qwen adapter, .env loader) and the Function Compute adapter for deployment.
-- `scripts`: data build and saved-answer generation.
+- `src/screens`: Brief, Live Radar (`StocksScreen.tsx`), analysis page (`StockScreen.tsx`), Portfolio, Research method, Guided tour.
+- `src/components`: app shell, radar, evidence proof drawer, company health, logos, charts (`charts/`), calendars, dialogs and the tour coach.
+- `src/engine`: pure computation with no UI: facts, flows, predicates, insights, radar score, stock view, evidence, portfolio, context.
+- `src/data`: data loading and schemas, instruments, company health, copied closes, currency formatting.
+- `src/ai`: claim registry and templates, saved-plan loader, live client and the response validator.
+- `src/i18n`, `src/store`: English and Chinese copy, and the single Zustand store.
+- `server`: the explain API (config, auth, Qwen adapter, .env loader), the market-data adapter and the Function Compute adapter.
+- `scripts`: SINI data build, sample fixture generator, saved-answer generation.
+- `public/data`: generated datasets per instrument (`rows`, `sessions`, `events`, `validation`, plus `prices` for the samples and SMPLIDX), `brokers.json` and `manifest.json`. `public/logos`: the SINI logo.
 - `docs`: decision log (`decisions.md`), deployment notes (`deploy-fc.md`), release-check report.
-- `public/data`: generated dataset consumed by the frontend (`sessions.json`, `rows.json`, `events.json`, `brokers.json`, `manifest.json`).
 
 ## Data limits
 
-- Source: Stockbit broker summary, NET mode, visible top nine brokers per side per session; the side supplies the sign. A broker missing from the visible list is unknown, not zero.
-- 13 Aug 2026 is quarantined (overlapping screenshots put brokers on both sides); its rows are excluded, never netted.
-- 8 Sep 2026 was not captured and is treated as missing.
-- Replay rule: broker data for session D is assumed available at D+1 00:00 WIB, so a view pinned to an earlier session cannot show later-published facts, events, or claims.
+- Only the biggest brokers each day are visible: the top 9 buyers and sellers in Indonesia, 6 in Hong Kong and 5 in Korea. China's Dragon Tiger List shows the top 5 only on big-move days, so other days have no data. Lots outside the list go to Unclassified, so groups still add up. A broker not listed is unknown, not zero.
+- SINI broker data comes from Stockbit broker summary screenshots. 13 Aug 2026 is excluded (overlapping screenshots put brokers on both sides) and 8 Sep 2026 was not captured.
+- SINI company health uses the filed Q1 and Q2 2026 statements. The samples' health reports are fictional.
+- Replay rule: a trading day's broker data counts as public only from the next day, and reports and news from their publication date, so a view pinned to an earlier date cannot see later facts.

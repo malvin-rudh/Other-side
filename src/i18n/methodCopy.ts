@@ -68,37 +68,6 @@ const en: MethodCopy = {
   ],
 };
 
-const id: MethodCopy = {
-  title: 'Cara kerja',
-  flowTitle: 'Dari data ke layar',
-  flow: [
-    { icon: 'calendar', title: 'Data broker harian', line: 'Satu ringkasan per sesi' },
-    { icon: 'search', title: 'Kode menghitung arus', line: 'Beli bersih dan jual bersih' },
-    { icon: 'check', title: 'Fakta terverifikasi', line: 'Setiap fakta ada sumbernya' },
-    { icon: 'thesis', title: 'Bacaan sederhana', line: 'Kalimat pendek' },
-    { icon: 'stocks', title: 'Layar Anda', line: 'Brief, Radar Langsung, Analisis, Portofolio' },
-  ],
-  brokersTitle: 'Empat jenis broker',
-  brokers: [
-    { title: 'Broker aplikasi ritel', codes: 'XL, XC, YP' },
-    { title: 'Broker institusional', codes: 'AK, BK, ZP' },
-    { title: 'Broker lain / campuran', codes: 'CC, MG, PD' },
-    { title: 'Tidak diketahui', codes: 'Lot di luar daftar yang terlihat' },
-  ],
-  brokersNote: 'Pengelompokan adalah pemetaan tim, bukan identitas nasabah.',
-  replayTitle: 'Melihat tanggal lampau',
-  replayNote: 'Pilih tanggal mana pun dan Anda hanya melihat apa yang sudah diketahui pagi itu. Data broker kemarin muncul semalam; tidak ada data dari hari setelahnya yang ikut terlihat.',
-  replayDay: '23 Sep: hari perdagangan',
-  replayMorning: '24 Sep pagi: data muncul',
-  replayLater: 'Hari berikutnya: tersembunyi',
-  rulesTitle: 'Tiga aturan',
-  rules: [
-    { icon: 'check', text: 'Setiap angka berasal dari data.' },
-    { icon: 'search', text: 'Setiap angka membuka sumbernya.' },
-    { icon: 'how', text: 'Tidak pernah ada ajakan beli atau jual.' },
-  ],
-};
-
 const zh: MethodCopy = {
   title: '运作方式',
   flowTitle: '从数据到页面',
@@ -130,4 +99,4 @@ const zh: MethodCopy = {
   ],
 };
 
-export const methodCopy: Record<Locale, MethodCopy> = { en, id, 'zh-CN': zh };
+export const methodCopy: Record<Locale, MethodCopy> = { en, 'zh-CN': zh };

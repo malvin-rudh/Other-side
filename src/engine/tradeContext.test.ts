@@ -73,17 +73,6 @@ describe('sell simulation', () => {
     expect(view.weakLink).not.toBeNull();
     expect(view.asOf).toEqual({ sessionDate: '2026-09-23', nextDayDate: '2026-09-24', nextDayHoliday: false });
   });
-
-  it('renders the approved C12 wording in Bahasa Indonesia at 24 Aug', () => {
-    const view = buildTradeContext(
-      'sell',
-      context({ sessionDate: '2026-08-24', cutoffAt: AUG24_CUTOFF, locale: 'id' }),
-      data,
-    );
-    expect(view.sellWording).toBe(
-      'Broker institution-facing menjadi pembeli bersih di masing-masing dari lima sesi terakhir (18 Agu hingga 24 Agu, sampel yang terlihat).',
-    );
-  });
 });
 
 describe('buy simulation', () => {

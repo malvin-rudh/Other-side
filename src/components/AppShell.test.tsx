@@ -70,11 +70,4 @@ describe('AppShell header badge', () => {
     expect(html).toMatch(/data through 23 Sep(t)? 2026/);
     expect(html).not.toContain('Replay ·');
   });
-
-  it('renders the same date in Indonesian', () => {
-    setStore({ selectedSessionDate: '2026-08-24', locale: 'id' });
-    const html = renderShell();
-    expect(html).toContain('data hingga 24 Agu 2026');
-    expect(html).toContain('Replay · 24 Agu 2026');
-  });
 });

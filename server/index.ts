@@ -21,7 +21,7 @@ async function main(): Promise<void> {
   });
 
   server.listen(config.port, () => {
-    console.log(`other-side server listening on http://localhost:${config.port}/api/explain`);
+    console.log(`o-side server listening on http://localhost:${config.port}/api/explain`);
     console.log(`provider status at http://localhost:${config.port}/api/provider/status`);
   });
 }

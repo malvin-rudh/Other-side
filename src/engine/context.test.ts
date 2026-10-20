@@ -36,7 +36,7 @@ describe('computeContextKey', () => {
     expect(base).toContain('default');
     expect(base).toContain('unavailable');
 
-    expect(computeContextKey(makeContext({ locale: 'id' }))).not.toBe(base);
+    expect(computeContextKey(makeContext({ locale: 'zh-CN' }))).not.toBe(base);
     expect(computeContextKey(makeContext({ scenario: 'alt' }))).not.toBe(base);
     expect(computeContextKey(makeContext({ dataVersion: 'v1' }))).not.toBe(base);
     expect(computeContextKey(makeContext({ selectedSessionDate: null }))).not.toBe(base);
@@ -84,7 +84,7 @@ describe('isCurrentResponse', () => {
   });
 
   it('rejects a response matching the request id but not the context', () => {
-    const otherKey = computeContextKey(makeContext({ locale: 'id' }));
+    const otherKey = computeContextKey(makeContext({ locale: 'zh-CN' }));
     expect(isCurrentResponse(otherKey, request1, { contextKey: key, requestId: request1 })).toBe(
       false,
     );

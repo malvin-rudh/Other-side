@@ -1,7 +1,6 @@
 import { useContextStore } from '../store/contextStore';
-import type { Locale } from '../engine/context';
+import type { ContentLocale, Locale } from '../engine/context';
 import en from './en.json';
-import id from './id.json';
 import zh from './zh-CN.json';
 
 export type Messages = typeof en;
@@ -11,7 +10,7 @@ type Paths<T> = T extends string
   ? never
   : { [K in keyof T & string]: T[K] extends string ? K : `${K}.${Paths<T[K]>}` }[keyof T & string];
 
-const dictionaries: Record<Locale, Messages> = { en, id, 'zh-CN': zh };
+const dictionaries: Record<Locale, Messages> = { en, 'zh-CN': zh };
 
 export function translate(locale: Locale, key: MessageKey, vars?: Record<string, string>): string {
   const template = resolve(dictionaries[locale], key) ?? resolve(dictionaries.en, key) ?? key;
@@ -46,7 +45,8 @@ export function useTranslation() {
   };
 }
 
-export function intlLocale(locale: Locale): string {
+// Accepts the stored-content languages too, so engine text formats its numbers.
+export function intlLocale(locale: ContentLocale): string {
   return locale === 'id' ? 'id-ID' : locale === 'zh-CN' ? 'zh-CN' : 'en-GB';
 }
 

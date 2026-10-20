@@ -29,9 +29,6 @@ import type { PortfolioAnalytics, PriceSeries } from '../../engine/portfolio';
 import { formatSessionDate, intlLocale, useTranslation } from '../../i18n';
 import { xTickLabels, yAxisTicks } from './axisTicks';
 import { idrCompact, plainPercent, signedPercent, signedPoints } from '../PortfolioCharts';
-import { EvidenceButton } from '../EvidenceButton';
-
-type OpenEvidence = (factId: string, trigger: HTMLButtonElement) => void;
 
 const TOOLTIP_STYLE = {
   background: '#FFFFFF',
@@ -260,8 +257,6 @@ interface AllocationChartProps {
   locale: Locale;
   // The dated weight-history fact. Every printed weight opens it, so a number on
   // a line always resolves to the fact that carries its own symbol and date.
-  factId: string;
-  onOpenEvidence: OpenEvidence;
   compact?: boolean;
 }
 
@@ -272,8 +267,6 @@ interface AllocationChartProps {
 export function PortfolioAllocationChart({
   analytics,
   locale,
-  factId,
-  onOpenEvidence,
   compact = false,
 }: AllocationChartProps) {
   const { t } = useTranslation();
@@ -355,12 +348,6 @@ export function PortfolioAllocationChart({
         {analytics.holdings.map((holding) => {
           const weightChange = holding.weightFraction - holding.startWeightFraction;
           const colour = holdingColour(holding.symbol, symbols);
-          const label = t('analytics.weightLegendAria', {
-            symbol: holding.symbol,
-            start: plainPercent(holding.startWeightFraction, locale),
-            end: plainPercent(holding.weightFraction, locale),
-            change: signedPoints(weightChange, locale),
-          });
           return (
             <li key={holding.symbol} className="flex items-center gap-2 text-xs">
               <span
@@ -369,27 +356,14 @@ export function PortfolioAllocationChart({
                 style={{ backgroundColor: colour }}
               />
               <span className="font-semibold tabular-nums text-ink">{holding.symbol}</span>
-              {factId !== '' ? (
-                <EvidenceButton factId={factId} ariaLabel={label} onActivate={onOpenEvidence}>
-                  <span className="tabular-nums text-muted">
-                    {plainPercent(holding.startWeightFraction, locale)}%
-                    <span aria-hidden="true"> {'\u2192'} </span>
-                    {plainPercent(holding.weightFraction, locale)}%
-                  </span>
-                  <span className="ml-1.5 tabular-nums text-ink">
-                    {signedPoints(weightChange, locale)} {t('analytics.points')}
-                  </span>
-                </EvidenceButton>
-              ) : (
-                <span className="tabular-nums text-muted">
-                  {plainPercent(holding.startWeightFraction, locale)}%
-                  <span aria-hidden="true"> {'\u2192'} </span>
-                  {plainPercent(holding.weightFraction, locale)}%
-                  <span className="ml-1.5 text-ink">
-                    {signedPoints(weightChange, locale)} {t('analytics.points')}
-                  </span>
+              <span className="tabular-nums text-muted">
+                {plainPercent(holding.startWeightFraction, locale)}%
+                <span aria-hidden="true"> {'\u2192'} </span>
+                {plainPercent(holding.weightFraction, locale)}%
+                <span className="ml-1.5 text-ink">
+                  {signedPoints(weightChange, locale)} {t('analytics.points')}
                 </span>
-              )}
+              </span>
             </li>
           );
         })}
@@ -405,17 +379,13 @@ function benchmarkLabel(symbol: string, t: (key: 'analytics.indexReal' | 'analyt
 }
 
 // Each owned holding's share of today's value as a donut, with a legend that
-// names every slice and opens the breakdown evidence.
+// names every slice.
 export function PortfolioAllocationPie({
   analytics,
   locale,
-  factId,
-  onOpenEvidence,
 }: {
   analytics: PortfolioAnalytics;
   locale: Locale;
-  factId: string;
-  onOpenEvidence: OpenEvidence;
 }) {
   const { t } = useTranslation();
   const symbols = analytics.holdings.map((holding) => holding.symbol);
@@ -462,20 +432,7 @@ export function PortfolioAllocationPie({
               <span className="font-semibold tabular-nums">{row.symbol}</span>
             </span>
             <span className="tabular-nums">
-              {factId !== '' ? (
-                <EvidenceButton
-                  factId={factId}
-                  ariaLabel={t('analytics.evidenceWeightAria', {
-                    symbol: row.symbol,
-                    value: plainPercent(row.weightFraction, locale),
-                  })}
-                  onActivate={onOpenEvidence}
-                >
-                  {plainPercent(row.weightFraction, locale)}%
-                </EvidenceButton>
-              ) : (
-                <>{plainPercent(row.weightFraction, locale)}%</>
-              )}
+              {plainPercent(row.weightFraction, locale)}%
               <span className="text-muted"> · {idrCompact(row.endValue, locale)}</span>
             </span>
           </li>

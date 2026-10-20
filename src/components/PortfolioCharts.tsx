@@ -8,9 +8,6 @@
 import type { Locale } from '../engine/context';
 import type { PortfolioAnalytics } from '../engine/portfolio';
 import { intlLocale, useTranslation } from '../i18n';
-import { EvidenceButton } from './EvidenceButton';
-
-type OpenEvidence = (factId: string, trigger: HTMLButtonElement) => void;
 
 export function idrCompact(value: number, locale: Locale): string {
   const abs = Math.abs(value);
@@ -21,7 +18,7 @@ export function idrCompact(value: number, locale: Locale): string {
   }
   if (abs >= 1e6) {
     const digits = (Math.round((abs / 1e6) * 10) / 10).toFixed(1);
-    return locale === 'id' ? `Rp${digits.replace('.', ',')} jt` : `Rp${digits}m`;
+    return `Rp${digits}m`;
   }
   return `Rp${new Intl.NumberFormat(intlLocale(locale), { maximumFractionDigits: 0 }).format(abs)}`;
 }
@@ -29,48 +26,40 @@ export function idrCompact(value: number, locale: Locale): string {
 // The magnitude is formatted and the sign is added once, so a negative fraction
 // prints one minus sign rather than the sign character followed by the digit
 // string's own hyphen. A value that rounds to zero prints no sign at all.
-export function signedPercent(fraction: number, locale: Locale): string {
+export function signedPercent(fraction: number, _locale: Locale): string {
   const pct = Math.round(fraction * 1000) / 10;
   const digits = Math.abs(pct).toFixed(1);
-  const body = locale === 'id' ? digits.replace('.', ',') : digits;
   const sign = pct > 0 ? '+' : pct < 0 ? '\u2212' : '';
-  return `${sign}${body}%`;
+  return `${sign}${digits}%`;
 }
 
 // A signed percentage-point amount with no unit suffix. A contribution is one
 // holding's share of the whole portfolio change, so printing it with a % sign
 // would read as that holding's own return, which is a different number. The
 // caller prints the localized unit words after it.
-export function signedPoints(fraction: number, locale: Locale): string {
+export function signedPoints(fraction: number, _locale: Locale): string {
   const points = Math.round(fraction * 1000) / 10;
   const digits = Math.abs(points).toFixed(1);
-  const body = locale === 'id' ? digits.replace('.', ',') : digits;
   const sign = points > 0 ? '+' : points < 0 ? '\u2212' : '';
-  return `${sign}${body}`;
+  return `${sign}${digits}`;
 }
 
 // An unsigned percentage magnitude. Weights are never negative, but the sign is
 // still handled here so a negative input cannot print a bare ASCII hyphen.
-export function plainPercent(fraction: number, locale: Locale): string {
+export function plainPercent(fraction: number, _locale: Locale): string {
   const pct = Math.round(fraction * 1000) / 10;
   const digits = Math.abs(pct).toFixed(1);
-  const body = locale === 'id' ? digits.replace('.', ',') : digits;
-  return pct < 0 ? `\u2212${body}` : body;
+  return pct < 0 ? `\u2212${digits}` : digits;
 }
 
 // Neutral horizontal bars: each owned holding's share of the modelled end
-// value. Every printed weight opens the complete per-symbol breakdown fact,
-// which carries that holding's own quantity, close, value and total.
+// value.
 export function AllocationBars({
   analytics,
   locale,
-  factId,
-  onOpenEvidence,
 }: {
   analytics: PortfolioAnalytics;
   locale: Locale;
-  factId: string;
-  onOpenEvidence: OpenEvidence;
 }) {
   const { t } = useTranslation();
   const rows = [...analytics.holdings].sort((a, b) => b.weightFraction - a.weightFraction);
@@ -82,17 +71,7 @@ export function AllocationBars({
           <div className="flex items-baseline justify-between gap-3 text-sm">
             <span className="font-semibold tabular-nums">{row.symbol}</span>
             <span className="tabular-nums">
-              {factId !== '' ? (
-                <EvidenceButton
-                  factId={factId}
-                  ariaLabel={t('analytics.evidenceWeightAria', { symbol: row.symbol, value: plainPercent(row.weightFraction, locale) })}
-                  onActivate={onOpenEvidence}
-                >
-                  {plainPercent(row.weightFraction, locale)}%
-                </EvidenceButton>
-              ) : (
-                <>{plainPercent(row.weightFraction, locale)}%</>
-              )}
+              {plainPercent(row.weightFraction, locale)}%
               <span className="text-muted"> · {idrCompact(row.endValue, locale)}</span>
             </span>
           </div>
@@ -111,18 +90,13 @@ export function AllocationBars({
 // Signed bars around a centre line: each holding's contribution to the change
 // in modelled value, printed in percentage points because the contributions sum
 // to the portfolio's own change. Teal raises, rose lowers, and the printed sign
-// carries the meaning, never the colour alone. Every printed share opens the
-// complete per-symbol breakdown fact.
+// carries the meaning, never the colour alone.
 export function ContributionBars({
   analytics,
   locale,
-  factId,
-  onOpenEvidence,
 }: {
   analytics: PortfolioAnalytics;
   locale: Locale;
-  factId: string;
-  onOpenEvidence: OpenEvidence;
 }) {
   const { t } = useTranslation();
   const rows = [...analytics.holdings].sort(
@@ -139,23 +113,7 @@ export function ContributionBars({
             <div className="flex items-baseline justify-between gap-3 text-sm">
               <span className="font-semibold tabular-nums">{row.symbol}</span>
               <span className={`tabular-nums ${positive ? 'text-buy' : 'text-sell'}`}>
-                {factId !== '' ? (
-                  <EvidenceButton
-                    factId={factId}
-                    className={positive ? 'text-buy' : 'text-sell'}
-                    ariaLabel={t('analytics.evidenceContributionAria', {
-                      symbol: row.symbol,
-                      value: signedPoints(row.contributionFraction, locale),
-                    })}
-                    onActivate={onOpenEvidence}
-                  >
-                    {signedPoints(row.contributionFraction, locale)} {t('analytics.points')}
-                  </EvidenceButton>
-                ) : (
-                  <>
-                    {signedPoints(row.contributionFraction, locale)} {t('analytics.points')}
-                  </>
-                )}
+                {signedPoints(row.contributionFraction, locale)} {t('analytics.points')}
               </span>
             </div>
             <div className="relative mt-1 h-2 w-full rounded-full bg-line" role="presentation">

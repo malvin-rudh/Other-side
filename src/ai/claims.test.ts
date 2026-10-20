@@ -121,7 +121,7 @@ describe('buildApprovedClaims availability', () => {
 
   it('keeps claim IDs, predicates and caveats identical across locales', () => {
     const en = approved({ locale: 'en' });
-    const id = approved({ locale: 'id' });
+    const id = approved({ locale: 'zh-CN' });
     expect(en.claims.map((claim) => claim.claim_id)).toEqual(id.claims.map((claim) => claim.claim_id));
     for (let i = 0; i < en.claims.length; i += 1) {
       const a = en.claims[i]!;

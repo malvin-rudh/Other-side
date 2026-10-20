@@ -298,7 +298,7 @@ describe('traceability and bilingual envelope', () => {
   });
 
   it('returns identical fact IDs, signs and values in both locales', () => {
-    const idDoc = buildFacts(context({ locale: 'id' }), data);
+    const idDoc = buildFacts(context({ locale: 'zh-CN' }), data);
     expect(idDoc.facts.map((fact) => fact.fact_id)).toEqual(doc.facts.map((fact) => fact.fact_id));
     for (let index = 0; index < doc.facts.length; index += 1) {
       expect(idDoc.facts[index]?.value).toEqual(doc.facts[index]?.value);

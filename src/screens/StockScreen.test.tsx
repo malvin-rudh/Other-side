@@ -128,7 +128,7 @@ describe('StockScreen at the 24 Aug replay cutoff', () => {
     expect(html).not.toContain('rights issue completed');
   });
 
-  it('leaves out the replay player, the Other Side card and the demo tools', () => {
+  it('leaves out the replay player, the O-Side card and the demo tools', () => {
     vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
     const html = renderScreen();
 
@@ -136,16 +136,6 @@ describe('StockScreen at the 24 Aug replay cutoff', () => {
     expect(html).not.toContain('What changed since the previous session');
     expect(html).not.toContain('chip-unknown');
     expect(html).not.toContain('data-assume-broker');
-  });
-
-  it('renders Bahasa Indonesia strings', () => {
-    setStore({ locale: 'id' });
-    vi.mocked(usePublicData).mockReturnValue({ status: 'ready', data: readyData });
-    const html = renderScreen();
-
-    expect(html).toContain('Apa yang teramati?');
-    expect(html).toContain('5 Pembeli Bersih Teratas');
-    expect(html).toContain('Peristiwa 30 hari terakhir');
   });
 
   it('says so when no event falls in the window', () => {

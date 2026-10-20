@@ -54,7 +54,7 @@ export interface ProviderInstrument {
 const PORTFOLIO_STORAGE_KEY = 'other-side.portfolio.v1';
 const PROVIDER_INSTRUMENTS_STORAGE_KEY = 'other-side.provider-instruments.v1';
 const LOCALE_STORAGE_KEY = 'other-side.locale.v1';
-const LOCALES: readonly Locale[] = ['en', 'id', 'zh-CN'];
+const LOCALES: readonly Locale[] = ['en', 'zh-CN'];
 
 // A fresh visit opens in English; an explicit earlier choice wins.
 function readStoredLocale(): Locale {

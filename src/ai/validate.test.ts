@@ -142,8 +142,8 @@ describe('validateModelResponse', () => {
     });
   });
 
-  it('applies identically to a saved answer in the id locale', () => {
-    const idDoc = approvedAt({ locale: 'id' });
+  it('applies identically to a saved answer in the zh-CN locale', () => {
+    const idDoc = approvedAt({ locale: 'zh-CN' });
     const result = validateModelResponse({
       response: makeResponse({ contextKey: idDoc.contextKey, claims: [{ claim_id: 'CL-OBS-C12', wording_variant: 'explained' }] }),
       expectedContextKey: idDoc.contextKey,

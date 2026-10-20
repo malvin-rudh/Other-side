@@ -1,4 +1,4 @@
-// The research method copy, in the three supported locales.
+// The research method copy, in the two supported locales.
 //
 // This is reviewed prose: it describes how the prototype reasons, how the Live
 // Radar score works, what the data can and cannot say, and what the AI does and
@@ -108,45 +108,6 @@ const RADAR_EN: ResearchRadar = {
   ],
 };
 
-const RADAR_ID: ResearchRadar = {
-  title: 'Cara kerja skor Radar Langsung',
-  intro: 'Radar memberi tiap saham skor 0 sampai 100. Skor ini adalah kumpulan pemeriksaan bertingkat. Tiap pemeriksaan memberi poin sebagian menurut kekuatannya, lalu dijumlahkan dengan bobot tetap. Tidak ada machine learning dan tidak ada yang disembunyikan. Skor 100 menuntut semua pemeriksaan di level ekstrem, jadi saham yang kuat biasanya ada di kisaran 70-an sampai awal 90-an. Skor menunjukkan seberapa kuat ketiga lapisan sejalan. Ini bukan rekomendasi.',
-  pillarCol: 'Pilar',
-  checkCol: 'Pemeriksaan',
-  pointsCol: 'Poin',
-  weightWord: 'bobot',
-  notes: {
-    transactions: 'Siapa yang membeli atau menjual, dari ringkasan broker. Kelompok yang kita ikuti adalah broker sisi institusi.',
-    health: 'Enam pemeriksaan bertingkat pada laporan terbaru, mengikuti semangat Piotroski F-score. Margin lebih besar dan kecukupan lebih kuat dapat poin lebih banyak.',
-    events: 'Seberapa baru peristiwa cerita dan kesehatan terakhir. Hanya soal kebaruan: peristiwa bisa kabar baik atau buruk.',
-  },
-  eventRows: [
-    { text: 'Peristiwa cerita terbaru masih baru', grade: 'Poin turun lurus menurut usia peristiwa terbaru: terbit hari ini dapat 60, berusia 60 hari dapat 0.', points: '0 sampai 60' },
-    { text: 'Peristiwa kesehatan terbaru masih baru', grade: 'Penurunan lurus yang sama: terbit hari ini dapat 40, berusia 60 hari dapat 0.', points: '0 sampai 40' },
-  ],
-  labelsTitle: 'Label',
-  labels: [
-    { name: 'Keluar', rule: 'Broker sisi institusi net jual dalam 5 sesi terakhir, dan juga net jual sepanjang periode atau saham beralih ke broker sisi aplikasi.' },
-    { name: 'Akumulasi', rule: 'Tidak keluar, skor 55 atau lebih, dan pilar Transaksi 60 atau lebih.' },
-    { name: 'Tanpa sinyal', rule: 'Skor di bawah 30, atau tidak ada data broker pada tanggal itu.' },
-    { name: 'Campuran', rule: 'Selain yang di atas.' },
-  ],
-  scoreRule: 'Tiap pilar adalah jumlah pemeriksaan bertingkatnya, dari 0 sampai 100. Skor = 50% Transaksi + 30% Kesehatan perusahaan + 20% Peristiwa. Jika satu pilar tidak punya data pada tanggal itu (misalnya laporan belum terbit), pilar itu dilepas dan bobot lainnya dinaikkan sampai 100. Radar Langsung menampilkan saham Akumulasi dan Keluar yang paling kuat, paling banyak 6. Pencarian menemukan semua saham.',
-  replayTitle: 'Aturan replay',
-  replay: 'Radar hanya membaca data yang sudah publik pada tanggal sesi yang dipilih: baris broker sampai tanggal itu, peristiwa yang terbit pada atau sebelum tanggal itu, dan laporan perusahaan hanya sejak tanggal tersedianya. Ganti tanggal, radar ikut berubah.',
-  limits: 'Batasan: hanya broker terbesar di tiap pasar yang terlihat tiap hari, ambang batas adalah preset pilihan kami, dan semua ini belum diuji daya prediksinya.',
-  sourcesTitle: 'Sumber yang menginspirasi pemeriksaan',
-  sources: [
-    { title: 'Alpha Architect: memperbaiki Piotroski F-score', url: RADAR_URLS.piotroski, used: 'Pemeriksaan kesehatan lolos atau tidak, lalu dijumlahkan.' },
-    { title: 'TradingView: Piotroski F-score', url: RADAR_URLS.piotroskiTv, used: 'Pemeriksaan profitabilitas, utang, dan kas.' },
-    { title: 'Corporate Finance Institute: Altman Z-score', url: RADAR_URLS.altman, used: 'Kecukupan jangka pendek dan ekuitas sebagai tanda tekanan.' },
-    { title: 'Ajaib: strategi bandarmology', url: RADAR_URLS.ajaib, used: 'Net beli yang terkonsentrasi dan pembelian berulang antarhari.' },
-    { title: 'Pluang: penyaring broker dan asing', url: RADAR_URLS.pluang, used: 'Porsi broker teratas dari volume bersih, hanya sebagai riwayat aliran.' },
-    { title: 'LuxAlgo: dasar akumulasi/distribusi', url: RADAR_URLS.adl, used: 'Aliran kumulatif sebagai akumulasi atau distribusi.' },
-    { title: 'Columbia Business School: drift pasca-laporan laba', url: RADAR_URLS.pead, used: 'Efek berita memudar, jadi peristiwa baru dihitung lebih besar.' },
-  ],
-};
-
 const RADAR_ZH: ResearchRadar = {
   title: '实时雷达分数如何计算',
   intro: '雷达给每只股票打 0 到 100 分。它是一组固定的分级检查，每项按强度给部分分数，再按固定权重相加。没有机器学习，也没有隐藏内容。要拿到 100 分，每项检查都必须达到极端水平，所以强势股票通常落在 70 多分到 90 出头。分数表示三个层面吻合的程度，不是建议。',
@@ -190,7 +151,7 @@ const EN: ResearchContent = {
   label: 'Research method',
   title: 'A story gets our attention. Evidence earns the next look.',
   intro:
-    'Other Side shows who is on the other side of a trade, from the daily broker data of four markets: Indonesia, Hong Kong, Korea and China. A broker flow alone does not explain a move, so a stock is only worth a look when three layers line up: the story, the transactions and the health of the company. No buy or sell advice.',
+    'O-Side shows who is on the other side of a trade, from the daily broker data of four markets: Indonesia, Hong Kong, Korea and China. A broker flow alone does not explain a move, so a stock is only worth a look when three layers line up: the story, the transactions and the health of the company. No buy or sell advice.',
   framework: 'The three layers',
   frameworkLine: 'Our main signal: a stock is only worth a look when all three line up.',
   checksLabel: 'What we look for',
@@ -260,85 +221,11 @@ const EN: ResearchContent = {
   radar: RADAR_EN,
 };
 
-const ID: ResearchContent = {
-  label: 'Metode riset',
-  title: 'Cerita menarik perhatian. Bukti menentukan langkah berikutnya.',
-  intro:
-    'Other Side menunjukkan siapa yang berada di sisi lain sebuah transaksi, dari data broker harian empat pasar: Indonesia, Hong Kong, Korea, dan Tiongkok. Arus broker saja tidak menjelaskan pergerakan harga, jadi sebuah saham baru layak dilihat jika tiga lapisan sejalan: cerita, transaksi, dan kesehatan perusahaan. Tanpa saran beli atau jual.',
-  framework: 'Tiga lapisan',
-  frameworkLine: 'Sinyal utama kami: saham baru layak dilihat jika ketiganya sejalan.',
-  checksLabel: 'Yang kita cari',
-  whyLabel: 'Mengapa penting',
-  unknownLabel: 'Yang dapat melemahkannya',
-  layers: [
-    {
-      id: 'story',
-      label: '1. Cerita',
-      question: 'Apa yang sebenarnya berubah?',
-      intro: 'Berita dan aksi korporasi: rights issue, pergantian pengendali, aset baru, pendanaan. Kita mulai dari dokumen resmi, bukan dari antusiasme di sekitarnya.',
-      checks: [
-        'Peristiwa bernama dengan sumber dan tanggal publikasi.',
-        'Kaitan yang jelas dengan bisnis, kepemilikan, atau pendanaan.',
-        'Mana yang sudah selesai, mana yang baru usulan, dan mana yang masih bergantung pada langkah lain.',
-      ],
-      why: 'Peristiwa adalah titik awal. Kita membaca aktivitas sebelum dan sesudah informasi terbuka, bukan di sekitar tanggal yang dipilih setelah harga bergerak.',
-      unknown: 'Berita tanpa dokumen resmi, tanggal yang tidak diketahui, atau usulan transaksi yang ditulis seolah sudah selesai.',
-    },
-    {
-      id: 'flow',
-      label: '2. Analisis transaksi',
-      question: 'Siapa yang benar-benar mengakumulasi?',
-      intro: 'Lot bersih per kelompok broker, 5 pembeli dan penjual bersih teratas, perbandingan sesi harian, arus kumulatif, dan arus harian hingga 3 broker pilihan Anda.',
-      checks: [
-        'Lot bersih per kelompok: Broker aplikasi ritel, Broker institusional, Broker lain / campuran, dan Tidak terklasifikasi.',
-        'Apakah pihak yang sama terus membeli atau menjual selama beberapa sesi, bukan hanya satu hari.',
-        'Apakah arus kumulatif dan batang harian menceritakan hal yang sama.',
-      ],
-      why: 'Cerita yang nyata seharusnya meninggalkan jejak pada siapa yang membeli dan menjual. Jika arus yang terlihat berlawanan, cerita itu perlu bukti tambahan.',
-      unknown: 'Tiap pasar hanya memuat broker terbesarnya per hari; sisanya masuk ke Tidak diketahui. Broker di luar daftar tidak diketahui, bukan nol. Broker lain / campuran adalah pemetaan tim, bukan bukti identitas klien.',
-    },
-    {
-      id: 'health',
-      label: '3. Kesehatan perusahaan',
-      question: 'Apakah perusahaan sanggup menopang ceritanya?',
-      intro: 'Dibaca dari laporan keuangan yang sudah disampaikan, ditampilkan sebagai angka utama bersama berita yang terbit setelah laporan.',
-      checks: [
-        'Ekuitas positif, atau sedang menuju positif.',
-        'Utang bank dan utang ke pihak berelasi naik atau turun.',
-        'Laba tanpa keuntungan non-berulang.',
-        'Kas dari operasi.',
-        'Cakupan jangka pendek: aset lancar dibagi liabilitas jangka pendek.',
-      ],
-      why: 'Arus dana ke neraca yang lemah adalah kasus yang berbeda dari arus ke neraca yang sehat. Laba dari keuntungan non-berulang tidak banyak bicara tentang bisnisnya.',
-      unknown: 'Laporan terbit terlambat dan mencakup periode lalu. Berita setelah laporan bisa mengubah gambaran, jadi ditampilkan di samping angkanya.',
-    },
-  ],
-  scopeTitle: 'Cara membaca hasilnya',
-  scope: 'Jika ketiga lapisan sejalan, saham itu layak dibaca lebih jauh. Jika berbeda, perbedaan itu sendiri adalah temuannya. Dalam kedua kasus, halaman hanya menjelaskan apa yang teramati dan apa yang bisa ditafsirkan. Halaman tidak menyuruh Anda berbuat apa-apa.',
-  dataTitle: 'Data dan batasannya',
-  data: [
-    { title: 'SINI adalah satu-satunya kasus nyata', body: 'PT Singaraja Putra di Bursa Efek Indonesia. Arus broker berasal dari tangkapan layar ringkasan broker Stockbit untuk 14 Agu sampai 23 Sep 2026 (8 Sep tidak ada). Harga memakai harga penutupan yang disesuaikan dari Yahoo Finance. Kesehatan perusahaan memakai laporan Q1 dan Q2 2026 yang sudah disampaikan.' },
-    { title: '11 saham sampel di empat pasar', body: 'SMPA sampai SMPE (Indonesia), SHKA dan SHKB (Hong Kong), SKRA dan SKRB (Korea), SCNA (Shanghai) dan SCNB (Shenzhen) adalah fiktif. Arus, harga, laporan, dan beritanya dibuat mengikuti pola mirip SINI dan selalu diberi label sampel.' },
-    { title: 'Replay tanpa melihat ke depan', body: 'Di setiap pasar, data broker suatu hari perdagangan baru dianggap publik mulai hari berikutnya. Laporan dan berita dihitung sejak tanggal terbitnya. Pilih tanggal lampau dan tidak ada data sesudahnya yang terlihat di Brief, halaman analisis, maupun Radar Langsung.' },
-    { title: 'Hanya broker yang terlihat', body: 'Tiap pasar hanya memuat broker terbesarnya per hari: 9 pembeli dan penjual teratas di Indonesia, 6 di Hong Kong, dan 5 di Korea. Dragon Tiger List di Tiongkok hanya memuat 5 teratas pada hari dengan pergerakan besar, jadi hari lain tidak punya data. Lot di luar daftar masuk ke Tidak diketahui agar jumlah kelompok tetap seimbang. Tidak diketahui bukan berarti nol.' },
-  ],
-  aiTitle: 'Yang dilakukan dan tidak dilakukan AI',
-  ai: [
-    { title: 'Angka berasal dari kode', body: 'Setiap angka dihitung oleh kode dari baris data. Tidak ada model yang menulis atau memperkirakan angka.' },
-    { title: 'Satu validator memeriksa setiap klaim', body: 'Klaim hanya tampil jika lolos satu pemeriksaan aturan terhadap data dan tanggal replay.' },
-    { title: 'Qwen hanya menulis tafsiran', body: 'Qwen dari Alibaba Cloud menulis bacaan hanya dari fakta yang sudah disetujui. Qwen tidak pernah mengarang angka dan tidak memberi saran.' },
-  ],
-  source: 'Sumber',
-  proposal: 'Unduh proposal',
-  stocks: 'Buka Radar Langsung',
-  radar: RADAR_ID,
-};
-
 const ZH: ResearchContent = {
   label: '研究方法',
   title: '故事吸引注意，证据决定是否值得再看。',
   intro:
-    'Other Side 利用四个市场（印尼、香港、韩国和中国）的每日券商数据，显示一笔交易的另一边是谁。仅凭券商资金流无法解释股价变动，所以只有当三个层面相互吻合时，一只股票才值得关注：故事、交易和公司健康状况。不提供买卖建议。',
+    'O-Side 利用四个市场（印尼、香港、韩国和中国）的每日券商数据，显示一笔交易的另一边是谁。仅凭券商资金流无法解释股价变动，所以只有当三个层面相互吻合时，一只股票才值得关注：故事、交易和公司健康状况。不提供买卖建议。',
   framework: '三个层面',
   frameworkLine: '我们的核心信号：只有三者同时吻合，股票才值得关注。',
   checksLabel: '我们检查什么',
@@ -408,7 +295,7 @@ const ZH: ResearchContent = {
   radar: RADAR_ZH,
 };
 
-const CONTENT: Record<Locale, ResearchContent> = { en: EN, id: ID, 'zh-CN': ZH };
+const CONTENT: Record<Locale, ResearchContent> = { en: EN, 'zh-CN': ZH };
 
 export function researchContent(locale: Locale): ResearchContent {
   return CONTENT[locale];

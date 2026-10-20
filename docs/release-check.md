@@ -62,7 +62,7 @@ the rendered DOM:
   token multiset equals the absolute values of group nets, top buyers and top
   sellers (the Unclassified group renders a signless 0, which a purely signed
   comparison cannot match);
-- the expanded Other Side card lists exactly the numbers present in the approved
+- the expanded O-Side card lists exactly the numbers present in the approved
   claim wording;
 - every story/health event text appears verbatim in its tab panel;
 - the sell sheet carries the trade wording and weak-link signed values; the buy

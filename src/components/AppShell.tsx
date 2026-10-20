@@ -142,7 +142,7 @@ export function AppShell() {
 
   const localeSwitch = (tone: 'rail' | 'light') => (
     <div role="group" aria-label={t('locale.label')} className="flex items-center gap-1">
-      {(['en', 'id', 'zh-CN'] as const).map((code) => {
+      {(['en', 'zh-CN'] as const).map((code) => {
         const active = locale === code;
         const classes =
           tone === 'rail'

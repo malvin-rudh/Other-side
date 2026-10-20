@@ -1,6 +1,6 @@
 {
   "app": {
-    "wordmark": "Other Side",
+    "wordmark": "O-Side",
     "pill": "Proposed Mirae feature"
   },
   "badge": {
@@ -30,7 +30,6 @@
   "locale": {
     "label": "Language",
     "en": "EN",
-    "id": "ID",
     "zh-CN": "中文"
   },
   "states": {
@@ -88,7 +87,7 @@
     "groupOther": "Other / mixed brokers",
     "groupUnknown": "Unclassified",
     "groupResidual": "Visible sample residual (all brokers)",
-    "cardTitle": "Other Side",
+    "cardTitle": "O-Side",
     "ruleBasedBadge": "Rule-based preview",
     "cardEmpty": "No approved claims at this point.",
     "nothingYet": "Nothing published yet at this point.",
@@ -155,7 +154,7 @@
     "uncovered": "The saved library does not cover this question.",
     "suggest": "Try one of these:",
     "refusalIdentity": "Broker summaries do not identify individual investors.",
-    "refusalAdvice": "Other Side explains activity and uncertainty. It does not give buy or sell instructions.",
+    "refusalAdvice": "O-Side explains activity and uncertainty. It does not give buy or sell instructions.",
     "loading": "Loading saved answer…",
     "liveBadge": "Live Qwen · historical data",
     "liveButton": "Ask live",
@@ -263,6 +262,31 @@
     "assumeAria": "What if the client profile of this broker is unclear? Treat {code} as unclassified"
   },
   "evidence": {
+    "proof": {
+      "title": "How we got this number",
+      "total": "Total",
+      "lots": "{value} lots",
+      "daysOne": "{date} · 1 trading day",
+      "daysMany": "{start} to {end} · {count} trading days",
+      "dayTitle": "Day by day",
+      "dayNote": "Each day's net lots, added together, give the total. Buying counts as plus, selling as minus.",
+      "whoTitle": "Which brokers make it up",
+      "whoNote": "The same lots, split by broker.",
+      "more": "{count} more brokers",
+      "sourceTitle": "Where it comes from",
+      "sourceLine": "The daily broker summary for this stock. Each market lists only its biggest brokers on each side per day.",
+      "cutoffLine": "Only data public by {cutoff} is used.",
+      "missingLine": "Not captured: {dates}.",
+      "unknownLine": "Brokers outside the list are unknown, not zero.",
+      "rawToggle": "Show the original rows",
+      "rawDate": "Date",
+      "rawBroker": "Broker",
+      "rawSide": "Side",
+      "rawLots": "Lots",
+      "groupAll": "All visible brokers",
+      "broker": "Broker {code}",
+      "noRows": "This number is not built from broker rows."
+    },
     "title": "Evidence",
     "close": "Close evidence",
     "tabSummary": "Summary",
@@ -484,7 +508,7 @@
     "q13": "Largest observed institutional net for five sessions?"
   },
   "explore": {
-    "title": "Explore Other Side",
+    "title": "Explore O-Side",
     "intro": "Pick a starting point. Every shortcut stays inside the historical replay.",
     "tour": "Guided tour",
     "restartTour": "Restart tour",
@@ -500,7 +524,7 @@
     "title": "Briefing preview",
     "previewOnly": "Preview only. No email has been sent.",
     "subjectLabel": "Subject",
-    "subject": "Other Side morning brief · {ticker} · {date}",
+    "subject": "O-Side morning brief · {ticker} · {date}",
     "morningLabel": "Morning",
     "snapshotLabel": "Snapshot",
     "snapshotValue": "{date} session, treated as available the next morning (replay rule)",
@@ -584,7 +608,7 @@
   },
   "portfolio": {
     "title": "Portfolio",
-    "intro": "Pick the stocks Other Side explains. Quantity and average price are optional and stay in this browser only.",
+    "intro": "Pick the stocks O-Side explains. Quantity and average price are optional and stay in this browser only.",
     "search": "Search available instruments",
     "noMatch": "No instrument in this registry matches that search.",
     "remove": "Remove",
@@ -753,7 +777,7 @@
     "unavailable": "No quote arrived, or the provider refused the lookup.",
     "unreachable": "The quote endpoint did not answer. The prototype stays usable with labelled fixtures.",
     "roadmap": "A daily broker-data refresh is a roadmap capability, not a working API in this prototype.",
-    "noEmail": "Other Side does not send email and no automatic morning scan is deployed."
+    "noEmail": "O-Side does not send email and no automatic morning scan is deployed."
   },
   "calendar": {
     "prev": "Previous month",

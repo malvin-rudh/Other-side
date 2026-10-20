@@ -10,7 +10,7 @@ import { HEALTH_CHECK_POINTS, RADAR_WEIGHTS, TRANSACTION_CHECK_POINTS } from '..
 import '../research.css';
 
 const PROPOSAL_PDF = '/review/round1-proposal.pdf';
-const PROPOSAL_DOWNLOAD_NAME = 'Other-Side-Round1-Proposal.pdf';
+const PROPOSAL_DOWNLOAD_NAME = 'O-Side-Round1-Proposal.pdf';
 
 export function ResearchScreen() {
   const { t, locale } = useTranslation();
