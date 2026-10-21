@@ -4,7 +4,8 @@ import { ui } from '../../i18n/analysisCopy';
 import type { Locale } from '../../engine/context';
 import type { BrokerSeriesPoint } from '../../engine/brokerSeries';
 import { BROKER_LINE_COLOURS } from '../groupColours';
-import { tickLabel, xTickLabels, yAxisTicks } from './axisTicks';
+import { tickLabel, yAxisTicks } from './axisTicks';
+import { useDateAxis } from './useDateAxis';
 
 interface BrokerFlowChartProps {
   points: BrokerSeriesPoint[];
@@ -37,6 +38,10 @@ export function BrokerFlowChart({ points, codes, locale, presentation = false }:
     ...row,
     label: formatSessionDate(String(row.date), locale),
   }));
+  const xAxis = useDateAxis(
+    data.map((row) => ({ date: String(row.date), label: String(row.label) })),
+    locale,
+  );
   const values = data.flatMap((row) =>
     codes.flatMap((code) => {
       const value = row[code];
@@ -57,14 +62,15 @@ export function BrokerFlowChart({ points, codes, locale, presentation = false }:
       className={presentation ? 'h-[55vh] min-h-[20rem] w-full' : 'h-64 w-full'}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
+        <LineChart data={data} margin={{ top: 8, right: 24, bottom: 0, left: 0 }}>
           <CartesianGrid stroke="#E3E8F0" vertical={false} />
           <XAxis
             dataKey="label"
             tick={{ fill: '#5A6B84', fontSize: 11 }}
             tickLine={false}
             axisLine={{ stroke: '#E3E8F0' }}
-            ticks={xTickLabels(data.map((point) => String(point.label)))}
+            ticks={xAxis.ticks}
+            tickFormatter={xAxis.tickFormatter}
             interval={0}
           />
           <YAxis

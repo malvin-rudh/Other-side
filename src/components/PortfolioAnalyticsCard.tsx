@@ -274,7 +274,8 @@ function PerformanceSummary({
           <>
             {gain > 0 ? '+' : ''}
             {idrCompact(gain, locale)}
-            <span className="ml-1 text-xs">({signedPercent(gain / cost, locale)})</span>
+            {/* Its own line on phones so the tile never overflows; beside the amount from sm up. */}
+            <span className="block text-xs sm:ml-1 sm:inline">({signedPercent(gain / cost, locale)})</span>
           </>
         ) : (
           '—'
@@ -309,7 +310,7 @@ function PerformanceSummary({
 
 function Kpi({ label, tone = '', children }: { label: string; tone?: string; children: ReactNode }) {
   return (
-    <div className="rounded-lg border border-line bg-surfaceAlt px-3 py-2.5">
+    <div className="min-w-0 rounded-lg border border-line bg-surfaceAlt px-3 py-2.5">
       <dt className="eyebrow">{label}</dt>
       <dd className={`mt-1 text-base font-semibold tabular-nums ${tone}`}>{children}</dd>
     </div>

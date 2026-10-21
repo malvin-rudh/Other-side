@@ -133,7 +133,7 @@ export function AppShell() {
                 active ? 'bg-brand/15 text-brandDeep' : 'text-muted hover:bg-canvas hover:text-ink'
               }`;
         return (
-          <button key={code} type="button" aria-pressed={active} onClick={() => setLocale(code)} className={classes}>
+          <button key={code} type="button" aria-pressed={active} onClick={() => setLocale(code)} className={`whitespace-nowrap ${classes}`}>
             {t(`locale.${code}`)}
           </button>
         );
@@ -204,7 +204,7 @@ export function AppShell() {
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur">
           <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4 lg:h-auto lg:px-8 lg:py-3">
-            <Link to="/" className="text-base font-semibold tracking-tight lg:hidden">
+            <Link to="/" className="whitespace-nowrap text-base font-semibold tracking-tight lg:hidden">
               {t('app.wordmark')}
             </Link>
             {showBack ? (
@@ -220,7 +220,8 @@ export function AppShell() {
                 <span className="hidden sm:inline">{t('nav.back')}</span>
               </button>
             ) : null}
-            <span className="chip chip-line lg:hidden">{t('app.pill')}</span>
+            {/* With a back button a narrow phone has no room for the pill too. */}
+            <span className={`chip chip-line whitespace-nowrap lg:hidden ${showBack ? 'max-[419px]:hidden' : ''}`}>{t('app.pill')}</span>
             <div className="hidden min-w-0 items-center gap-2 lg:flex">
               <span className="chip chip-brand">
                 <span aria-hidden="true">◷</span>

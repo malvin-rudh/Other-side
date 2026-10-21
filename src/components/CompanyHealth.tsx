@@ -92,6 +92,8 @@ type Translate = (key: MessageKey, vars?: Record<string, string>) => string;
 
 interface Factor {
   label: string;
+  // Shorter name shown under the column on phones.
+  short: string;
   before: number;
   now: number;
   format: (value: number) => string;
@@ -101,29 +103,34 @@ function factors(report: CompanyHealthReport, currency: string, locale: Locale, 
   const { balance: now, priorBalance: before, results, priorResults } = report;
   const money = (value: number) => formatAmount(value, currency, locale);
   const ratio = (b: typeof now) => b.currentAssets / b.currentLiabilities;
+  const short = ui(locale).healthShort;
   return [
-    { label: t('health.equity'), before: before.totalEquity, now: now.totalEquity, format: money },
-    { label: t('health.bankLoans'), before: before.bankLoans, now: now.bankLoans, format: money },
+    { label: t('health.equity'), short: short.equity, before: before.totalEquity, now: now.totalEquity, format: money },
+    { label: t('health.bankLoans'), short: short.bankLoans, before: before.bankLoans, now: now.bankLoans, format: money },
     {
       label: t('health.relatedBorrowings'),
+      short: short.relatedBorrowings,
       before: before.relatedPartyBorrowings,
       now: now.relatedPartyBorrowings,
       format: money,
     },
     {
       label: t('health.coreProfit'),
+      short: short.coreProfit,
       before: priorResults.profitBeforeTax - priorResults.oneOffGain,
       now: results.profitBeforeTax - results.oneOffGain,
       format: money,
     },
     {
       label: t('health.operatingCash'),
+      short: short.operatingCash,
       before: priorResults.operatingCashFlow,
       now: results.operatingCashFlow,
       format: money,
     },
     {
       label: t('health.currentRatio'),
+      short: short.currentRatio,
       before: ratio(before),
       now: ratio(now),
       format: (value) => ratioText(value, locale),
@@ -204,8 +211,11 @@ function HealthBars({ factors: rows, locale }: { factors: Factor[]; locale: Loca
         <div className="mt-2 grid grid-cols-6 gap-1 border-t border-line pt-2 sm:gap-3">
           {rows.map((row) => (
             <div key={row.label} className="min-w-0 text-center">
-              <p className="text-[11px] font-medium leading-tight text-ink sm:text-xs">{row.label}</p>
-              <p className="mt-1 text-[10px] leading-tight tabular-nums text-muted sm:text-[11px]">
+              <p className="text-[10px] font-medium leading-tight text-ink sm:text-xs">
+                <span className="sm:hidden">{row.short}</span>
+                <span className="hidden sm:inline">{row.label}</span>
+              </p>
+              <p className="mt-1 break-words text-[10px] leading-tight tabular-nums text-muted sm:text-[11px]">
                 {row.format(row.before)}
                 <span aria-hidden="true" className="block text-mutedSoft">
                   ↓

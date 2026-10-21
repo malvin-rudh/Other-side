@@ -12,7 +12,8 @@ import {
 import { formatSessionDate, intlLocale, useTranslation } from '../../i18n';
 import type { Locale } from '../../engine/context';
 import type { CumulativePoint } from '../../engine/stockView';
-import { tickLabel, xTickLabels, yAxisTicks } from './axisTicks';
+import { tickLabel, yAxisTicks } from './axisTicks';
+import { useDateAxis } from './useDateAxis';
 
 interface GroupNetChartProps {
   points: CumulativePoint[];
@@ -38,7 +39,7 @@ export function GroupNetChart({ points, locale, presentation = false }: GroupNet
   const yMin = seriesValues.length > 0 ? Math.min(...seriesValues) - pad : -500;
   const yMax = seriesValues.length > 0 ? Math.max(...seriesValues) + pad : 500;
   const yTicks = yAxisTicks(yMin, yMax);
-  const xTicks = xTickLabels(data.map((point) => point.label));
+  const { ticks: xTicks, tickFormatter: xTickFormatter } = useDateAxis(data, locale);
 
   return (
     <div
@@ -49,7 +50,7 @@ export function GroupNetChart({ points, locale, presentation = false }: GroupNet
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={data} margin={{ top: 8, right: 48, bottom: 0, left: 8 }}>
           <CartesianGrid stroke="#E3E8F0" vertical={false} />
-          <XAxis dataKey="label" tick={{ fill: '#5A6B84', fontSize: 11 }} tickLine={false} axisLine={{ stroke: '#E3E8F0' }} ticks={xTicks} interval={0} />
+          <XAxis dataKey="label" tick={{ fill: '#5A6B84', fontSize: 11 }} tickLine={false} axisLine={{ stroke: '#E3E8F0' }} ticks={xTicks} tickFormatter={xTickFormatter} interval={0} />
           <YAxis
             domain={[yMin, yMax]}
             ticks={yTicks}

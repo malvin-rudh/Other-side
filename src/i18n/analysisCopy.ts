@@ -320,6 +320,15 @@ export function ui(locale: Locale) {
     bought: x('Bought', '买入'),
 
     healthChartTitle: x('Before and now', '之前与现在'),
+    // Short column names for the health chart on phones, where six full names overlap.
+    healthShort: {
+      equity: x('Equity', '权益'),
+      bankLoans: x('Bank loans', '银行贷款'),
+      relatedBorrowings: x('Related debt', '关联借款'),
+      coreProfit: x('Core profit', '核心利润'),
+      operatingCash: x('Op. cash', '经营现金'),
+      currentRatio: x('Cover', '偿付'),
+    },
     healthPrevious: x('Previous', '之前'),
     healthLatest: x('Latest', '最新'),
     healthFromTo: (before: string, now: string) => x(`from ${before} to ${now}`, `从 ${before} 到 ${now}`),

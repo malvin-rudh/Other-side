@@ -27,7 +27,8 @@ import {
 import type { Locale } from '../../engine/context';
 import type { PortfolioAnalytics, PriceSeries } from '../../engine/portfolio';
 import { formatSessionDate, intlLocale, useTranslation } from '../../i18n';
-import { xTickLabels, yAxisTicks } from './axisTicks';
+import { yAxisTicks } from './axisTicks';
+import { useDateAxis } from './useDateAxis';
 import { idrCompact, plainPercent, signedPercent, signedPoints } from '../PortfolioCharts';
 
 const TOOLTIP_STYLE = {
@@ -76,7 +77,7 @@ export function PortfolioValueChart({ analytics, locale, compact = false }: Valu
   const yMin = Math.min(...values) - pad;
   const yMax = Math.max(...values) + pad;
   const yTicks = yAxisTicks(yMin, yMax);
-  const xTicks = xTickLabels(data.map((point) => point.label));
+  const { ticks: xTicks, tickFormatter: xTickFormatter } = useDateAxis(data, locale);
 
   return (
     <div
@@ -99,6 +100,7 @@ export function PortfolioValueChart({ analytics, locale, compact = false }: Valu
             tickLine={false}
             axisLine={{ stroke: '#E3E8F0' }}
             ticks={xTicks}
+            tickFormatter={xTickFormatter}
             interval={0}
           />
           <YAxis
@@ -182,7 +184,7 @@ export function PortfolioPerformanceChart({ analytics, benchmarkSeries, locale }
   // Deduplicated through the formatter this axis actually prints, so distinct
   // percentages keep their own gridline.
   const yTicks = yAxisTicks(yMin, yMax, 5, (value) => signedPercent(value, locale));
-  const xTicks = xTickLabels(data.map((point) => point.label));
+  const { ticks: xTicks, tickFormatter: xTickFormatter } = useDateAxis(data, locale);
 
   return (
     <div role="img" aria-label={t('analytics.chart.performanceAria')} className="h-56 w-full">
@@ -195,6 +197,7 @@ export function PortfolioPerformanceChart({ analytics, benchmarkSeries, locale }
             tickLine={false}
             axisLine={{ stroke: '#E3E8F0' }}
             ticks={xTicks}
+            tickFormatter={xTickFormatter}
             interval={0}
           />
           <YAxis
@@ -290,7 +293,7 @@ export function PortfolioAllocationChart({
   // 40, 60 and 80 as four readable ticks rather than two.
   const percentTick = (value: number): string => `${plainPercent(value / 100, locale)}%`;
   const yTicks = yAxisTicks(yMin, yMax, 5, percentTick);
-  const xTicks = xTickLabels(data.map((point) => point.label));
+  const { ticks: xTicks, tickFormatter: xTickFormatter } = useDateAxis(data, locale);
 
   return (
     <div>
@@ -308,6 +311,7 @@ export function PortfolioAllocationChart({
               tickLine={false}
               axisLine={{ stroke: '#E3E8F0' }}
               ticks={xTicks}
+            tickFormatter={xTickFormatter}
               interval={0}
             />
             <YAxis
