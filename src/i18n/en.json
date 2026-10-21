@@ -7,7 +7,6 @@
     "historical": "Historical Replay",
     "dataThrough": "data through {date}",
     "dataThroughPending": "data coverage pending import",
-    "replayShort": "Replay · {date}",
     "dataRange": "data from {from} to {to}"
   },
   "nav": {

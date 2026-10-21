@@ -506,30 +506,22 @@ export function BrokerTrends({
             const summary = series.summaries.find((entry) => entry.brokerCode === code);
             if (!summary) return null;
             return (
-              <li key={code} className="card-inset flex items-start gap-2.5 p-2.5">
+              // Phones: one compact line per broker (colour, code, group, total, remove).
+              // From sm up: the card with the group and total on their own lines.
+              <li key={code} className="card-inset relative flex items-center gap-2 px-2.5 py-2 sm:items-start sm:gap-2.5 sm:p-2.5">
                 <span
                   aria-hidden="true"
-                  className="mt-2 h-1 w-4 shrink-0 rounded-full"
+                  className="h-1 w-4 shrink-0 rounded-full sm:mt-2"
                   style={{ background: BROKER_LINE_COLOURS[index % BROKER_LINE_COLOURS.length] }}
                 />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-semibold tabular-nums text-ink">{summary.brokerCode}</span>
-                    <button
-                      type="button"
-                      onClick={() => toggle(code)}
-                      aria-label={copy.brokerRemove(code)}
-                      className="rounded p-0.5 text-mutedSoft transition-colors hover:text-ink"
-                    >
-                      <Icon name="close" className="h-3 w-3" />
-                    </button>
-                  </div>
-                  <p className="mt-0.5 flex items-center gap-1.5 text-[15px] text-muted">
-                    <span aria-hidden="true" style={groupDotStyle(summary.group, 10)} />
+                <div className="flex min-w-0 flex-1 items-center gap-2 sm:block">
+                  <span className="shrink-0 text-sm font-semibold tabular-nums text-ink sm:block sm:pr-6">{summary.brokerCode}</span>
+                  <p className="flex min-w-0 flex-1 items-center gap-1 text-xs text-muted sm:mt-0.5 sm:gap-1.5 sm:text-[15px]">
+                    <span aria-hidden="true" className="shrink-0" style={groupDotStyle(summary.group, 8)} />
                     <span className="truncate">{groupText(summary.group, t)}</span>
                   </p>
-                  <p className="mt-1 text-[15px] text-muted">
-                    {copy.brokerTotal}{' '}
+                  <p className="shrink-0 text-[13px] text-muted sm:mt-1 sm:text-[15px]">
+                    <span className="hidden sm:inline">{copy.brokerTotal} </span>
                     <EvidenceButton
                       quiet
                       factId={summary.factId}
@@ -540,6 +532,14 @@ export function BrokerTrends({
                     </EvidenceButton>
                   </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => toggle(code)}
+                  aria-label={copy.brokerRemove(code)}
+                  className="shrink-0 rounded p-0.5 text-mutedSoft transition-colors hover:text-ink sm:absolute sm:right-2 sm:top-2"
+                >
+                  <Icon name="close" className="h-3 w-3" />
+                </button>
               </li>
             );
           })}

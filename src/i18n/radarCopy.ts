@@ -12,6 +12,10 @@ export interface RadarCopy {
   emptyRadar: string;
   pickedTitle: string;
   searchTitle: string;
+  searchOpen: string;
+  searchCancel: string;
+  swipeHint: string;
+  swipePosition: (index: number, total: number) => string;
   searchResults: (count: number) => string;
   forDate: (date: string) => string;
   searchLabel: string;
@@ -39,6 +43,10 @@ const EN: RadarCopy = {
   emptyRadar: 'No stock stands out today. Search below to look at any stock.',
   pickedTitle: 'Stocks worth a look',
   searchTitle: 'Search',
+  searchOpen: 'Search stocks',
+  searchCancel: 'Cancel',
+  swipeHint: 'Swipe for more',
+  swipePosition: (index, total) => `${index} of ${total}`,
   searchResults: (count) => `${count} matching ${count === 1 ? 'stock' : 'stocks'}`,
   forDate: (date) => `Radar for ${date}`,
   searchLabel: 'Search the radar',
@@ -100,6 +108,10 @@ const ZH: RadarCopy = {
   emptyRadar: '今天没有特别突出的股票。可在下方搜索查看任意股票。',
   pickedTitle: '值得关注的股票',
   searchTitle: '搜索',
+  searchOpen: '搜索股票',
+  searchCancel: '取消',
+  swipeHint: '左右滑动查看更多',
+  swipePosition: (index, total) => `第 ${index} / ${total} 只`,
   searchResults: (count) => `${count} 只匹配的股票`,
   forDate: (date) => `${date} 的雷达`,
   searchLabel: '搜索雷达',

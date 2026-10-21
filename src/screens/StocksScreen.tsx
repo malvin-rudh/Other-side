@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RadarSweep } from "../components/RadarSweep";
 import { Icon } from "../components/Icon";
+import { RadarSearchOverlay } from "../components/RadarSearchOverlay";
 import { findHealthReport } from "../data/companyHealth";
 import {
   INSTRUMENTS,
@@ -101,15 +102,17 @@ function CloseLine({
 function RadarCard({
   instrument,
   result,
+  className = "",
 }: {
   instrument: Instrument;
   result: RadarResult;
+  className?: string;
 }) {
   const { locale } = useTranslation();
   const copy = radarCopy(locale);
   const name = instrumentNameText(instrument.name, locale);
   return (
-    <li data-testid={`radar-${instrument.ticker}`}>
+    <li data-testid={`radar-${instrument.ticker}`} className={className}>
       <Link
         to={`/stock/${instrument.ticker}`}
         aria-label={copy.cardLabel(
@@ -181,6 +184,21 @@ export function StocksScreen() {
   );
   const [query, setQuery] = useState("");
   const { ready, datasets } = useRadarData();
+  // Phone-only search overlay and the swipe position of the picks.
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchTriggerRef = useRef<HTMLButtonElement>(null);
+  const [pickIndex, setPickIndex] = useState(0);
+  const openSearch = () => {
+    // Focus inside the tap so the phone keyboard opens straight away.
+    searchInputRef.current?.focus();
+    setSearchOpen(true);
+  };
+  const closeSearch = useCallback(() => {
+    searchInputRef.current?.blur();
+    setSearchOpen(false);
+    searchTriggerRef.current?.focus();
+  }, []);
 
   const ranked = useMemo(() => {
     return RADAR_INSTRUMENTS.map((instrument) => ({
@@ -259,7 +277,22 @@ export function StocksScreen() {
   return (
     <section aria-labelledby="stocks-title" className="page-stack">
       <header className="page-hero">
-        <h1 id="stocks-title">{copy.title}</h1>
+        <div className="flex items-start justify-between gap-3">
+          <h1 id="stocks-title">{copy.title}</h1>
+          <button
+            ref={searchTriggerRef}
+            type="button"
+            onClick={openSearch}
+            aria-label={copy.searchOpen}
+            aria-haspopup="dialog"
+            aria-expanded={searchOpen}
+            className="flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink shadow-sm transition-colors hover:border-brand md:hidden"
+            data-testid="radar-search-open"
+          >
+            <Icon name="search" className="h-4 w-4" />
+            {copy.searchTitle}
+          </button>
+        </div>
         <p className="mt-2 text-sm text-muted">{copy.explainer}</p>
         {radarDate !== null ? (
           <p className="mt-2 text-sm font-semibold text-ink">
@@ -310,25 +343,55 @@ export function StocksScreen() {
                     {copy.emptyRadar}
                   </p>
                 ) : (
-                  <ul
-                    className="mt-3 grid max-h-[480px] min-h-0 flex-1 content-start gap-3 overflow-y-auto overscroll-contain pb-1 pr-1 lg:max-h-none"
-                    data-testid="radar-picks-list"
-                  >
-                    {featured.map(({ instrument, result }) => (
-                      <RadarCard
-                        key={instrument.ticker}
-                        instrument={instrument}
-                        result={result}
-                      />
-                    ))}
-                  </ul>
+                  <>
+                    {/* Phones: a sideways row with the next card peeking in.
+                        From md up: the vertical list that scrolls in place. */}
+                    <ul
+                      className="-mx-4 mt-3 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:max-h-[480px] md:min-h-0 md:flex-1 md:snap-none md:content-start md:overflow-y-auto md:overflow-x-hidden md:overscroll-contain md:px-0 md:pb-1 md:pr-1 md:[scrollbar-width:auto] md:[&::-webkit-scrollbar]:block lg:max-h-none"
+                      data-testid="radar-picks-list"
+                      onScroll={(event) => {
+                        const list = event.currentTarget;
+                        const first = list.firstElementChild as HTMLElement | null;
+                        if (first === null || list.scrollWidth <= list.clientWidth) return;
+                        const step = first.offsetWidth + 12;
+                        setPickIndex(Math.min(featured.length - 1, Math.round(list.scrollLeft / step)));
+                      }}
+                    >
+                      {featured.map(({ instrument, result }) => (
+                        <RadarCard
+                          key={instrument.ticker}
+                          instrument={instrument}
+                          result={result}
+                          className="w-[85%] shrink-0 snap-start [&>a]:h-full md:w-auto md:shrink md:[&>a]:h-auto"
+                        />
+                      ))}
+                    </ul>
+                    {featured.length > 1 ? (
+                      <div className="mt-1 flex items-center justify-between md:hidden" data-testid="radar-picks-dots">
+                        <span className="flex items-center gap-1.5" aria-label={copy.swipePosition(pickIndex + 1, featured.length)} role="img">
+                          {featured.map(({ instrument }, index) => (
+                            <span
+                              key={instrument.ticker}
+                              aria-hidden="true"
+                              className={`h-1.5 rounded-full transition-all ${index === pickIndex ? "w-4 bg-brand" : "w-1.5 bg-lineStrong"}`}
+                            />
+                          ))}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs font-medium text-muted">
+                          {copy.swipeHint}
+                          <span aria-hidden="true">→</span>
+                        </span>
+                      </div>
+                    ) : null}
+                  </>
                 )}
               </div>
             </div>
           </div>
 
           {/* Section 2: search reaches every stock, on the radar or not. */}
-          <div className="card px-5 py-4" data-testid="radar-search">
+          {/* Tablet and desktop only: on phones search lives in the overlay. */}
+          <div className="card hidden px-5 py-4 md:block" data-testid="radar-search">
             <label htmlFor="stocks-search" className="eyebrow block">
               {copy.searchTitle}
             </label>
@@ -386,6 +449,7 @@ export function StocksScreen() {
           </div>
         </>
       )}
+      <RadarSearchOverlay open={searchOpen} onClose={closeSearch} stocks={ranked} inputRef={searchInputRef} />
     </section>
   );
 }

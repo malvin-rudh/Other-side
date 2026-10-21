@@ -119,26 +119,6 @@ export function AppShell() {
           })
         : t('badge.dataThrough', { date: formatSessionDate(rangeEnd, locale) });
 
-  const replayBadge = (
-    <>
-      {pinnedDate ? (
-        <>
-          <span className="hidden min-[480px]:inline">
-            {t('badge.historical')}
-            {' · '}
-            {rangeText}
-          </span>
-          <span className="min-[480px]:hidden">{t('badge.replayShort', { date: formatSessionDate(pinnedDate, locale) })}</span>
-        </>
-      ) : (
-        <span className="hidden min-[480px]:inline">
-          {t('badge.historical')}
-          {' · '}
-          {rangeText}
-        </span>
-      )}
-    </>
-  );
 
   const localeSwitch = (tone: 'rail' | 'light') => (
     <div role="group" aria-label={t('locale.label')} className="flex items-center gap-1">
@@ -250,7 +230,12 @@ export function AppShell() {
                 {rangeText}
               </span>
             </div>
-            <span className="text-xs text-muted lg:hidden">{replayBadge}</span>
+            {/* Tablet only: phones drop the replay line because every page states its own date. */}
+            <span className="hidden text-xs text-muted md:inline lg:hidden">
+              {t('badge.historical')}
+              {' · '}
+              {rangeText}
+            </span>
             <div className="ml-auto flex items-center gap-3">
               <nav aria-label="Primary" className="hidden items-center gap-1 md:flex lg:hidden">
                 {primaryRoutes.map((route) => (

@@ -58,10 +58,10 @@ describe('AppShell header badge', () => {
     expect(html).toContain('data through 24 Aug 2026');
   });
 
-  it('shows the short Replay badge below 480px instead of hiding the date', () => {
+  it('drops the short Replay badge on phones, since every page states its own date', () => {
     setStore({ selectedSessionDate: '2026-08-24' });
     const html = renderShell();
-    expect(html).toContain('Replay · 24 Aug 2026');
+    expect(html).not.toContain('Replay · 24 Aug 2026');
   });
 
   it('falls back to manifest dataThrough when no session is selected', () => {

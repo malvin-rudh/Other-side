@@ -7,7 +7,6 @@
     "historical": "历史回放",
     "dataThrough": "数据截至 {date}",
     "dataThroughPending": "数据覆盖待导入",
-    "replayShort": "回放 · {date}",
     "dataRange": "数据范围 {from} 至 {to}"
   },
   "nav": {
